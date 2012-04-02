@@ -5,8 +5,9 @@ GeneratedFiles/
 *.cb
 
 #Exclusions
-/CaseVisualizer/Debug/*
-!CaseVisualizer/Debug/IdLookup.txt
+CaseVisualizer/Debug/
+Debug/*
+!Debug/IdLookup.txt
 
 # Windows image file caches
 Thumbs.db
@@ -23,7 +24,6 @@ Desktop.ini
 *.sln.docstates
 
 # Build results
-[Dd]ebug/
 [Rr]elease/
 *_i.c
 *_p.c
