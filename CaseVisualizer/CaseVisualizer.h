@@ -15,6 +15,7 @@ class ChoosePlanStepDialog;
 class QToolBar;
 class QButtonGroup;
 
+#define CaseBaseFilter tr("Case-base (*.cb)")
 
 namespace MetaData
 {
@@ -35,26 +36,30 @@ public:
 
     void OpenCaseBase();
     void NewCaseBase();
-    void SaveCaseBase();
+    void SaveCaseBaseAs();
+	void SaveCaseBase();
     void Refresh();
     void NewCase();
 	void NewCase(GoalType p_caseGoal);
     void DeleteCase(int p_caseIdx);
     void EditCase();
 
+
 private:
-    Ui::CaseVisualizerClass ui;
-    CaseBaseEx* m_caseBase;
-    CaseView*   m_caseView;
-	QToolBar*	m_pointerToolbar;
-	QButtonGroup* m_pointerTypeGroup;
-	ChoosePlanStepDialog* m_goalDialog;
-	CrossMap<unsigned, string> m_idLookup;
+    Ui::CaseVisualizerClass		ui;
+    CaseBaseEx*					m_caseBase;
+    CaseView*					m_caseView;
+	QToolBar*					m_pointerToolbar;
+	QButtonGroup*				m_pointerTypeGroup;
+	QString						m_caseBasePath;
+	ChoosePlanStepDialog*		m_goalDialog;
+	CrossMap<unsigned, string>	m_idLookup;
 	bool InitIdLookup();
 	void CreateToolBox();
 
 
 private slots:
+	void on_actionSaveAs_triggered();
 	void on_actionShow_triggered();
     void on_lstCases_itemSelectionChanged();
     void on_btnDeleteCase_clicked();

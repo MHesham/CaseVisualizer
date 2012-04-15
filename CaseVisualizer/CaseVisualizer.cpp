@@ -10,6 +10,7 @@
 #include <QToolButton>
 #include <QMessageBox>
 #include <QApplication>
+#include <QStatusBar>
 
 using namespace std;
 
@@ -112,7 +113,12 @@ void CaseVisualizer::on_actionOpen_triggered()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionSave_triggered()
 {
-    SaveCaseBase();
+	SaveCaseBase();
+}
+//----------------------------------------------------------------------------------------------
+void CaseVisualizer::on_actionSaveAs_triggered()
+{
+	SaveCaseBaseAs();
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionNew_triggered()
@@ -158,12 +164,16 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::OpenCaseBase()
 {
-    QString fileName = QFileDialog::getOpenFileName(this, tr("Open CaseBase"), QDir::currentPath());
+    QString fileName = QFileDialog::getOpenFileName(this,
+		tr("Open CaseBase"),
+		QDir::currentPath(),
+		CaseBaseFilter);
 
     if(QFile::exists(fileName))
     {
         Toolbox::MemoryClean(m_caseBase);
 
+		m_caseBasePath = fileName;
         m_caseBase = new CaseBaseEx();
         g_ObjectSerializer.Deserialize(m_caseBase, fileName.toStdString());
         Refresh();
@@ -177,13 +187,30 @@ void CaseVisualizer::NewCaseBase()
     Refresh();
 }
 //----------------------------------------------------------------------------------------------
-void CaseVisualizer::SaveCaseBase()
+void CaseVisualizer::SaveCaseBaseAs()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, tr("Open CaseBase"), QDir::currentPath());
-    if(fileName.length() > 0)
+	QString path = QDir::currentPath();
+    QString fileName = QFileDialog::getSaveFileName(
+		this, 
+		tr("Open CaseBase"),
+		QDir::currentPath(),
+		CaseBaseFilter);
+
+    if(!fileName.isEmpty())
     {
 		g_ObjectSerializer.Serialize(m_caseBase, fileName.toStdString());
     }
+}
+//----------------------------------------------------------------------------------------------
+void CaseVisualizer::SaveCaseBase()
+{
+	if (m_caseBasePath.isEmpty())
+		SaveCaseBaseAs();
+	else
+	{
+		statusBar()->showMessage("Case base saved ...", 2000);
+		g_ObjectSerializer.Serialize(m_caseBase, m_caseBasePath.toStdString());
+	}
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::Refresh()
@@ -203,7 +230,7 @@ void CaseVisualizer::Refresh()
         entryStream << i << ' ';
 
         if((*caseItr)->Goal() == NULL)
-            entryStream << "UndefinedCase-" << i;
+            entryStream << "UnnamedCase-" << i;
         else
         {
             pCaseGoal = const_cast<GoalEx*>((*caseItr)->Goal());

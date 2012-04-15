@@ -84,12 +84,14 @@ void CaseView::View(CaseEx* p_case)
 		ViewGoal(NULL);
 		ViewGameState(NULL);
 		ViewPlanGraph(NULL, NULL);
+		ViewPerformance(NULL);
 	}
 	else
 	{
 		ViewGoal(p_case->Goal());
 		ViewGameState(p_case->GameState());
 		ViewPlanGraph(p_case->Goal(), p_case->GetPlanGraph());
+		ViewPerformance(p_case);
 	}
 }
 //----------------------------------------------------------------------------------------------
@@ -222,9 +224,35 @@ void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, PlanGraph* p_planGraph)
 		m_graphScene->View(p_caseGoal, p_planGraph);
 	}
 }
-
+//----------------------------------------------------------------------------------------------
+void CaseView::ViewPerformance(CaseEx *p_pCase)
+{
+	if (p_pCase)
+	{
+		ui.txtSuccessCount->setText(tr("%1").arg(p_pCase->SuccessCount()));
+		ui.txtTrialCount->setText(tr("%1").arg(p_pCase->TrialCount()));
+	}
+	else
+	{
+		ui.txtSuccessCount->setText(tr("0"));
+		ui.txtTrialCount->setText(tr("0"));
+	}	
+}
+//----------------------------------------------------------------------------------------------
+void CaseView::on_txtSuccessCount_textChanged(const QString &p_newText)
+{
+	int newSuccessCount = p_newText.toInt();
+	m_currentCase->SuccessCount(newSuccessCount);
+}
+//----------------------------------------------------------------------------------------------
+void CaseView::on_txtTrialCount_textChanged(const QString &p_newText)
+{
+	int newTrialCount = p_newText.toInt();
+	m_currentCase->TrialCount(newTrialCount);
+}
 //----------------------------------------------------------------------------------------------
 CaseView::~CaseView()
 {
 
 }
+

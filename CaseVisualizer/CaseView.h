@@ -49,7 +49,11 @@ private:
 	void ViewPlanGraph(GoalEx* p_caseGoal, PlanGraph* p_planGraph);
     void InitializeIdLookup();
 	void CreatePlanView();
+	void ViewPerformance(CaseEx *p_pCase);
+
 private slots:
+	void on_txtTrialCount_textChanged(const QString &p_newText);
+	void on_txtSuccessCount_textChanged(const QString &p_newText);
 	void OnCellChanged(int p_row, int p_column);
 };
 
