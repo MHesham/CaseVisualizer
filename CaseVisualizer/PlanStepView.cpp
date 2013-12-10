@@ -55,13 +55,13 @@ void PlanStepView::View( PlanStepEx* p_planStep )
 	m_planStep = p_planStep;
 	if(m_planStep == NULL)
 	{
-		ui.lblPlanStep->setText(QString::fromStdString("Plan Step Name"));
+		ui.lblPlanStep->setText(QString::fromAscii("Plan Step Name"));
 		ui.tblParameters->clear();
 	}
 	else
 	{
 		string stepName = m_idLookup->GetByFirst(p_planStep->StepTypeId());
-		ui.lblPlanStep->setText(QString::fromStdString(stepName));
+		ui.lblPlanStep->setText(QString::fromAscii(stepName.c_str()));
 		ViewParameters(&p_planStep->Parameters());
 		ViewConditions(p_planStep);
 	}
@@ -94,7 +94,7 @@ void PlanStepView::ViewParameters( const PlanStepParameters* p_params )
 		++itr)
 	{
 		assert(m_idLookup->ContainsFirst(itr->first));
-		cell = new QTableWidgetItem(QString::fromStdString(m_idLookup->GetByFirst(itr->first)));
+		cell = new QTableWidgetItem(QString::fromAscii(m_idLookup->GetByFirst(itr->first).c_str()));
 		cell->setFont(paramNameCellFont);
 		maxParamNameWidth = max(maxParamNameWidth, paramNameFontMetric.width(cell->text()));
 
@@ -107,7 +107,7 @@ void PlanStepView::ViewParameters( const PlanStepParameters* p_params )
 		else
 		{
 			
-			cell = new QTableWidgetItem(QString::fromStdString(m_idLookup->GetByFirst(itr->second)));
+			cell = new QTableWidgetItem(QString::fromAscii(m_idLookup->GetByFirst(itr->second).c_str()));
 		}
 
 		cell->setFont(paramValCellFont);
@@ -131,8 +131,8 @@ void PlanStepView::EditSelectedParameter()
 	// param key/value cell selected
 	assert(items.size() == 2);
 
-	string keyTxt			= items[0]->text().toStdString();
-	string oldValueTxt		= items[1]->text().toStdString();
+	string keyTxt			= items[0]->text().toAscii();
+	string oldValueTxt		= items[1]->text().toAscii();
 	ParameterType key		= (ParameterType)m_idLookup->GetBySecond(keyTxt);
 	ParameterType oldValue	= (ParameterType)m_idLookup->GetBySecond(oldValueTxt);
 
