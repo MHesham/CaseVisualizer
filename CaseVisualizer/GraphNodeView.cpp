@@ -50,7 +50,7 @@ GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_conte
 		setBrush(brush);
 	}
 
-	setToolTip(QString::fromStdString(p_planStep->TypeName()));
+	setToolTip(QString::fromAscii(p_planStep->TypeName().c_str()));
 	setRect(0, 0, m_nodeWidth, m_nodeHeight);
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
 	setFlag(QGraphicsItem::ItemIsMovable, true);

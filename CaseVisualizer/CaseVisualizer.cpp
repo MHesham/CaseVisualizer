@@ -175,7 +175,7 @@ void CaseVisualizer::OpenCaseBase()
 
 		m_caseBasePath = fileName;
         m_caseBase = new CaseBaseEx();
-        g_ObjectSerializer.Deserialize(m_caseBase, fileName.toStdString());
+        g_ObjectSerializer.Deserialize(m_caseBase, string(fileName.toAscii()));
         Refresh();
     }
 }
@@ -198,7 +198,7 @@ void CaseVisualizer::SaveCaseBaseAs()
 
     if(!fileName.isEmpty())
     {
-		g_ObjectSerializer.Serialize(m_caseBase, fileName.toStdString());
+		g_ObjectSerializer.Serialize(m_caseBase, string(fileName.toAscii()));
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ void CaseVisualizer::SaveCaseBase()
 	else
 	{
 		statusBar()->showMessage("Case base saved ...", 2000);
-		g_ObjectSerializer.Serialize(m_caseBase, m_caseBasePath.toStdString());
+		g_ObjectSerializer.Serialize(m_caseBase, string(m_caseBasePath.toAscii()));
 	}
 }
 //----------------------------------------------------------------------------------------------

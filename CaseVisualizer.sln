@@ -1,10 +1,7 @@
 ﻿
-Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CaseVisualizer", "CaseVisualizer\CaseVisualizer.vcproj", "{91A99414-2864-4939-9C49-2BCEFEE10DA2}"
-	GlobalSection(Qt) = preSolution
-		Integration = True
-	EndGlobalSection
+Microsoft Visual Studio Solution File, Format Version 11.00
+# Visual Studio 2010
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CaseVisualizer", "CaseVisualizer\CaseVisualizer.vcxproj", "{91A99414-2864-4939-9C49-2BCEFEE10DA2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,5 +16,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(Qt) = preSolution
+		Integration = True
 	EndGlobalSection
 EndGlobal

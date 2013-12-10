@@ -57,7 +57,7 @@ void CaseView::OnCellChanged(int p_row, int p_column)
 	stringstream stream;
 	double val;
 	QTableWidgetItem* item = ui.tblGameState->item(p_row, p_column);
-	stream.str(item->text().toStdString());
+	stream.str(string(item->text().toAscii()));
 
 	stream >> val;
 	ShallowFeaturesEx &sfeatures = m_currentCase->GameState()->ShallowFeatures();
@@ -99,13 +99,13 @@ void CaseView::ViewGoal(GoalEx* p_goal)
 {
 	if(p_goal == NULL)
 	{
-		ui.lblGoalName->setText(QString::fromStdString("Goal Name"));
+		ui.lblGoalName->setText(QString::fromAscii("Goal Name"));
 		ViewGoalParameters(NULL);
 	}
 	else
 	{
 		string goalName = m_idLookup->GetByFirst(p_goal->StepTypeId());
-		ui.lblGoalName->setText(QString::fromStdString(goalName));
+		ui.lblGoalName->setText(QString::fromAscii(goalName.c_str()));
 		ViewGoalParameters(&p_goal->Parameters());
 	}
 }
@@ -145,7 +145,7 @@ void CaseView::ViewGoalParameters( PlanStepParameters* p_params )
 		++itr)
 	{
 		assert(m_idLookup->ContainsFirst(itr->first));
-		cell = new QTableWidgetItem(QString::fromStdString(m_idLookup->GetByFirst(itr->first)));
+		cell = new QTableWidgetItem(QString::fromAscii(m_idLookup->GetByFirst(itr->first).c_str()));
 		cell->setFont(paramNameCellFont);
 		maxParamNameWidth = max(maxParamNameWidth, paramNameFontMetric.width(cell->text()));
 
@@ -157,7 +157,7 @@ void CaseView::ViewGoalParameters( PlanStepParameters* p_params )
 		}
 		else
 		{
-			cell = new QTableWidgetItem(QString::fromStdString(m_idLookup->GetByFirst(itr->second)));
+			cell = new QTableWidgetItem(QString::fromAscii(m_idLookup->GetByFirst(itr->second).c_str()));
 		}
 
 		cell->setFont(paramValCellFont);
@@ -199,7 +199,7 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
 
     for(int i = 0, size = sfeatures.size(); i < size; ++i)
     {
-        cell = new QTableWidgetItem(QString::fromStdString(m_idLookup->GetByFirst(GET(i, ShallowFeatureType))));
+        cell = new QTableWidgetItem(QString::fromAscii(m_idLookup->GetByFirst(GET(i, ShallowFeatureType)).c_str()));
 		cell->setFlags(Qt::NoItemFlags);
         ui.tblGameState->setItem(row, 0, cell);
 
