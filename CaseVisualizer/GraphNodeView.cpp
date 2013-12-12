@@ -23,7 +23,8 @@
 
 using namespace MetaData;
 
-GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */, QGraphicsScene *p_scene /* = 0 */) : QGraphicsRectItem(p_parent, p_scene)
+GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
+	: QGraphicsRectItem(p_parent)
 {
 	m_nodeModel		= p_planStep;
 	m_nodeHeight	= DefaultNodeHeight;
@@ -50,7 +51,7 @@ GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_conte
 		setBrush(brush);
 	}
 
-	setToolTip(QString::fromAscii(p_planStep->TypeName().c_str()));
+	setToolTip(QString::fromLocal8Bit(p_planStep->TypeName().c_str()));
 	setRect(0, 0, m_nodeWidth, m_nodeHeight);
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
 	setFlag(QGraphicsItem::ItemIsMovable, true);

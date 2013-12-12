@@ -32,7 +32,7 @@ void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
             
             if (m_idLookup->TryGetByFirst(i, goalName))
             {
-                planStepList << QString::fromAscii(goalName.c_str());
+                planStepList << QString::fromLocal8Bit(goalName.c_str());
             }
             else
             {
@@ -53,7 +53,7 @@ void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
             
             if (m_idLookup->TryGetByFirst(i, actionName))
 			{
-                planStepList << QString::fromAscii(actionName.c_str());
+                planStepList << QString::fromLocal8Bit(actionName.c_str());
             }
             else
             {
@@ -70,7 +70,7 @@ void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::on_comboBox_currentIndexChanged(QString p_item)
 {
-    std::string sItem = p_item.toAscii();
+    std::string sItem = p_item.toLocal8Bit();
 
     if (m_idLookup->TryGetBySecond(sItem, m_selectedPlanStepId))
     {
@@ -91,7 +91,7 @@ void ChoosePlanStepDialog::on_comboBox_currentIndexChanged(QString p_item)
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::on_btnOK_clicked()
 {
-	string selectedItem = ui.comboBox->currentText().toAscii();
+	string selectedItem = ui.comboBox->currentText().toLocal8Bit();
 	m_selectedPlanStepId = m_idLookup->GetBySecond(selectedItem);
 
 	this->accept();

@@ -11,13 +11,16 @@
 #include <cmath>
 #include <QLine>
 #include <QMenu>
+#include <QGraphicsSceneContextMenuEvent>
+#include <QGraphicsScene>
+
 using namespace std;
 
 const qreal Pi = acos(-1.0);
 
 GraphEdgeView::GraphEdgeView(GraphNodeView *p_startNode, GraphNodeView *p_endNode,
-		  QMenu* p_contextMenu, QGraphicsItem *p_parent, QGraphicsScene *p_scene)
-		  : QGraphicsLineItem(p_parent, p_scene)
+		  QMenu* p_contextMenu, QGraphicsItem *p_parent)
+		  : QGraphicsLineItem(p_parent)
 {
 	m_startNode		= p_startNode;
 	m_endNode		= p_endNode;

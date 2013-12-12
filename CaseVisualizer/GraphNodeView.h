@@ -19,7 +19,7 @@ const int CaseGoalNodeIndex = -1;
 class GraphNodeView : public QGraphicsRectItem
 {
 public:
-	GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMenu, QGraphicsItem *p_parent = 0, QGraphicsScene *p_scene = 0);
+	GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMenu, QGraphicsItem *p_parent = 0);
 	void RemoveEdge(GraphEdgeView* p_edge);
 	QList<GraphEdgeView*> Disconnect();
 	PlanStepEx* NodeModel() const { return m_nodeModel; }
