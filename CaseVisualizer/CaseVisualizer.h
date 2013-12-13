@@ -1,7 +1,7 @@
 #ifndef CASEVISUALIZER_H
 #define CASEVISUALIZER_H
 
-#include <QtGui/QMainWindow>
+#include <QMainWindow>
 #include "ui_CaseVisualizer.h"
 #include <string>
 
@@ -31,7 +31,7 @@ class CaseVisualizer : public QMainWindow
     Q_OBJECT
 
 public:
-    CaseVisualizer(QWidget *parent = 0, Qt::WFlags flags = 0);
+    CaseVisualizer(QWidget *parent = 0, Qt::WindowFlags flags = 0);
     ~CaseVisualizer();
 
     void OpenCaseBase();

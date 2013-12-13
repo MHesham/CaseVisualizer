@@ -26,7 +26,7 @@ void ParameterEdit::InitializeAutoComplete()
 	QStringList qtStringParamValues;
 	for(int i = 0, size = stdStringValues.size(); i < size; ++i)
 	{
-		qtStringParamValues << QString::fromAscii(stdStringValues[i].c_str());
+		qtStringParamValues << QString::fromLocal8Bit(stdStringValues[i].c_str());
 	}
 
 	m_autoComplete = new QCompleter(qtStringParamValues);
@@ -38,8 +38,8 @@ void ParameterEdit::InitializeAutoComplete()
 //----------------------------------------------------------------------------------------------
 int ParameterEdit::exec()
 {
-	ui.lblActualParamName->setText(QString::fromAscii(m_paramName.c_str()));
-	int idx = ui.lineEditParamValue->findText(QString::fromAscii(m_paramValue.c_str()));
+	ui.lblActualParamName->setText(QString::fromLocal8Bit(m_paramName.c_str()));
+	int idx = ui.lineEditParamValue->findText(QString::fromLocal8Bit(m_paramValue.c_str()));
 	ui.lineEditParamValue->setCurrentIndex(idx);
 
 	return QDialog::exec();
@@ -47,9 +47,9 @@ int ParameterEdit::exec()
 //----------------------------------------------------------------------------------------------
 void ParameterEdit::on_btnOK_clicked()
 {
-	if(m_idLookup->ContainsSecond(string(ui.lineEditParamValue->currentText().toAscii())))
+	if(m_idLookup->ContainsSecond(string(ui.lineEditParamValue->currentText().toLocal8Bit())))
 	{
-		m_paramValue = ui.lineEditParamValue->currentText().toAscii();
+		m_paramValue = ui.lineEditParamValue->currentText().toLocal8Bit();
 	}
 
 	this->accept();

@@ -20,7 +20,7 @@ class GraphEdgeView : public QGraphicsLineItem
 {
 public:
 	GraphEdgeView(GraphNodeView *p_startNode, GraphNodeView *p_endNode,
-		QMenu* m_contextMenu = NULL, QGraphicsItem *p_parent = 0, QGraphicsScene *p_scene = 0);
+		QMenu* m_contextMenu = NULL, QGraphicsItem *p_parent = 0);
 
 	QRectF boundingRect() const;
 	QPainterPath shape() const;

@@ -91,7 +91,7 @@ void GraphScene::CreateEdgeMenu()
 {
 	QAction *deleteAction = new QAction(tr("&Delete"), this);
 	deleteAction->setStatusTip(tr("Deletes graph edge"));
-	deleteAction->setShortcut(QString::fromAscii("D"));
+	deleteAction->setShortcut(QString::fromLocal8Bit("D"));
 	connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteEdge()));
 
 	m_edgeMenu = new QMenu(tr("Edge Menu"));
@@ -204,7 +204,7 @@ void GraphScene::ConstructGraph()
 			nodeModel = m_planGraph->operator [](m_graphLevels[i][j])->Value();
 
 			int nodeIndex = m_graphLevels[i][j];
-			nodeView = new GraphNodeView(nodeModel, nodeIndex, m_nodeMenu, NULL, this);
+			nodeView = new GraphNodeView(nodeModel, nodeIndex, m_nodeMenu, NULL);
 
 			m_nodeIndexViewMapping[nodeIndex] = nodeView;
 			m_nodeModelViewMapping[nodeModel] = nodeView;
@@ -224,7 +224,7 @@ void GraphScene::CreateCaseGoalNode( vector<int> &p_roots, map<int, GraphNodeVie
 	if(m_caseGoal == NULL)
 		return;
 
-	GraphNodeView* caseGoalNodeView = new GraphNodeView(m_caseGoal, CaseGoalNodeIndex, NULL, NULL, this); 
+	GraphNodeView* caseGoalNodeView = new GraphNodeView(m_caseGoal, CaseGoalNodeIndex, NULL, NULL); 
 	m_nodeIndexViewMapping[CaseGoalNodeIndex] = caseGoalNodeView;
 
 	caseGoalNodeView->setRect(0, 0, m_nodeWidth, m_nodeHeight);
@@ -234,7 +234,7 @@ void GraphScene::CreateCaseGoalNode( vector<int> &p_roots, map<int, GraphNodeVie
 	{
 		GraphNodeView* start = caseGoalNodeView;
 		GraphNodeView* end = p_nodeIndexViewMapping[p_roots[j]];
-		GraphEdgeView* edge = new GraphEdgeView(start, end, m_edgeMenu, NULL, this);
+		GraphEdgeView* edge = new GraphEdgeView(start, end, m_edgeMenu, NULL);
 		start->AddEdge(edge);
 		end->AddEdge(edge);
 		addItem(edge);
@@ -296,7 +296,7 @@ void GraphScene::ConnectGraphNodes()
 		{
 			GraphNodeView* start = m_nodeIndexViewMapping[i];
 			GraphNodeView* end = m_nodeIndexViewMapping[children[j]];
-			GraphEdgeView* edge = new GraphEdgeView(start, end, m_edgeMenu, NULL, this);
+			GraphEdgeView* edge = new GraphEdgeView(start, end, m_edgeMenu, NULL);
 			start->AddEdge(edge);
 			end->AddEdge(edge);
 			addItem(edge);

@@ -48,7 +48,7 @@ using namespace std;
 #include "GraphScene.h"
 #endif
 
-CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WFlags flags)
+CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 : QMainWindow(parent, flags), m_caseBase(new CaseBaseEx)
 {
 
@@ -175,7 +175,7 @@ void CaseVisualizer::OpenCaseBase()
 
 		m_caseBasePath = fileName;
         m_caseBase = new CaseBaseEx();
-        g_ObjectSerializer.Deserialize(m_caseBase, string(fileName.toAscii()));
+        g_ObjectSerializer.Deserialize(m_caseBase, string(fileName.toLocal8Bit()));
         Refresh();
     }
 }
@@ -198,7 +198,7 @@ void CaseVisualizer::SaveCaseBaseAs()
 
     if(!fileName.isEmpty())
     {
-		g_ObjectSerializer.Serialize(m_caseBase, string(fileName.toAscii()));
+		g_ObjectSerializer.Serialize(m_caseBase, string(fileName.toLocal8Bit()));
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -209,7 +209,7 @@ void CaseVisualizer::SaveCaseBase()
 	else
 	{
 		statusBar()->showMessage("Case base saved ...", 2000);
-		g_ObjectSerializer.Serialize(m_caseBase, string(m_caseBasePath.toAscii()));
+		g_ObjectSerializer.Serialize(m_caseBase, string(m_caseBasePath.toLocal8Bit()));
 	}
 }
 //----------------------------------------------------------------------------------------------
