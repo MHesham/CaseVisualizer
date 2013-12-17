@@ -17,14 +17,14 @@ class QButtonGroup;
 
 #define CaseBaseFilter tr("Case-base (*.cb)")
 
-namespace MetaData
+namespace IStrategizer
 {
 	enum GoalType;
 }
 
 using namespace std;
 using namespace DataStructure;
-using namespace MetaData;
+using namespace IStrategizer;
 
 class CaseVisualizer : public QMainWindow
 {

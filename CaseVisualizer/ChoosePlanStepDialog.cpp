@@ -11,7 +11,7 @@
 #ifndef METADATA_H
 #include "MetaData.h"
 #endif
-using namespace MetaData;
+using namespace IStrategizer;
 
 ChoosePlanStepDialog::ChoosePlanStepDialog(CrossMap<unsigned, string>* p_idLookup, bool p_goals, bool p_actions, QWidget *parent)
 : QDialog(parent, Qt::FramelessWindowHint)

@@ -21,7 +21,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QMessageBox>
 
-using namespace MetaData;
+using namespace IStrategizer;
 
 GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
 	: QGraphicsRectItem(p_parent)
