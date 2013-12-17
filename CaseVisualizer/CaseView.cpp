@@ -14,7 +14,7 @@
 #include "GameStateEx.h"
 #endif
 
-using namespace MetaData;
+using namespace IStrategizer;
 
 #include <QtWidgets>
 #include <QTableWidget>

@@ -156,10 +156,13 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
 {
     int caseIdx = ui.lstCases->currentIndex().row();
 
-	if(caseIdx >= 0 && !m_caseBase->CaseContainer.empty())
+	if(caseIdx >= 0 &&
+		caseIdx < m_caseBase->CaseContainer.size())
 		m_caseView->View(m_caseBase->CaseContainer[caseIdx]);
-	else
-		m_caseView->View(NULL);
+	else if (caseIdx == m_caseBase->CaseContainer.size())
+	{
+		m_caseView->View(m_caseBase->CaseContainer[caseIdx -1]);
+	}
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::OpenCaseBase()

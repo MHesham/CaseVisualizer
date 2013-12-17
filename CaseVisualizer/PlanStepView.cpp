@@ -32,7 +32,7 @@
 #endif
 
 using namespace std;
-using namespace MetaData;
+using namespace IStrategizer;
 
 const char* NewParamText = "New Param";
 const char* NewValText = "New Val";
