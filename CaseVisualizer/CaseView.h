@@ -13,48 +13,47 @@
 
 #include <string>
 #include <hash_map>
-using namespace stdext;
-using namespace DataStructure;
-
-class CaseEx;
-class GoalEx; 
-class GameStateEx;
 
 #define IdLookupFile "IdLookup.txt"
 
-class GraphScene;
-class GoalEx;
-class PlanGraphView;
-
-class CaseView : public QWidget
+namespace IStrategizer
 {
-    Q_OBJECT
+	class CaseEx;
+	class GoalEx; 
+	class GameStateEx;
+	class GraphScene;
+	class PlanGraphView;
 
-public:
-    CaseView(CrossMap<unsigned, string>* p_idLookup, QWidget *parent = 0);
-    ~CaseView();
-    void View(CaseEx* p_case);
-	void SetMode(int p_mode);
+	class CaseView : public QWidget
+	{
+		Q_OBJECT
 
-private:
-	CrossMap<unsigned, string>* m_idLookup;
-	GraphScene*					m_graphScene;
-	PlanGraphView*				m_graphView;
-    Ui::CaseViewClass			ui;
-	CaseEx*						m_currentCase;
+	public:
+		CaseView(CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
+		~CaseView();
+		void View(CaseEx* p_case);
+		void SetMode(int p_mode);
 
-    void ViewGoal(GoalEx* p_goal);
-    void ViewGoalParameters(PlanStepParameters* p_params);
-    void ViewGameState(GameStateEx* p_gameState);
-	void ViewPlanGraph(GoalEx* p_caseGoal, PlanGraph* p_planGraph);
-    void InitializeIdLookup();
-	void CreatePlanView();
-	void ViewPerformance(CaseEx *p_pCase);
+	private:
+		CrossMap<unsigned, std::string>* m_idLookup;
+		GraphScene*					m_graphScene;
+		PlanGraphView*				m_graphView;
+		Ui::CaseViewClass			ui;
+		CaseEx*						m_currentCase;
 
-private slots:
-	void on_txtTrialCount_textChanged(const QString &p_newText);
-	void on_txtSuccessCount_textChanged(const QString &p_newText);
-	void OnCellChanged(int p_row, int p_column);
-};
+		void ViewGoal(GoalEx* p_goal);
+		void ViewGoalParameters(PlanStepParameters* p_params);
+		void ViewGameState(GameStateEx* p_gameState);
+		void ViewPlanGraph(GoalEx* p_caseGoal, IStrategizer::PlanGraph* p_planGraph);
+		void InitializeIdLookup();
+		void CreatePlanView();
+		void ViewPerformance(CaseEx *p_pCase);
+
+		private slots:
+			void on_txtTrialCount_textChanged(const QString &p_newText);
+			void on_txtSuccessCount_textChanged(const QString &p_newText);
+			void OnCellChanged(int p_row, int p_column);
+	};
+}
 
 #endif // CASEVIEW_H

@@ -19,7 +19,6 @@
 #ifndef CROSSMAP_H
 #include "CrossMap.h"
 #endif
-using namespace DataStructure;
 
 #include <QGridLayout>
 #include <QGraphicsScene>
@@ -29,6 +28,9 @@ using namespace DataStructure;
 #include <QHBoxLayout>
 #include <QButtonGroup>
 #include <QToolButton>
+
+using namespace IStrategizer;
+using namespace std;
 
 PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_idLookup, QWidget *p_parent)
 : QWidget(p_parent)

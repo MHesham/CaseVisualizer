@@ -15,6 +15,7 @@
 #include <QGraphicsScene>
 
 using namespace std;
+using namespace IStrategizer;
 
 const qreal Pi = acos(-1.0);
 

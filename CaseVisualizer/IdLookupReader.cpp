@@ -16,6 +16,7 @@
 #include <cassert>
 #include <string>
 using namespace std;
+using namespace IStrategizer;
 
 IdLookupReader::IdLookupReader()
 {

@@ -5,6 +5,8 @@
 #include "Toolbox.h"
 #endif
 
+using namespace IStrategizer;
+
 ParameterEdit::ParameterEdit(string p_paramName, string p_paramValue, CrossMap<unsigned, string>* p_idLookup, QWidget *parent)
 : QDialog(parent, Qt::FramelessWindowHint)
 {

@@ -14,31 +14,32 @@ using namespace stdext;
 #include "EngineData.h"
 #endif
 
-class PlanStepEx;
-class ParameterEdit;
-
-using namespace DataStructure;
-
-class PlanStepView : public QWidget
+namespace IStrategizer
 {
-	Q_OBJECT
+	class PlanStepEx;
+	class ParameterEdit;
 
-public:
-	PlanStepView(CrossMap<unsigned, string>* p_idLookup, QWidget *parent = 0);
-	void View(PlanStepEx* p_planStep);
-	~PlanStepView();
+	class PlanStepView : public QWidget
+	{
+		Q_OBJECT
 
-private:
-	CrossMap<unsigned, string>*	m_idLookup;
-	PlanStepEx* m_planStep;
-	ParameterEdit* m_paramEditDialog;
-	void ViewParameters( const PlanStepParameters* p_params );
-	void ViewConditions(const PlanStepEx* p_planStep);
-	Ui::PlanStepViewClass ui;
+	public:
+		PlanStepView(CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
+		void View(PlanStepEx* p_planStep);
+		~PlanStepView();
 
-private slots:
-	void on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item);
-	void EditSelectedParameter();
-};
+	private:
+		CrossMap<unsigned, std::string>*	m_idLookup;
+		PlanStepEx* m_planStep;
+		ParameterEdit* m_paramEditDialog;
+		void ViewParameters( const PlanStepParameters* p_params );
+		void ViewConditions(const PlanStepEx* p_planStep);
+		Ui::PlanStepViewClass ui;
+
+		private slots:
+			void on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item);
+			void EditSelectedParameter();
+	};
+}
 
 #endif // PLANSTEPVIEW_H
