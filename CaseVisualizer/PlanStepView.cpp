@@ -133,15 +133,31 @@ void PlanStepView::EditSelectedParameter()
 
 	string keyTxt			= items[0]->text().toLocal8Bit();
 	string oldValueTxt		= items[1]->text().toLocal8Bit();
+
 	ParameterType key		= (ParameterType)m_idLookup->GetBySecond(keyTxt);
-	ParameterType oldValue	= (ParameterType)m_idLookup->GetBySecond(oldValueTxt);
+	ParameterType oldValue = PARAM_END;
+
+  if (m_idLookup->ContainsSecond(oldValueTxt))
+  {
+    oldValue = (ParameterType)m_idLookup->GetBySecond(oldValueTxt);
+  }
 
 	m_paramEditDialog->ParamName(keyTxt);
 	m_paramEditDialog->ParamValue(oldValueTxt);
+
 	if(m_paramEditDialog->exec() == QDialog::Accepted)
 	{
-		string newValueTxt		= m_paramEditDialog->ParamValue();
-		int newValue			= m_idLookup->GetBySecond(newValueTxt);
+		string newValueTxt = m_paramEditDialog->ParamValue();
+		int newValue = 0;
+
+    if (m_idLookup->ContainsSecond(newValueTxt))
+    {
+      newValue = m_idLookup->GetBySecond(newValueTxt);
+    }
+    else
+    {
+      newValue = QString::fromLocal8Bit(newValueTxt.c_str()).toInt();
+    }
 
 		PlanStepParameters& params = m_planStep->Parameters();
 		params[key] = newValue;
