@@ -40,6 +40,9 @@
 #include <deque>
 #include <set>
 
+using namespace IStrategizer;
+using namespace Serialization;
+
 GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent) : QGraphicsScene(p_parent)
 {
 	m_cellSize				= DefaultCellSize;
