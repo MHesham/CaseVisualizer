@@ -9,26 +9,28 @@ using namespace stdext;
 #ifndef CROSSMAP_H
 #include "CrossMap.h"
 #endif
-using namespace DataStructure;
 
 #define LexerFile "TypeInfo\\TypeLexer.dfa"
 
 class LexicalAnalyzer;
 class CharacterBuffer;
 
-class IdLookupReader
+namespace IStrategizer
 {
-    LexicalAnalyzer* m_scanner;
-    CharacterBuffer* m_buffer;
+	class IdLookupReader
+	{
+		LexicalAnalyzer* m_scanner;
+		CharacterBuffer* m_buffer;
 
-    string FilterLine(const string& p_line);
-    string EnumToSentence(const string& p_enum);
+		std::string FilterLine(const std::string& p_line);
+		std::string EnumToSentence(const std::string& p_enum);
 
-public:
-    IdLookupReader();
-    ~IdLookupReader();
-    void Read(const char* p_filePath, CrossMap<unsigned, string>& p_table);
-	bool ReadEx(const char* p_filePath, CrossMap<unsigned, string>& p_table);
-};
+	public:
+		IdLookupReader();
+		~IdLookupReader();
+		void Read(const char* p_filePath, CrossMap<unsigned, std::string>& p_table);
+		bool ReadEx(const char* p_filePath, CrossMap<unsigned, std::string>& p_table);
+	};
+}
 
 #endif // IDLOOKUPREADER_H

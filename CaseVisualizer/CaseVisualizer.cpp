@@ -48,6 +48,8 @@ using namespace std;
 #include "GraphScene.h"
 #endif
 
+using namespace IStrategizer;
+
 CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 : QMainWindow(parent, flags), m_caseBase(new CaseBaseEx)
 {
