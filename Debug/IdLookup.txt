@@ -350,6 +350,8 @@
 133666 Enemy Critical Buildings Count
 133667 Allied Buildings Count
 133668 Allied Critical Buildings Count
+133669 Distance To Enemy Base
+133670 Distance To Base
 133888 Not Prepared
 133889 Pending
 133890 Executing
@@ -362,6 +364,8 @@
 134403 Constructing
 134404 Gathering
 134405 Training
+134406 Attacking
+134407 Under Attack
 134656 Early Tier Rush
 134912 Tier 1
 134913 Tier 2
