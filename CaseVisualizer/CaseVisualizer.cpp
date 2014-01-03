@@ -57,13 +57,15 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
     ui.setupUi(this);
 	CreateToolBox();
 
+    IStrategizer::Init();
+    SerializationEssentials::Init();
+
 	if (InitIdLookup())
 	{
 		m_caseView = new CaseView(&m_idLookup, ui.caseViewFrame);
 		m_goalDialog = new ChoosePlanStepDialog(&m_idLookup, true, false, this);
 		this->setCentralWidget(ui.caseViewFrame);
 
-		SerializationEssentials::Init();
 		NewCaseBase();
 		NewCase(GOALEX_WinGame);
 	}
@@ -73,11 +75,25 @@ bool CaseVisualizer::InitIdLookup()
 {
 	IdLookupReader reader;
 
-	if (!reader.ReadEx(IdLookupFile, m_idLookup))
+    // Read game specific IDs
+	if (!reader.ReadEx(GameIdsLookupFilename, m_idLookup))
 	{
-		QMessageBox::warning(this, tr("Initialization Error"), tr("'%1' file is not found.").arg(IdLookupFile));
+		QMessageBox::warning(this, tr("Initialization Error"), tr("'%1' file is not found.").arg(GameIdsLookupFilename));
 		return false;
 	}
+
+    // Read engine specific IDs
+    for (unsigned currID = 0; currID < ENUMS_SIZE; ++currID)
+    {
+        if (!BELONG(EntityClassType, currID) &&
+            !BELONG(ResearchType, currID))
+        {
+            if (Enums[currID] != nullptr)
+            {
+                m_idLookup.SetByFirst(currID, string(Enums[currID]));
+            }
+        }
+    }
 
 	return true;
 }

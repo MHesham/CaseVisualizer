@@ -42,6 +42,7 @@
 
 using namespace IStrategizer;
 using namespace Serialization;
+using namespace std;
 
 GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent) : QGraphicsScene(p_parent)
 {
