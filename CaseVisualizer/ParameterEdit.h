@@ -18,21 +18,21 @@ namespace IStrategizer
 		Q_OBJECT
 
 	public:
-		ParameterEdit(string p_paramName, string p_paramValue, CrossMap<unsigned, string>* p_idLookup, QWidget *parent = 0);
+		ParameterEdit(std::string p_paramName, std::string p_paramValue, CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
 
 		void InitializeAutoComplete();
 		~ParameterEdit();
 		int exec();
-		string ParamName() const { return m_paramName; }
-		void ParamName(string p_paramName) { m_paramName = p_paramName; }
-		string ParamValue() const { return m_paramValue; }
-		void ParamValue(string p_paramValue) { m_paramValue = p_paramValue; }
+		std::string ParamName() const { return m_paramName; }
+		void ParamName(std::string p_paramName) { m_paramName = p_paramName; }
+		std::string ParamValue() const { return m_paramValue; }
+		void ParamValue(std::string p_paramValue) { m_paramValue = p_paramValue; }
 
 	private:
 		Ui::ParameterEditClass ui;
-		string m_paramName;
-		string m_paramValue;
-		CrossMap<unsigned, string>* m_idLookup;
+		std::string m_paramName;
+		std::string m_paramValue;
+		CrossMap<unsigned, std::string>* m_idLookup;
 		QCompleter* m_autoComplete;
 
 		private slots:
