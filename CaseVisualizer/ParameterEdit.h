@@ -8,7 +8,6 @@
 #include "CrossMap.h"
 #endif
 
-
 class QCompleter;
 
 namespace IStrategizer
@@ -24,9 +23,9 @@ namespace IStrategizer
 		~ParameterEdit();
 		int exec();
 		std::string ParamName() const { return m_paramName; }
-		void ParamName(std::string p_paramName) { m_paramName = p_paramName; }
+		void ParamName(const std::string& p_paramName) { m_paramName = p_paramName; }
 		std::string ParamValue() const { return m_paramValue; }
-		void ParamValue(std::string p_paramValue) { m_paramValue = p_paramValue; }
+		void ParamValue(const std::string& p_paramValue) { m_paramValue = p_paramValue; }
 
 	private:
 		Ui::ParameterEditClass ui;
@@ -35,9 +34,9 @@ namespace IStrategizer
 		CrossMap<unsigned, std::string>* m_idLookup;
 		QCompleter* m_autoComplete;
 
-		private slots:
-			void on_btnCancel_clicked();
-			void on_btnOK_clicked();
+    private slots:
+        void on_btnCancel_clicked();
+        void on_btnOK_clicked();
 	};
 }
 

@@ -6,10 +6,10 @@
 #include "ObjectFactory.h"
 #endif
 #ifndef OBJECTFORMATTER_H
-#include "ObjectFormatter.h"
+	#include "ObjectFormatter.h"
 #endif
 #ifndef OBJECTSERIALIZER_H
-#include "ObjectSerializer.h"
+	#include "ObjectSerializer.h"
 #endif
 
 #ifndef CASEBASEEX_H
@@ -74,46 +74,55 @@
 #endif
 
 #ifndef PLANGRAPH_H
-#include "PlanGraph.h"
+	#include "PlanGraph.h"
 #endif
+
+using namespace IStrategizer;
 
 void SerializationEssentials::Init()
 {
-	g_ObjectFactory.AddPrototype(new CaseEx);
-	g_ObjectFactory.AddPrototype(new GameStateEx);
+	static bool initialized = false;
 
-	g_ObjectFactory.AddPrototype(new Colony);
+	if (initialized)
+		return;
 
-	g_ObjectFactory.AddPrototype(new AttackEnemyGoal);
-	g_ObjectFactory.AddPrototype(new BuildBaseGoal);
-	g_ObjectFactory.AddPrototype(new WinWargusGoalEx);
-	g_ObjectFactory.AddPrototype(new TrainForceGoal);
+    g_ObjectFactory.AddPrototype(new CaseEx);
+    g_ObjectFactory.AddPrototype(new GameStateEx);
 
-	g_ObjectFactory.AddPrototype(new AttackEntityAction);
-	g_ObjectFactory.AddPrototype(new AttackGroundAction);
+    g_ObjectFactory.AddPrototype(new Colony);
+
+    g_ObjectFactory.AddPrototype(new AttackEnemyGoal);
+    g_ObjectFactory.AddPrototype(new BuildBaseGoal);
+    g_ObjectFactory.AddPrototype(new WinWargusGoalEx);
+    g_ObjectFactory.AddPrototype(new TrainForceGoal);
+
+    g_ObjectFactory.AddPrototype(new AttackEntityAction);
+    g_ObjectFactory.AddPrototype(new AttackGroundAction);
+    g_ObjectFactory.AddPrototype(new ResearchAction);
+    g_ObjectFactory.AddPrototype(new TrainAction);
 	g_ObjectFactory.AddPrototype(new BuildActionEx);
-	g_ObjectFactory.AddPrototype(new ResearchAction);
-	g_ObjectFactory.AddPrototype(new TrainAction);
 
-	g_ObjectFactory.AddPrototype(new ResourceExist);
-	g_ObjectFactory.AddPrototype(new ResearchDone);
-	g_ObjectFactory.AddPrototype(new EntityObjectExist);
-	g_ObjectFactory.AddPrototype(new EntityClassExist);
-	g_ObjectFactory.AddPrototype(new CheckPositionFilterCount);
-	g_ObjectFactory.AddPrototype(new CheckEntityObjectSimilarity);
-	g_ObjectFactory.AddPrototype(new CheckEntityObjectAttribute);
-	g_ObjectFactory.AddPrototype(new CheckEntityClassAttribute);
-	g_ObjectFactory.AddPrototype(new CheckColonyFilterCount);
-	g_ObjectFactory.AddPrototype(new And);
-	g_ObjectFactory.AddPrototype(new Not);
-	g_ObjectFactory.AddPrototype(new Or);
+    g_ObjectFactory.AddPrototype(new ResourceExist);
+    g_ObjectFactory.AddPrototype(new ResearchDone);
+    g_ObjectFactory.AddPrototype(new EntityObjectExist);
+    g_ObjectFactory.AddPrototype(new EntityClassExist);
+    g_ObjectFactory.AddPrototype(new CheckPositionFilterCount);
+    g_ObjectFactory.AddPrototype(new CheckEntityObjectSimilarity);
+    g_ObjectFactory.AddPrototype(new CheckEntityObjectAttribute);
+    g_ObjectFactory.AddPrototype(new CheckEntityClassAttribute);
+    g_ObjectFactory.AddPrototype(new CheckColonyFilterCount);
+    g_ObjectFactory.AddPrototype(new And);
+    g_ObjectFactory.AddPrototype(new Not);
+    g_ObjectFactory.AddPrototype(new Or);
 
-	g_ObjectFactory.AddPrototype(new PlanGraph);
-	g_ObjectFactory.AddPrototype(new Diagraph<NodeValue, EdgeAnnotation>, "Diagraph(PlanStepEx*,vector(Expression*))");
-	g_ObjectFactory.AddPrototype(new GraphNode<NodeValue, EdgeAnnotation>, "GraphNode(PlanStepEx*,vector(Expression*))");
-	g_ObjectFactory.AddPrototype(new GraphEdge<EdgeAnnotation>, "GraphEdge(vector(Expression*))");
+    g_ObjectFactory.AddPrototype(new PlanGraph);
+    g_ObjectFactory.AddPrototype(new Diagraph<NodeValue, EdgeAnnotation>, "Diagraph(PlanStepEx*,vector(Expression*))");
+    g_ObjectFactory.AddPrototype(new GraphNode<NodeValue, EdgeAnnotation>, "GraphNode(PlanStepEx*,vector(Expression*))");
+    g_ObjectFactory.AddPrototype(new GraphEdge<EdgeAnnotation>, "GraphEdge(vector(Expression*))");
+    
+    g_ObjectFactory.AddPrototype(new CaseBaseEx);
 
-	g_ObjectFactory.AddPrototype(new CaseBaseEx);
-
-	g_ObjectFormatter.FinalizeTypeTable(g_ObjectSerializer.TypeTable(), g_ObjectFactory.GetObjectTable());
+    g_ObjectFormatter.FinalizeTypeTable(g_ObjectSerializer.TypeTable(), g_ObjectFactory.GetObjectTable());
+	
+	initialized = true;
 }

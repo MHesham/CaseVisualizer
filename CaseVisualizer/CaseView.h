@@ -14,7 +14,7 @@
 #include <string>
 #include <hash_map>
 
-#define IdLookupFile "IdLookup.txt"
+#define GameIdsLookupFilename "IdLookup.txt"
 
 namespace IStrategizer
 {
