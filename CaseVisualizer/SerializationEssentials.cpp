@@ -6,10 +6,10 @@
 #include "ObjectFactory.h"
 #endif
 #ifndef OBJECTFORMATTER_H
-	#include "ObjectFormatter.h"
+    #include "ObjectFormatter.h"
 #endif
 #ifndef OBJECTSERIALIZER_H
-	#include "ObjectSerializer.h"
+    #include "ObjectSerializer.h"
 #endif
 
 #ifndef CASEBASEEX_H
@@ -80,17 +80,17 @@
 #endif
 
 #ifndef PLANGRAPH_H
-	#include "PlanGraph.h"
+    #include "PlanGraph.h"
 #endif
 
 using namespace IStrategizer;
 
 void SerializationEssentials::Init()
 {
-	static bool initialized = false;
+    static bool initialized = false;
 
-	if (initialized)
-		return;
+    if (initialized)
+        return;
 
     g_ObjectFactory.AddPrototype(new CaseEx);
     g_ObjectFactory.AddPrototype(new GameStateEx);
@@ -131,6 +131,6 @@ void SerializationEssentials::Init()
     g_ObjectFactory.AddPrototype(new CaseBaseEx);
 
     g_ObjectFormatter.FinalizeTypeTable(g_ObjectSerializer.TypeTable(), g_ObjectFactory.GetObjectTable());
-	
-	initialized = true;
+    
+    initialized = true;
 }

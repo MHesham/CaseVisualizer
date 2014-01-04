@@ -34,8 +34,8 @@ void IdLookupReader::Read(const char* p_filePath, CrossMap<unsigned, string>& p_
     fstream file;
     file.open(p_filePath, ios::in);
     
-	if (!file.is_open())
-		return;
+    if (!file.is_open())
+        return;
 
     string      line;
     string      key;
@@ -80,48 +80,48 @@ void IdLookupReader::Read(const char* p_filePath, CrossMap<unsigned, string>& p_
 //----------------------------------------------------------------------------------------------
 bool IdLookupReader::ReadEx(const char* p_filePath, CrossMap<unsigned, string>& p_table)
 {
-	fstream file;
-	file.open(p_filePath, ios::in);
-	
-	if (!file.is_open())
-		return false;
+    fstream file;
+    file.open(p_filePath, ios::in);
+    
+    if (!file.is_open())
+        return false;
 
-	string			line;
-	string			key;
-	string			value;
-	string			temp;
-	unsigned		lastId = 0;
+    string line;
+    string key;
+    string value;
+    string temp;
+    unsigned lastId = 0;
 
-	while(getline(file, line))
-	{
-		if(line.empty())
-			continue;
-		
-		stringstream stream;
+    while(getline(file, line))
+    {
+        if(line.empty())
+            continue;
+        
+        stringstream stream;
 
-		stream.str(line);
+        stream.str(line);
 
-		stream >> key ;
-		lastId = atoi(key.c_str());
+        stream >> key ;
+        lastId = atoi(key.c_str());
 
-		value.clear();
-		while (!stream.eof())
-		{
-			stream >> temp;
-			value += temp;
+        value.clear();
+        while (!stream.eof())
+        {
+            stream >> temp;
+            value += temp;
 
-			if (!stream.eof() &&
-				stream.peek() != '\n' &&
-				stream.peek() != '\r')
-				value += ' ';
-		}
-			
-		p_table.SetByFirst(lastId, value);
-	}
+            if (!stream.eof() &&
+                stream.peek() != '\n' &&
+                stream.peek() != '\r')
+                value += ' ';
+        }
+            
+        p_table.SetByFirst(lastId, value);
+    }
 
-	file.close();
+    file.close();
 
-	return true;
+    return true;
 }
 //----------------------------------------------------------------------------------------------
 string IdLookupReader::FilterLine(const string& p_line)
