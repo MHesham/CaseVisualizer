@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ChoosePlanStepDialog.h"
 
 #include <QStringList>

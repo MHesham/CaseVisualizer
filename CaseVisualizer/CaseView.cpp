@@ -216,14 +216,16 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
 //----------------------------------------------------------------------------------------------
 void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, PlanGraph* p_planGraph)
 {
-	if(p_caseGoal == NULL || p_planGraph == NULL)
-	{
-		m_graphScene->View(NULL, NULL);
-	}
-	else
-	{
-		m_graphScene->View(p_caseGoal, p_planGraph);
-	}
+    m_graphScene->View(p_planGraph);
+
+	//if(p_caseGoal == NULL || p_planGraph == NULL)
+	//{
+	//	m_graphScene->View(NULL);
+	//}
+	//else
+	//{
+	//	m_graphScene->View(p_planGraph);
+	//}
 }
 //----------------------------------------------------------------------------------------------
 void CaseView::ViewPerformance(CaseEx *p_pCase)

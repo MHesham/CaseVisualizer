@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #ifndef GRAPHSCENE_H
 #include "GraphScene.h"
 #endif
@@ -29,7 +30,6 @@
 #include "ActionFactory.h"
 #endif
 
-
 #include <QGraphicsSceneContextMenuEvent>
 #include <QMenu>
 #include <QGraphicsScene>
@@ -37,8 +37,6 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QAction>
-#include <deque>
-#include <set>
 
 using namespace IStrategizer;
 using namespace Serialization;
@@ -119,10 +117,10 @@ void GraphScene::CreateSceneMenu()
 	m_sceneMenu->addAction(layoutGraph);
 }
 //----------------------------------------------------------------------------------------------
-void GraphScene::View(GoalEx* p_caseGoal, PlanGraph* p_planGraph)
+void GraphScene::View(PlanGraph* p_planGraph)
 {
 	m_planGraph = p_planGraph;
-	m_caseGoal = p_caseGoal;
+	//m_caseGoal = p_caseGoal;
 
 	UpdateView();
 }
@@ -158,23 +156,25 @@ void GraphScene::ConstructGraph()
 		return;
 	}
 
-	vector<int>				roots = m_planGraph->GetRoots();
-	deque< pair<int,int> >	Q;
-	set<int>				visitedNodes;
+    typedef int NodeIdx;
 
-	for(int i = 0; i < roots.size(); ++i)
+	vector<NodeIdx>				roots = m_planGraph->GetRoots();
+	deque< pair<NodeIdx,int> >	Q;
+	set<NodeIdx>				visitedNodes;
+
+	for(size_t i = 0; i < roots.size(); ++i)
 	{
 		Q.push_back(make_pair(roots[i], 1));
 		visitedNodes.insert(roots[i]);
 	}
 
-	for(int i = 0; i < m_graphLevels.size(); ++i)
+	for(size_t i = 0; i < m_graphLevels.size(); ++i)
 		m_graphLevels[i].clear();
 	m_graphLevels.clear();
 
 	while(!Q.empty())
 	{
-		int nodeIndex = Q.front().first;
+		NodeIdx nodeIndex = Q.front().first;
 		int nodeLevel = Q.front().second;
 		
 		Q.pop_front();
@@ -182,7 +182,7 @@ void GraphScene::ConstructGraph()
 			m_graphLevels.resize(nodeLevel + 1);
 
 		m_graphLevels[nodeLevel].push_back(nodeIndex);
-		vector<int> children = m_planGraph->GetChildren(nodeIndex);
+		vector<NodeIdx> children = m_planGraph->GetChildren(nodeIndex);
 
 		for (int i = 0; i < children.size(); ++i)
 		{
@@ -201,9 +201,9 @@ void GraphScene::ConstructGraph()
 	GraphNodeView*				nodeView	= NULL;
 	PlanStepEx*					nodeModel	= NULL;
 
-	for (int i = 0 ; i < m_graphLevels.size(); ++i)
+	for (size_t i = 0 ; i < m_graphLevels.size(); ++i)
 	{
-		for (int j = 0 ; j < m_graphLevels[i].size(); ++j)
+		for (size_t j = 0 ; j < m_graphLevels[i].size(); ++j)
 		{
 			nodeModel = m_planGraph->operator [](m_graphLevels[i][j])->Value();
 
@@ -220,7 +220,7 @@ void GraphScene::ConstructGraph()
 	}
 
 	ConnectGraphNodes();
-	CreateCaseGoalNode(roots, m_nodeIndexViewMapping);
+	// CreateCaseGoalNode(roots, m_nodeIndexViewMapping);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateCaseGoalNode( vector<int> &p_roots, map<int, GraphNodeView*> &p_nodeIndexViewMapping )

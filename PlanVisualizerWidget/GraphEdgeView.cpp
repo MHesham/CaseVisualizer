@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #ifndef GRAPHNODEVIEW_H
 #include "GraphNodeView.h"
 #endif
@@ -8,7 +9,6 @@
 #include <QColor>
 #include <QtGui>
 #include <QPolygonF>
-#include <cmath>
 #include <QLine>
 #include <QMenu>
 #include <QGraphicsSceneContextMenuEvent>

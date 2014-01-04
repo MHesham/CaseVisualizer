@@ -40,7 +40,7 @@ namespace IStrategizer
 		enum PointerMode { MODE_Move, MODE_Connect };
 
 		GraphScene(CrossMap<unsigned, std::string>* p_idLookup, QObject *p_parent = 0);
-		void View(GoalEx* p_caseGoal, PlanGraph* p_planGraph);
+		void View(PlanGraph* p_planGraph);
 		void Mode(PointerMode p_mode) { m_mode = p_mode; }
 		PointerMode Mode() const { return m_mode; }
 
@@ -58,7 +58,7 @@ namespace IStrategizer
 		int m_nodeHeight;
 		int m_horizontalNodeSpacing;
 		int m_verticalNodeSpacing;
-		PlanGraph *m_planGraph;
+	    PlanGraph *m_planGraph;
 		GoalEx* m_caseGoal;
 		QMenu* m_nodeMenu;
 		QMenu* m_edgeMenu;

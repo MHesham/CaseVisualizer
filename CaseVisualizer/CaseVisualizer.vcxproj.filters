@@ -9,9 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h</Extensions>
     </Filter>
-    <Filter Include="Header Files\PlanGraphView">
-      <UniqueIdentifier>{231401f4-85f0-4902-99fe-77da23a2b2bd}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Form Files">
       <UniqueIdentifier>{99349809-55BA-4b9d-BF79-8FDBB0286EB3}</UniqueIdentifier>
       <Extensions>ui</Extensions>
@@ -26,6 +23,11 @@
       <Extensions>moc;h;cpp</Extensions>
       <SourceControlFiles>False</SourceControlFiles>
     </Filter>
+    <Filter Include="Generated Files\Template">
+      <UniqueIdentifier>{68e2db90-701f-4571-ad2f-bd7d0f733e68}</UniqueIdentifier>
+      <Extensions>cpp;moc</Extensions>
+      <SourceControlFiles>False</SourceControlFiles>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CaseView.cpp">
@@ -34,34 +36,10 @@
     <ClCompile Include="CaseVisualizer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="ChoosePlanStepDialog.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphEdgeView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphNodeView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="IdLookupReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ParameterEdit.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlanGraphView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="PlanStepView.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="SerializationEssentials.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_CaseView.cpp">
@@ -79,63 +57,15 @@
     <ClCompile Include="GeneratedFiles\Release\moc_ChooseCaseGoalDialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ChoosePlanStepDialog.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ChoosePlanStepDialog.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_GraphScene.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_GraphScene.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_ParameterEdit.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_PlanGraphView.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_PlanGraphView.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_PlanStepView.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Debug\moc_PlanStepView.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="IdLookupReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SerializationEssentials.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphEdgeView.h">
-      <Filter>Header Files\PlanGraphView</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphNodeView.h">
-      <Filter>Header Files\PlanGraphView</Filter>
-    </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_CaseView.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
     <ClInclude Include="GeneratedFiles\ui_CaseVisualizer.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_ChoosePlanStepDialog.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_ParameterEdit.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_PlanGraphView.h">
-      <Filter>Generated Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneratedFiles\ui_PlanStepView.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -149,37 +79,10 @@
     <CustomBuild Include="CaseVisualizer.h">
       <Filter>Header Files</Filter>
     </CustomBuild>
-    <CustomBuild Include="ChoosePlanStepDialog.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ParameterEdit.h">
-      <Filter>Header Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="GraphScene.h">
-      <Filter>Header Files\PlanGraphView</Filter>
-    </CustomBuild>
-    <CustomBuild Include="PlanGraphView.h">
-      <Filter>Header Files\PlanGraphView</Filter>
-    </CustomBuild>
-    <CustomBuild Include="PlanStepView.h">
-      <Filter>Header Files\PlanGraphView</Filter>
-    </CustomBuild>
     <CustomBuild Include="CaseView.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="CaseVisualizer.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ChoosePlanStepDialog.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="ParameterEdit.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="PlanGraphView.ui">
-      <Filter>Form Files</Filter>
-    </CustomBuild>
-    <CustomBuild Include="PlanStepView.ui">
       <Filter>Form Files</Filter>
     </CustomBuild>
     <CustomBuild Include="CaseVisualizer.qrc">

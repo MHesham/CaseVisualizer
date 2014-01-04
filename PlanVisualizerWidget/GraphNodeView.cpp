@@ -1,16 +1,17 @@
+#include "stdafx.h"
+
 #ifndef GRAPHNODEVIEW_H
 #include "GraphNodeView.h"
 #endif
 #ifndef GRAPHEDGEVIEW_H
+#include "stdafx.h"
 #include "GraphEdgeView.h"
 #endif
 #ifndef PLANSTEPEX_H
 #include "PlanStepEx.h"
 #endif
 
-#include <algorithm>
 #include <QBrush>
-#include <sstream>
 #include <QColor>
 #include <QTextOption>
 #include <QTextItem>

@@ -25,7 +25,8 @@ namespace IStrategizer
 		GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMenu, QGraphicsItem *p_parent = 0);
 		void RemoveEdge(GraphEdgeView* p_edge);
 		QList<GraphEdgeView*> Disconnect();
-		PlanStepEx* NodeModel() const { return m_nodeModel; }
+        PlanStepEx* NodeModel() { return m_nodeModel; }
+		const PlanStepEx* NodeModel() const { return m_nodeModel; }
 		void AddEdge(GraphEdgeView* p_edge);
 		int Index() const { return m_index; }
 		void Index(int p_index) { m_index = p_index; }

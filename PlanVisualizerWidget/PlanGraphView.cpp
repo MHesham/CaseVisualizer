@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #ifndef PLANGRAPHVIEW_H
 #include "PlanGraphView.h"
 #endif
@@ -69,9 +70,9 @@ void PlanGraphView::SetMode(int p_mode)
 	m_scene->Mode((GraphScene::PointerMode)p_mode); 
 }
 //----------------------------------------------------------------------------------------------
-void PlanGraphView::View(GoalEx* p_caseGoal, PlanGraph* p_planGraph)
+void PlanGraphView::View(PlanGraph* p_planGraph)
 {
-	m_scene->View(p_caseGoal, p_planGraph);
+	m_scene->View(p_planGraph);
 }
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::HandleNodeSelected(GraphNodeView* p_node)

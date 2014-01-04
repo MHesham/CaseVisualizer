@@ -3,6 +3,7 @@ GeneratedFiles/
 *.lib
 *.idb
 *.cb
+*.tlog
 
 #Exclusions
 CaseVisualizer/Debug/

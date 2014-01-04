@@ -4,9 +4,8 @@
 #include <QWidget>
 #include <hash_map>
 #include <string>
-using namespace std;
-using namespace stdext;
 #include "ui_PlanGraphView.h"
+
 #ifndef CROSSMAP_H
 #include "CrossMap.h"
 #endif
@@ -29,7 +28,7 @@ namespace IStrategizer
 		PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, std::string>* p_idLookup, QWidget *p_parent = 0);
 		~PlanGraphView();
 
-		void View(GoalEx* p_caseGoal, PlanGraph* p_planGraph);
+		void View(PlanGraph* p_planGraph);
 		void SetMode(int p_mode);
 
 	private:

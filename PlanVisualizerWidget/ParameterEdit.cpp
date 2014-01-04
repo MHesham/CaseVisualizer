@@ -1,3 +1,4 @@
+#include "stdafx.h"
 #include "ParameterEdit.h"
 #include <QCompleter>
 #include <QLineEdit>

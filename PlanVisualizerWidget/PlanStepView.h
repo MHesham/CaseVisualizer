@@ -14,6 +14,8 @@ using namespace stdext;
 #include "EngineData.h"
 #endif
 
+#include <QTableWidgetItem>
+
 namespace IStrategizer
 {
 	class PlanStepEx;
