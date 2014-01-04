@@ -16,18 +16,18 @@ using namespace IStrategizer;
 ChoosePlanStepDialog::ChoosePlanStepDialog(CrossMap<unsigned, string>* p_idLookup, bool p_goals, bool p_actions, QWidget *parent)
 : QDialog(parent, Qt::FramelessWindowHint)
 {
-	ui.setupUi(this);
-	m_idLookup = p_idLookup;
-	InitializePlanStepList(p_goals, p_actions);
+    ui.setupUi(this);
+    m_idLookup = p_idLookup;
+    InitializePlanStepList(p_goals, p_actions);
 }
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
 {
-	QStringList planStepList;
-	if(p_goals)
-	{
-		for(unsigned i = START(GoalType); i < END(GoalType); ++i)
-		{
+    QStringList planStepList;
+    if(p_goals)
+    {
+        for(unsigned i = START(GoalType); i < END(GoalType); ++i)
+        {
             string goalName;
             
             if (m_idLookup->TryGetByFirst(i, goalName))
@@ -42,30 +42,30 @@ void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
 
                 QMessageBox::warning(this, tr("Initialization Error"), tr("Key '%1' not found in the ID lookup file").arg(i));
             }
-		}
-	}
+        }
+    }
 
-	if(p_actions)
-	{
-		for(unsigned i = START(ActionType); i < END(ActionType); ++i)
-		{
+    if(p_actions)
+    {
+        for(unsigned i = START(ActionType); i < END(ActionType); ++i)
+        {
             string actionName;
             
             if (m_idLookup->TryGetByFirst(i, actionName))
-			{
+            {
                 planStepList << QString::fromLocal8Bit(actionName.c_str());
             }
             else
             {
                 QMessageBox::warning(this, tr("Initialization Error"), tr("Key '%1' not found in the ID lookup file").arg(i));
             }
-		}
-	}
+        }
+    }
 
-	m_autoComplete = new QCompleter(planStepList);
-	ui.comboBox->setCompleter(m_autoComplete);
-	ui.comboBox->setEditable(true);
-	ui.comboBox->addItems(planStepList);
+    m_autoComplete = new QCompleter(planStepList);
+    ui.comboBox->setCompleter(m_autoComplete);
+    ui.comboBox->setEditable(true);
+    ui.comboBox->addItems(planStepList);
 }
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::on_comboBox_currentIndexChanged(QString p_item)
@@ -91,18 +91,18 @@ void ChoosePlanStepDialog::on_comboBox_currentIndexChanged(QString p_item)
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::on_btnOK_clicked()
 {
-	string selectedItem = ui.comboBox->currentText().toLocal8Bit();
-	m_selectedPlanStepId = m_idLookup->GetBySecond(selectedItem);
+    string selectedItem = ui.comboBox->currentText().toLocal8Bit();
+    m_selectedPlanStepId = m_idLookup->GetBySecond(selectedItem);
 
-	this->accept();
+    this->accept();
 }
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::on_btnCancel_clicked()
 {
-	this->reject();
+    this->reject();
 }
 //----------------------------------------------------------------------------------------------
 ChoosePlanStepDialog::~ChoosePlanStepDialog()
 {
-	Toolbox::MemoryClean(m_autoComplete);
+    Toolbox::MemoryClean(m_autoComplete);
 }
