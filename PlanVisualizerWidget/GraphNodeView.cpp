@@ -15,7 +15,6 @@
 #include <QColor>
 #include <QTextOption>
 #include <QTextItem>
-#include <QFont>
 #include <QMenu>
 #include <QList>
 #include <QGraphicsScene>
@@ -23,23 +22,17 @@
 #include <QMessageBox>
 
 using namespace IStrategizer;
+using namespace std;
 
-GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
+GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
 	: QGraphicsRectItem(p_parent)
 {
 	m_nodeModel		= p_planStep;
 	m_nodeHeight	= DefaultNodeHeight;
 	m_nodeWidth		= DefaultNodeWidth;
 	m_contextMenu	= p_contextMeun;
-	m_index			= p_index;
 
-	if(m_index == CaseGoalNodeIndex)
-	{
-		QColor color(255, 0, 0, 192);
-		QBrush brush(color, Qt::SolidPattern);
-		setBrush(brush);
-	}
-	else if(BELONG(GoalType, p_planStep->StepTypeId()))
+    if(BELONG(GoalType, p_planStep->StepTypeId()))
 	{
 		QColor color(0, 0, 255, 192);
 		QBrush brush(color, Qt::SolidPattern);
@@ -52,8 +45,24 @@ GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_conte
 		setBrush(brush);
 	}
 
+    string nodeName = m_nodeModel->ToString();
+    size_t findLeftParanPos = nodeName.find("(");
+
+    if (findLeftParanPos != string::npos)
+    {
+        nodeName = nodeName.substr(0, findLeftParanPos);
+    }
+
+    m_nodeTxt = QString::fromStdString(nodeName);
+
+    m_nodeTxtFont.setBold(true);
+    m_nodeTxtFont.setPixelSize(20);
+
+    // Measure text width and set the node width accordingly with small padding
+    QFontMetrics fontMetric(m_nodeTxtFont);
+    m_nodeTxtWidth = fontMetric.width(m_nodeTxt) + 10;
+
 	setToolTip(QString::fromLocal8Bit(p_planStep->TypeName().c_str()));
-	setRect(0, 0, m_nodeWidth, m_nodeHeight);
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
 	setFlag(QGraphicsItem::ItemIsMovable, true);
 }
@@ -107,19 +116,15 @@ QVariant GraphNodeView::itemChange(GraphicsItemChange change,
 void GraphNodeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p_option, QWidget *p_widget)
 { 
 	QGraphicsRectItem::paint(p_painter, p_option, p_widget);
-	QString txt;
-	if(BELONG(GoalType, m_nodeModel->StepTypeId()))
-		txt = "G";
-	else
-		txt = "A";
+	
+    QTextOption textOption;
+    textOption.setAlignment(Qt::AlignCenter);
 
-	QTextOption textOption;
-	textOption.setAlignment(Qt::AlignCenter);
-	QFont font;
-	font.setBold(true);
-	font.setPixelSize(20);
-	p_painter->setFont(font);
-	p_painter->drawText(this->rect(), txt, textOption);
+    setRect(0, 0, m_nodeTxtWidth, m_nodeHeight);
+
+    p_painter->setFont(m_nodeTxtFont);
+
+	p_painter->drawText(this->rect(), m_nodeTxt, textOption);
 }
 //----------------------------------------------------------------------------------------------
 void GraphNodeView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)

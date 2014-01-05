@@ -47,11 +47,10 @@ PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_
 	m_scene->setSceneRect(0, 0, 1000, 1000);
 
 	m_graphicsView->setScene(m_scene);
-	//m_graphicsView->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
 	m_graphicsView->fitInView(m_scene->sceneRect(), Qt::KeepAspectRatio);
 	
-	m_graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-	m_graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+	m_graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+	m_graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
 	layout->setMargin(0);
 	layout->addWidget(m_graphicsView);
@@ -70,9 +69,9 @@ void PlanGraphView::SetMode(int p_mode)
 	m_scene->Mode((GraphScene::PointerMode)p_mode); 
 }
 //----------------------------------------------------------------------------------------------
-void PlanGraphView::View(PlanGraph* p_planGraph)
+void PlanGraphView::View(IPlanDigraph* pPlanGraph)
 {
-	m_scene->View(p_planGraph);
+	m_scene->View(pPlanGraph);
 }
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::HandleNodeSelected(GraphNodeView* p_node)
@@ -81,8 +80,9 @@ void PlanGraphView::HandleNodeSelected(GraphNodeView* p_node)
 		m_planStepView->View(NULL);
 	else
 		m_planStepView->View(p_node->NodeModel());
-}	
+}
 //----------------------------------------------------------------------------------------------
-PlanGraphView::~PlanGraphView()
+void PlanGraphView::OnPlanStructureChange()
 {
+    QApplication::postEvent(m_scene, new QEvent(QEvent::User));
 }

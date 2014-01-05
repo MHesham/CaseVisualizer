@@ -32,8 +32,10 @@ using namespace IStrategizer;
 #include <QGraphicsView>
 #include "PlanGraphView.h"
 #include "GraphScene.h"
+#include "PlanGraphAdapter.h"
 
 using namespace std;
+using namespace IStrategizer;
 
 CaseView::CaseView(CrossMap<unsigned, string>* p_idLookup, QWidget *parent)
     : QWidget(parent)
@@ -67,8 +69,8 @@ void CaseView::OnCellChanged(int p_row, int p_column)
 //----------------------------------------------------------------------------------------------
 void CaseView::CreatePlanView()
 {
-	m_graphScene = new GraphScene(m_idLookup);
-	m_graphView = new PlanGraphView(m_graphScene, m_idLookup);
+	GraphScene* pGraphScene = new GraphScene(m_idLookup);
+	m_graphView = new PlanGraphView(pGraphScene, m_idLookup);
 
 	QLayout* frmLayout = new QGridLayout(ui.frmPlanView);
 	frmLayout->setMargin(0);
@@ -216,7 +218,9 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
 //----------------------------------------------------------------------------------------------
 void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, PlanGraph* p_planGraph)
 {
-    m_graphScene->View(p_planGraph);
+    m_graphView->View(new PlanGraphAdapter(p_planGraph));
+    m_graphView->OnPlanStructureChange();
+    //m_graphScene->Hello();
 
 	//if(p_caseGoal == NULL || p_planGraph == NULL)
 	//{

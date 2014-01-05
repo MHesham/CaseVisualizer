@@ -5,10 +5,9 @@
 #include <hash_map>
 #include <string>
 #include "ui_PlanGraphView.h"
-
-#ifndef CROSSMAP_H
 #include "CrossMap.h"
-#endif
+#include "GraphScene.h"
+#include "MessagePump.h"
 
 class QGraphicsView;
 
@@ -26,10 +25,10 @@ namespace IStrategizer
 
 	public:
 		PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, std::string>* p_idLookup, QWidget *p_parent = 0);
-		~PlanGraphView();
-
-		void View(PlanGraph* p_planGraph);
+        
+		void View(IPlanDigraph* pPlanGraph);
 		void SetMode(int p_mode);
+        void OnPlanStructureChange();
 
 	private:
 		Ui::PlanGraphViewClass	ui;
@@ -37,9 +36,9 @@ namespace IStrategizer
 		GraphScene*				m_scene;
 		PlanStepView*			m_planStepView;
 
-		private slots:
-			void HandleNodeSelected(GraphNodeView* p_node);
-	};
+        private slots:
+            void HandleNodeSelected(GraphNodeView* p_node);
+    };
 }
 
 #endif // PLANGRAPHVIEW_H

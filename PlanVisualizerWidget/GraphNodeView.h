@@ -3,6 +3,7 @@
 
 #include <QGraphicsRectItem>
 #include <QList>
+#include <QFont>
 
 class QGraphicsItem;
 class QGraphicsScene;
@@ -22,7 +23,7 @@ namespace IStrategizer
 	class GraphNodeView : public QGraphicsRectItem
 	{
 	public:
-		GraphNodeView(PlanStepEx* p_planStep, int p_index, QMenu *p_contextMenu, QGraphicsItem *p_parent = 0);
+		GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMenu, QGraphicsItem *p_parent = 0);
 		void RemoveEdge(GraphEdgeView* p_edge);
 		QList<GraphEdgeView*> Disconnect();
         PlanStepEx* NodeModel() { return m_nodeModel; }
@@ -30,6 +31,7 @@ namespace IStrategizer
 		void AddEdge(GraphEdgeView* p_edge);
 		int Index() const { return m_index; }
 		void Index(int p_index) { m_index = p_index; }
+        int NodeTxtWidth() const { return m_nodeTxtWidth; }
 
 	protected:
 		QVariant itemChange(GraphicsItemChange change, const QVariant &value);
@@ -42,7 +44,10 @@ namespace IStrategizer
 		QMenu *m_contextMenu;
 		int m_index;
 		PlanStepEx* m_nodeModel;
-		QList<GraphEdgeView*> m_edges;
+        QString m_nodeTxt;
+        int m_nodeTxtWidth;
+        QFont m_nodeTxtFont;
+        QList<GraphEdgeView*> m_edges;
 	};
 }
 

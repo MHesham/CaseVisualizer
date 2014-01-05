@@ -1,1 +1,94 @@
-﻿  PlanVisualizerWidget.vcxproj -> C:\RtsAiResearch\CaseVisualizer\\Debug\PlanVisualizerWidget.lib
+﻿  GraphScene.cpp
+C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qmetatype.h(777): warning C4512: 'QtMetaTypePrivate::VariantData' : assignment operator could not be generated
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qmetatype.h(765) : see declaration of 'QtMetaTypePrivate::VariantData'
+C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qobject_impl.h(135): warning C4512: 'QtPrivate::QSlotObjectBase' : assignment operator could not be generated
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qobject_impl.h(109) : see declaration of 'QtPrivate::QSlotObjectBase'
+GraphScene.cpp(208): warning C4018: '>=' : signed/unsigned mismatch
+GraphScene.cpp(231): warning C4239: nonstandard extension used : 'initializing' : conversion from 'IStrategizer::IDigraph<TNodeValue>::NodeSet' to 'IStrategizer::IDigraph<TNodeValue>::NodeSet &'
+          with
+          [
+              TNodeValue=IStrategizer::PlanStepEx *
+          ]
+          A non-const reference may only be bound to an lvalue
+GraphScene.cpp(254): warning C4189: 'pNodeModel' : local variable is initialized but not referenced
+GraphScene.cpp(253): warning C4189: 'pNodeView' : local variable is initialized but not referenced
+GraphScene.cpp(363): warning C4018: '<' : signed/unsigned mismatch
+C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qglobal.h(862): warning C4512: 'QForeachContainer<T>' : assignment operator could not be generated
+          with
+          [
+              T=QList<QGraphicsItem *>
+          ]
+          GraphScene.cpp(404) : see reference to class template instantiation 'QForeachContainer<T>' being compiled
+          with
+          [
+              T=QList<QGraphicsItem *>
+          ]
+C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qglobal.h(862): warning C4512: 'QForeachContainer<T>' : assignment operator could not be generated
+          with
+          [
+              T=QList<IStrategizer::GraphEdgeView *>
+          ]
+          GraphScene.cpp(421) : see reference to class template instantiation 'QForeachContainer<T>' being compiled
+          with
+          [
+              T=QList<IStrategizer::GraphEdgeView *>
+          ]
+GraphScene.cpp(493): warning C4189: 'node' : local variable is initialized but not referenced
+C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qhash.h(216): warning C4512: 'QHashNode<Key,T>' : assignment operator could not be generated
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qhash.h(786) : see reference to class template instantiation 'QHashNode<Key,T>' being compiled
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qhash.h(774) : while compiling class template member function 'QHash<Key,T>::iterator QHash<Key,T>::insert(const Key &,const T &)'
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qvariant.h(501) : see reference to class template instantiation 'QHash<Key,T>' being compiled
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qhash.h(226): warning C4512: 'QHashDummyNode<Key,T>' : assignment operator could not be generated
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qhash.h(602) : see reference to class template instantiation 'QHashDummyNode<Key,T>' being compiled
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+          C:\Qt\Qt5.2.0\5.2.0\msvc2010_opengl\include\QtCore/qhash.h(600) : while compiling class template member function 'void QHash<Key,T>::detach_helper(void)'
+          with
+          [
+              Key=QString,
+              T=QVariant
+          ]
+  Appending Debug\stdafx.obj
+  Appending Debug\PlanStepView.obj
+  Appending Debug\PlanGraphView.obj
+  Appending Debug\PlanGraphAdapter.obj
+  Appending Debug\ParameterEdit.obj
+  Appending Debug\OlcbpPlanGraphAdapter.obj
+  Appending Debug\GraphScene.obj
+  Appending Debug\GraphNodeView.obj
+  Appending Debug\GraphEdgeView.obj
+  Appending Debug\moc_PlanStepView.obj
+  Appending Debug\moc_PlanGraphView.obj
+  Appending Debug\moc_ParameterEdit.obj
+  Appending Debug\moc_GraphScene.obj
+  Appending Debug\moc_ChoosePlanStepDialog.obj
+  Appending Debug\ChoosePlanStepDialog.obj
+  PlanVisualizerWidget.vcxproj -> C:\RtsAiResearch\IStrategizer\Build\\Debug\PlanVisualizerWidget.lib

@@ -36,7 +36,6 @@ namespace IStrategizer
 
 	private:
 		CrossMap<unsigned, std::string>* m_idLookup;
-		GraphScene*					m_graphScene;
 		PlanGraphView*				m_graphView;
 		Ui::CaseViewClass			ui;
 		CaseEx*						m_currentCase;
