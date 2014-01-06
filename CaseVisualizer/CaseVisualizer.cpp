@@ -35,9 +35,6 @@ using namespace std;
 #ifndef CASEVIEW_H
 #include "CaseView.h"
 #endif
-#ifndef WINWARGUSGOALEX_H
-#include "WinWargusGoalEx.h"
-#endif
 #ifndef CHOOSEPLANSTEPDIALOG_H
 #include "ChoosePlanStepDialog.h"
 #endif

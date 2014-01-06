@@ -1,15 +1,13 @@
-#ifndef SERIALIZATIONESSENTIALS_H
 #include "SerializationEssentials.h"
-#endif
 
 #ifndef OBJECTFACTORY_H
 #include "ObjectFactory.h"
 #endif
 #ifndef OBJECTFORMATTER_H
-    #include "ObjectFormatter.h"
+#include "ObjectFormatter.h"
 #endif
 #ifndef OBJECTSERIALIZER_H
-    #include "ObjectSerializer.h"
+#include "ObjectSerializer.h"
 #endif
 
 #ifndef CASEBASEEX_H
@@ -21,17 +19,20 @@
 #ifndef GAMESTATEEX_H
 #include "GameStateEx.h"
 #endif
-#ifndef ATTACKENEMYGOAL_H
-#include "AttackEnemyGoal.h"
+#ifndef DESTROYENTITYTYPEGOAL_H
+#include "DestroyEntityTypeGoal.h"
 #endif
-#ifndef BUILDBASEGOAL_H
-#include "BuildBaseGoal.h"
+#ifndef COLLECTRESOURCEGOAL_H
+#include "CollectResourceGoal.h"
 #endif
-#ifndef WINWARGUSGOALEX_H
-#include "WinWargusGoalEx.h"
+#ifndef WINGAMEGOAL_H
+#include "WinGameGoal.h"
 #endif
 #ifndef TRAINFORCEGOAL_H
 #include "TrainForceGoal.h"
+#endif
+#ifndef DEPLOYARMYGOAL_H
+#include "DeployArmyGoal.h"
 #endif
 #ifndef ATTACKENTITYACTION_H
 #include "AttackEntityAction.h"
@@ -60,6 +61,9 @@
 #ifndef RESEARCHDONE_H
 #include "ResearchDone.h"
 #endif
+#ifndef ENTITYCLASSNEARAREA_H
+#include "EntityClassNearArea.h"
+#endif
 #ifndef NOT_H
 #include "Not.h"
 #endif
@@ -69,9 +73,8 @@
 #ifndef CELLFEATURE_H
 #include "CellFeature.h"
 #endif
-
 #ifndef PLANGRAPH_H
-    #include "PlanGraph.h"
+#include "PlanGraph.h"
 #endif
 
 using namespace IStrategizer;
@@ -88,10 +91,11 @@ void SerializationEssentials::Init()
 
     g_ObjectFactory.AddPrototype(new Colony);
 
-    g_ObjectFactory.AddPrototype(new AttackEnemyGoal);
-    g_ObjectFactory.AddPrototype(new BuildBaseGoal);
-    g_ObjectFactory.AddPrototype(new WinWargusGoalEx);
+    g_ObjectFactory.AddPrototype(new CollectResourceGoal);
     g_ObjectFactory.AddPrototype(new TrainForceGoal);
+    g_ObjectFactory.AddPrototype(new DeployArmyGoal);
+    g_ObjectFactory.AddPrototype(new DestroyEntityTypeGoal);
+    g_ObjectFactory.AddPrototype(new WinGameGoal);
 
     g_ObjectFactory.AddPrototype(new AttackEntityAction);
     g_ObjectFactory.AddPrototype(new AttackGroundAction);
@@ -104,6 +108,7 @@ void SerializationEssentials::Init()
     g_ObjectFactory.AddPrototype(new ResourceExist);
     g_ObjectFactory.AddPrototype(new ResearchDone);
     g_ObjectFactory.AddPrototype(new EntityClassExist);
+    g_ObjectFactory.AddPrototype(new EntityClassNearArea);
     g_ObjectFactory.AddPrototype(new And);
     g_ObjectFactory.AddPrototype(new Not);
     g_ObjectFactory.AddPrototype(new Or);
