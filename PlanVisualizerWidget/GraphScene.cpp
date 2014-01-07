@@ -45,77 +45,77 @@ using namespace std;
 
 GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent) : QGraphicsScene(p_parent)
 {
-	m_horizontalNodeSpacing = DefaultHorizontalNodeSpacing;
-	m_verticalNodeSpacing	= DefaultVerticalNodeSpacing;
-	m_pNodeMenu				= nullptr;
-	m_pPlanGraph			= nullptr;
-	m_pChoosePlanStepDlg	= new ChoosePlanStepDialog(p_idLookup, true, true);
-	m_mode					= MODE_Move;
-	m_pConnectionLine		= nullptr;
+    m_horizontalNodeSpacing = DefaultHorizontalNodeSpacing;
+    m_verticalNodeSpacing    = DefaultVerticalNodeSpacing;
+    m_pNodeMenu                = nullptr;
+    m_pPlanGraph            = nullptr;
+    m_pChoosePlanStepDlg    = new ChoosePlanStepDialog(p_idLookup, true, true);
+    m_mode                    = MODE_Move;
+    m_pConnectionLine        = nullptr;
     m_pGraph                = nullptr;
     m_cellSize              = DefaultGridCellSize;
 
-	connect(this, SIGNAL(selectionChanged()), SLOT(NodeSelected()));
+    connect(this, SIGNAL(selectionChanged()), SLOT(NodeSelected()));
     updateTimerId = startTimer(GraphRedrawIntervalMs);
 
-	CreateMenus();
-	CreateGrid();
+    CreateMenus();
+    CreateGrid();
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateMenus()
 {
-	CreateNodeMenu();
-	CreateEdgeMenu();
-	CreateSceneMenu();
+    CreateNodeMenu();
+    CreateEdgeMenu();
+    CreateSceneMenu();
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateNodeMenu()
 {
-	QAction *duplicateAction = new QAction(tr("Duplicate"), this);
-	duplicateAction->setStatusTip(tr("Duplicates graph node"));
-	connect(duplicateAction, SIGNAL(triggered()), this, SLOT(DuplicateNode()));
+    QAction *duplicateAction = new QAction(tr("Duplicate"), this);
+    duplicateAction->setStatusTip(tr("Duplicates graph node"));
+    connect(duplicateAction, SIGNAL(triggered()), this, SLOT(DuplicateNode()));
 
-	QAction *deleteAction = new QAction(tr("Delete"), this);
-	duplicateAction->setStatusTip(tr("Deletes graph node"));
-	connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteNode()));
+    QAction *deleteAction = new QAction(tr("Delete"), this);
+    duplicateAction->setStatusTip(tr("Deletes graph node"));
+    connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteNode()));
 
-	QAction *disconnectAction = new QAction(tr("Disconnect"), this);
-	disconnectAction->setStatusTip(tr("Disconnects the node from the graph"));
-	connect(disconnectAction, SIGNAL(triggered()), this, SLOT(DisconnectNode()));
+    QAction *disconnectAction = new QAction(tr("Disconnect"), this);
+    disconnectAction->setStatusTip(tr("Disconnects the node from the graph"));
+    connect(disconnectAction, SIGNAL(triggered()), this, SLOT(DisconnectNode()));
 
-	m_pNodeMenu = new QMenu(tr("Node Menu"));
-	m_pNodeMenu->setTearOffEnabled(true);
-	m_pNodeMenu->addAction(deleteAction);
-	m_pNodeMenu->addAction(duplicateAction);
-	m_pNodeMenu->addAction(disconnectAction);
+    m_pNodeMenu = new QMenu(tr("Node Menu"));
+    m_pNodeMenu->setTearOffEnabled(true);
+    m_pNodeMenu->addAction(deleteAction);
+    m_pNodeMenu->addAction(duplicateAction);
+    m_pNodeMenu->addAction(disconnectAction);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateEdgeMenu()
 {
-	QAction *deleteAction = new QAction(tr("&Delete"), this);
-	deleteAction->setStatusTip(tr("Deletes graph edge"));
-	deleteAction->setShortcut(QString::fromLocal8Bit("D"));
-	connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteEdge()));
+    QAction *deleteAction = new QAction(tr("&Delete"), this);
+    deleteAction->setStatusTip(tr("Deletes graph edge"));
+    deleteAction->setShortcut(QString::fromLocal8Bit("D"));
+    connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteEdge()));
 
-	m_edgeMenu = new QMenu(tr("Edge Menu"));
-	m_edgeMenu->setTearOffEnabled(true);
-	m_edgeMenu->addAction(deleteAction);
+    m_edgeMenu = new QMenu(tr("Edge Menu"));
+    m_edgeMenu->setTearOffEnabled(true);
+    m_edgeMenu->addAction(deleteAction);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateSceneMenu()
 {
-	QAction *newNodeAction = new QAction(tr("N&ew Node"), this);
-	newNodeAction->setStatusTip(tr("Creates new plan graph node"));
-	connect(newNodeAction, SIGNAL(triggered()), this, SLOT(NewNode()));
+    QAction *newNodeAction = new QAction(tr("N&ew Node"), this);
+    newNodeAction->setStatusTip(tr("Creates new plan graph node"));
+    connect(newNodeAction, SIGNAL(triggered()), this, SLOT(NewNode()));
 
-	QAction *layoutGraph = new QAction(tr("L&ayout Plan"), this);
-	layoutGraph->setStatusTip(tr("Layout plan graph in the scene"));
-	connect(layoutGraph, SIGNAL(triggered()), this, SLOT(RedrawScene()));
+    QAction *layoutGraph = new QAction(tr("L&ayout Plan"), this);
+    layoutGraph->setStatusTip(tr("Layout plan graph in the scene"));
+    connect(layoutGraph, SIGNAL(triggered()), this, SLOT(RedrawScene()));
 
-	m_sceneMenu = new QMenu(tr("Scene Menu"));
-	m_sceneMenu->setTearOffEnabled(true);
-	m_sceneMenu->addAction(newNodeAction);
-	m_sceneMenu->addAction(layoutGraph);
+    m_sceneMenu = new QMenu(tr("Scene Menu"));
+    m_sceneMenu->setTearOffEnabled(true);
+    m_sceneMenu->addAction(newNodeAction);
+    m_sceneMenu->addAction(layoutGraph);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::View(IPlanDigraph* pPlan)
@@ -125,16 +125,16 @@ void GraphScene::View(IPlanDigraph* pPlan)
 //----------------------------------------------------------------------------------------------
 void GraphScene::RedrawScene()
 {
-    clear();	
+    clear();    
 
-	CreateGrid();
-	ConstructGraph();
+    CreateGrid();
+    ConstructGraph();
     LayoutGraph();
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateGrid()
 {
-	int height = this->height(), width = this->width();
+    int height = this->height(), width = this->width();
 
     QPen p(Qt::DotLine);
 
@@ -146,7 +146,7 @@ void GraphScene::CreateGrid()
         }
 
         for(int x = 0; x < width - 1; x += m_cellSize)
-        {	
+        {    
             addLine(x, 0, x, height, p);
         }
     }
@@ -154,37 +154,37 @@ void GraphScene::CreateGrid()
 //----------------------------------------------------------------------------------------------
 void GraphScene::ConstructGraph()
 {
-	if(m_pGraph == NULL)
-		return;
+    if(m_pGraph == NULL)
+        return;
 
     ComputeGraphLevels();
 
-	GraphNodeView* pNodeView = nullptr;
-	PlanStepEx*	pNodeModel = nullptr;
+    GraphNodeView* pNodeView = nullptr;
+    PlanStepEx*    pNodeModel = nullptr;
 
-	for (size_t level = 0 ; level < m_graphLevels.size(); ++level)
-	{
-		for each (NodeID nodeId in m_graphLevels[level])
-		{
-			pNodeModel = m_pGraph->GetNode(nodeId);
+    for (size_t level = 0 ; level < m_graphLevels.size(); ++level)
+    {
+        for each (NodeID nodeId in m_graphLevels[level])
+        {
+            pNodeModel = m_pGraph->GetNode(nodeId);
             pNodeView = new GraphNodeView(pNodeModel, m_pNodeMenu, nullptr);
 
             m_nodeIdToNodeViewMap[nodeId] = pNodeView;
 
-			addItem(pNodeView);
-		}
-	}
+            addItem(pNodeView);
+        }
+    }
 
-	ConnectGraphNodes();
+    ConnectGraphNodes();
 }
 //----------------------------------------------------------------------------------------------
 void IStrategizer::GraphScene::ComputeGraphLevels()
 {
     NodeSet roots = m_pGraph->GetOrphanNodes();
-    NodeSet	visitedNodes;
+    NodeSet    visitedNodes;
 
     typedef int NodeLevel;
-    deque< pair<NodeID, NodeLevel> >	Q;
+    deque< pair<NodeID, NodeLevel> >    Q;
 
     for each (NodeID nodeId in roots)
     {
@@ -245,38 +245,38 @@ void GraphScene::ConnectGraphNodes()
 //----------------------------------------------------------------------------------------------
 void GraphScene::LayoutGraph()
 {
-	if(m_pGraph == nullptr)
-		return;
+    if(m_pGraph == nullptr)
+        return;
 
-	GraphNodeView* pNodeView	= nullptr;
-	PlanStepEx* pNodeModel	= nullptr;
-	int currNodeX;
-	int levelWidth, levelHeight;
+    GraphNodeView* pNodeView    = nullptr;
+    PlanStepEx* pNodeModel    = nullptr;
+    int currNodeX;
+    int levelWidth, levelHeight;
     int leveStartlX, levelStartY;
 
-	for (size_t currLevel = 0 ; currLevel < m_graphLevels.size(); ++currLevel)
-	{
+    for (size_t currLevel = 0 ; currLevel < m_graphLevels.size(); ++currLevel)
+    {
         levelWidth = ComputeLevelWidth(currLevel);
         levelHeight = ComputeLevelHeight(currLevel);
 
         // Calculate the level drawing start y coordinate
-		levelStartY = m_verticalNodeSpacing + (currLevel * (levelHeight + m_verticalNodeSpacing));
+        levelStartY = m_verticalNodeSpacing + (currLevel * (levelHeight + m_verticalNodeSpacing));
 
         // Calculate the level drawing start x coordinate
-		leveStartlX = (width() - levelWidth) / 2.0;
+        leveStartlX = (width() - levelWidth) / 2.0;
 
         // Place each node in the current level in its appropriate coordinate
-		for (size_t currNodeIdx = 0 ; currNodeIdx < m_graphLevels[currLevel].size(); ++currNodeIdx)
-		{
+        for (size_t currNodeIdx = 0 ; currNodeIdx < m_graphLevels[currLevel].size(); ++currNodeIdx)
+        {
             NodeID currNodeId = m_graphLevels[currLevel][currNodeIdx];
             int nodeWidth = m_nodeIdToNodeViewMap[currNodeId]->NodeWidth();
 
             // Calculate current node drawing start x coordinate
-			currNodeX = leveStartlX + (currNodeIdx  * (nodeWidth + m_horizontalNodeSpacing));
+            currNodeX = leveStartlX + (currNodeIdx  * (nodeWidth + m_horizontalNodeSpacing));
 
-			m_nodeIdToNodeViewMap[currNodeId]->setPos(QPointF(currNodeX, levelStartY));
-		}
-	}
+            m_nodeIdToNodeViewMap[currNodeId]->setPos(QPointF(currNodeX, levelStartY));
+        }
+    }
 }
 //----------------------------------------------------------------------------------------------
 int IStrategizer::GraphScene::ComputeLevelWidth(int levelIdx)
@@ -326,73 +326,73 @@ void GraphScene::OnGraphRedraw()
 //----------------------------------------------------------------------------------------------
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 {
-	if (p_mouseEvent->button() != Qt::LeftButton)
-		return;
+    if (p_mouseEvent->button() != Qt::LeftButton)
+        return;
 
-	if(m_mode == MODE_Connect)
-	{
-		m_pConnectionLine = new QGraphicsLineItem(QLineF(p_mouseEvent->scenePos(), p_mouseEvent->scenePos()));
-		m_pConnectionLine->setPen(QPen(QColor("black"), 2));
-		addItem(m_pConnectionLine);
-	}
+    if(m_mode == MODE_Connect)
+    {
+        m_pConnectionLine = new QGraphicsLineItem(QLineF(p_mouseEvent->scenePos(), p_mouseEvent->scenePos()));
+        m_pConnectionLine->setPen(QPen(QColor("black"), 2));
+        addItem(m_pConnectionLine);
+    }
 
-	QGraphicsScene::mousePressEvent(p_mouseEvent);
+    QGraphicsScene::mousePressEvent(p_mouseEvent);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 {
-	if (m_mode == MODE_Connect && m_pConnectionLine != 0) 
-	{
-		QLineF newLine(m_pConnectionLine->line().p1(), p_mouseEvent->scenePos());
-		m_pConnectionLine->setLine(newLine);
-	} 
-	else if (m_mode == MODE_Move) 
-	{
-		QGraphicsScene::mouseMoveEvent(p_mouseEvent);
-	}
+    if (m_mode == MODE_Connect && m_pConnectionLine != 0) 
+    {
+        QLineF newLine(m_pConnectionLine->line().p1(), p_mouseEvent->scenePos());
+        m_pConnectionLine->setLine(newLine);
+    } 
+    else if (m_mode == MODE_Move) 
+    {
+        QGraphicsScene::mouseMoveEvent(p_mouseEvent);
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 {
-	if (m_pConnectionLine != 0 && m_mode == MODE_Connect) 
-	{
-		QList<QGraphicsItem *> startItems = items(m_pConnectionLine->line().p1());
-		if (startItems.count() && startItems.first() == m_pConnectionLine)
-			startItems.removeFirst();
+    if (m_pConnectionLine != 0 && m_mode == MODE_Connect) 
+    {
+        QList<QGraphicsItem *> startItems = items(m_pConnectionLine->line().p1());
+        if (startItems.count() && startItems.first() == m_pConnectionLine)
+            startItems.removeFirst();
 
-		QList<QGraphicsItem *> endItems = items(m_pConnectionLine->line().p2());
-		if (endItems.count() && endItems.first() == m_pConnectionLine)
-			endItems.removeFirst();
+        QList<QGraphicsItem *> endItems = items(m_pConnectionLine->line().p2());
+        if (endItems.count() && endItems.first() == m_pConnectionLine)
+            endItems.removeFirst();
 
-		removeItem(m_pConnectionLine);
-		delete m_pConnectionLine;
+        removeItem(m_pConnectionLine);
+        delete m_pConnectionLine;
 
-		if (startItems.count() > 0 && endItems.count() > 0 &&
-			startItems.first() != endItems.first()) 
-		{
-			GraphNodeView *startNode = qgraphicsitem_cast<GraphNodeView *>(startItems.first());
-			GraphNodeView *endNode = qgraphicsitem_cast<GraphNodeView *>(endItems.first());
-			ConnectNodes(startNode, endNode);
-			RedrawScene();
-		}
-	}
+        if (startItems.count() > 0 && endItems.count() > 0 &&
+            startItems.first() != endItems.first()) 
+        {
+            GraphNodeView *startNode = qgraphicsitem_cast<GraphNodeView *>(startItems.first());
+            GraphNodeView *endNode = qgraphicsitem_cast<GraphNodeView *>(endItems.first());
+            ConnectNodes(startNode, endNode);
+            RedrawScene();
+        }
+    }
 
-	m_pConnectionLine = nullptr;
-	QGraphicsScene::mouseReleaseEvent(p_mouseEvent);
+    m_pConnectionLine = nullptr;
+    QGraphicsScene::mouseReleaseEvent(p_mouseEvent);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-	event->setAccepted(false);
+    event->setAccepted(false);
 
-	QGraphicsScene::contextMenuEvent(event);
+    QGraphicsScene::contextMenuEvent(event);
 
-	if(!event->isAccepted())
-	{
-		event->setAccepted(true);
-		if(m_sceneMenu != NULL)
-			m_sceneMenu->exec(event->screenPos());
-	}
+    if(!event->isAccepted())
+    {
+        event->setAccepted(true);
+        if(m_sceneMenu != NULL)
+            m_sceneMenu->exec(event->screenPos());
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::UpdateNodesIndices()
@@ -406,140 +406,140 @@ void GraphScene::UpdateNodesIndices()
 //----------------------------------------------------------------------------------------------
 void GraphScene::NewNode()
 {
-	if(m_pChoosePlanStepDlg->exec() == QDialog::Accepted)
-	{
-		unsigned planStepId = m_pChoosePlanStepDlg->SelectedPlanStepId();
-		PlanStepEx* planStep = NULL;
+    if(m_pChoosePlanStepDlg->exec() == QDialog::Accepted)
+    {
+        unsigned planStepId = m_pChoosePlanStepDlg->SelectedPlanStepId();
+        PlanStepEx* planStep = NULL;
 
-		if(BELONG(GoalType, planStepId))
-			planStep = g_GoalFactory.GetGoal((GoalType)planStepId, false);
-		else if(BELONG(ActionType, planStepId))
-			planStep = g_ActionFactory.GetAction((ActionType)planStepId, false);
+        if(BELONG(GoalType, planStepId))
+            planStep = g_GoalFactory.GetGoal((GoalType)planStepId, false);
+        else if(BELONG(ActionType, planStepId))
+            planStep = g_ActionFactory.GetAction((ActionType)planStepId, false);
 
-		assert(planStepId != NULL);
-		m_pPlanGraph->AddNode(planStep, m_pPlanGraph->Size());
-		RedrawScene();
-	}
+        assert(planStepId != NULL);
+        m_pPlanGraph->AddNode(planStep, m_pPlanGraph->Size());
+        RedrawScene();
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::NodeSelected()
 {
-	GraphNodeView* pNodeView =  NULL;
+    GraphNodeView* pNodeView =  NULL;
 
-	if(!selectedItems().empty())
-		pNodeView = dynamic_cast<GraphNodeView*>(selectedItems().first());
+    if(!selectedItems().empty())
+        pNodeView = dynamic_cast<GraphNodeView*>(selectedItems().first());
 
-	emit NodeSelected(pNodeView);
+    emit NodeSelected(pNodeView);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::DeleteNode()
 {
-	if(selectedItems().empty())
-		return;
+    if(selectedItems().empty())
+        return;
 
-	GraphNodeView* nodeItem = NULL;
-	foreach(QGraphicsItem *item, selectedItems())
-	{
-		nodeItem = dynamic_cast<GraphNodeView*>(item);
+    GraphNodeView* nodeItem = NULL;
+    foreach(QGraphicsItem *item, selectedItems())
+    {
+        nodeItem = dynamic_cast<GraphNodeView*>(item);
 
-		if(nodeItem == NULL)
-			continue;
+        if(nodeItem == NULL)
+            continue;
 
-		if(nodeItem->Index() == CaseGoalNodeIndex)
-			continue;
+        if(nodeItem->Index() == CaseGoalNodeIndex)
+            continue;
 
-		GraphNode<PlanStepEx*, EdgeAnnotation>* node = m_pPlanGraph->operator [](nodeItem->Index());
-		m_nodeModelViewMapping.erase(node->Value());
-		m_pPlanGraph->RemoveNode(nodeItem->Index());
-		UpdateNodesIndices();
+        GraphNode<PlanStepEx*, EdgeAnnotation>* node = m_pPlanGraph->operator [](nodeItem->Index());
+        m_nodeModelViewMapping.erase(node->Value());
+        m_pPlanGraph->RemoveNode(nodeItem->Index());
+        UpdateNodesIndices();
 
-		QList<GraphEdgeView*> disconnectedEdges = nodeItem->Disconnect();
+        QList<GraphEdgeView*> disconnectedEdges = nodeItem->Disconnect();
 
-		foreach(GraphEdgeView* edge, disconnectedEdges)
-			removeItem(edge);
+        foreach(GraphEdgeView* edge, disconnectedEdges)
+            removeItem(edge);
 
-		removeItem(item);
-	}
+        removeItem(item);
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::DeleteEdge()
 {
-	if(selectedItems().empty())
-		return;
+    if(selectedItems().empty())
+        return;
 
-	GraphEdgeView* edgeItem = NULL;
-	foreach(QGraphicsItem *item, selectedItems())
-	{
-		edgeItem = dynamic_cast<GraphEdgeView*>(item);
+    GraphEdgeView* edgeItem = NULL;
+    foreach(QGraphicsItem *item, selectedItems())
+    {
+        edgeItem = dynamic_cast<GraphEdgeView*>(item);
 
-		if(edgeItem == NULL)
-			continue;
+        if(edgeItem == NULL)
+            continue;
 
-		int start, end;
-		start	= edgeItem->StartNode()->Index();
-		end		= edgeItem->EndNode()->Index();
+        int start, end;
+        start    = edgeItem->StartNode()->Index();
+        end        = edgeItem->EndNode()->Index();
 
-		if(start != CaseGoalNodeIndex && end != CaseGoalNodeIndex)
-			m_pPlanGraph->Disconnect(start, end);
+        if(start != CaseGoalNodeIndex && end != CaseGoalNodeIndex)
+            m_pPlanGraph->Disconnect(start, end);
 
-		removeItem(item);
-	}
+        removeItem(item);
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::DuplicateNode()
 {
-	if(selectedItems().empty())
-		return;
+    if(selectedItems().empty())
+        return;
 
-	GraphNodeView* nodeItem = NULL;
-	foreach(QGraphicsItem *item, selectedItems())
-	{
-		nodeItem = dynamic_cast<GraphNodeView*>(item);
+    GraphNodeView* nodeItem = NULL;
+    foreach(QGraphicsItem *item, selectedItems())
+    {
+        nodeItem = dynamic_cast<GraphNodeView*>(item);
 
-		if(nodeItem == NULL)
-			continue;
+        if(nodeItem == NULL)
+            continue;
 
-		PlanStepEx* sourceNode = m_pPlanGraph->operator [](nodeItem->Index())->Value();
-		m_pPlanGraph->AddNode((PlanStepEx*)sourceNode->Clone(), m_pPlanGraph->Size());
-		//m_planGraph->AddNode(newNode->Clone(), m_planGraph->Size());
-	}
+        PlanStepEx* sourceNode = m_pPlanGraph->operator [](nodeItem->Index())->Value();
+        m_pPlanGraph->AddNode((PlanStepEx*)sourceNode->Clone(), m_pPlanGraph->Size());
+        //m_planGraph->AddNode(newNode->Clone(), m_planGraph->Size());
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::ConnectNodes(GraphNodeView* p_start, GraphNodeView* p_end)
 {
-	if(p_start != NULL && p_end != NULL && p_start->Index() != CaseGoalNodeIndex && p_end->Index() != CaseGoalNodeIndex)
-		m_pPlanGraph->Connect(p_start->Index(), p_end->Index(), SVector<Expression*>());
+    if(p_start != NULL && p_end != NULL && p_start->Index() != CaseGoalNodeIndex && p_end->Index() != CaseGoalNodeIndex)
+        m_pPlanGraph->Connect(p_start->Index(), p_end->Index(), SVector<Expression*>());
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::DisconnectNode()
 {
-	if(selectedItems().empty())
-		return;
+    if(selectedItems().empty())
+        return;
 
-	GraphNodeView* nodeItem = NULL;
-	foreach(QGraphicsItem *item, selectedItems())
-	{
-		nodeItem = dynamic_cast<GraphNodeView*>(item);
+    GraphNodeView* nodeItem = NULL;
+    foreach(QGraphicsItem *item, selectedItems())
+    {
+        nodeItem = dynamic_cast<GraphNodeView*>(item);
 
-		if(nodeItem == NULL)
-			continue;
+        if(nodeItem == NULL)
+            continue;
 
-		if(nodeItem->Index() == CaseGoalNodeIndex)
-			continue;
+        if(nodeItem->Index() == CaseGoalNodeIndex)
+            continue;
 
-		GraphNode<PlanStepEx*, EdgeAnnotation>* node = m_pPlanGraph->operator [](nodeItem->Index());
-		QList<GraphEdgeView*> disconnectedEdges = nodeItem->Disconnect();
-		
-		foreach(GraphEdgeView* edge, disconnectedEdges)
-		{
-			if (edge->StartNode()->Index() == CaseGoalNodeIndex ||
-				edge->EndNode()->Index() == CaseGoalNodeIndex)
-				continue;
+        GraphNode<PlanStepEx*, EdgeAnnotation>* node = m_pPlanGraph->operator [](nodeItem->Index());
+        QList<GraphEdgeView*> disconnectedEdges = nodeItem->Disconnect();
+        
+        foreach(GraphEdgeView* edge, disconnectedEdges)
+        {
+            if (edge->StartNode()->Index() == CaseGoalNodeIndex ||
+                edge->EndNode()->Index() == CaseGoalNodeIndex)
+                continue;
 
-			m_pPlanGraph->Disconnect(edge->StartNode()->Index(), edge->EndNode()->Index());
-			removeItem(edge);
-		}
-	}
+            m_pPlanGraph->Disconnect(edge->StartNode()->Index(), edge->EndNode()->Index());
+            removeItem(edge);
+        }
+    }
 }
 //----------------------------------------------------------------------------------------------
 bool GraphScene::event( QEvent * e )

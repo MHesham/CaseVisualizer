@@ -25,10 +25,10 @@ using namespace IStrategizer;
 using namespace std;
 
 GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
-	: QGraphicsRectItem(p_parent)
+    : QGraphicsRectItem(p_parent)
 {
-	m_nodeModel	= p_planStep;
-	m_contextMenu = p_contextMeun;
+    m_nodeModel    = p_planStep;
+    m_contextMenu = p_contextMeun;
 
     string nodeName = m_nodeModel->ToString();
     size_t findLeftParanPos = nodeName.find("(");
@@ -48,64 +48,64 @@ GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGrap
     // Measure text width and set the node width accordingly with small padding
     QFontMetrics fontMetric(m_style.TxtFont);
 
-    m_nodeHeight	= fontMetric.height() + 20;
-    m_nodeWidth		= fontMetric.width(m_nodeTxt) + 20;
+    m_nodeHeight    = fontMetric.height() + 20;
+    m_nodeWidth        = fontMetric.width(m_nodeTxt) + 20;
 
-	setToolTip(QString::fromLocal8Bit(p_planStep->TypeName().c_str()));
-	setFlag(QGraphicsItem::ItemIsSelectable, true);
-	setFlag(QGraphicsItem::ItemIsMovable, true);
+    setToolTip(QString::fromLocal8Bit(p_planStep->TypeName().c_str()));
+    setFlag(QGraphicsItem::ItemIsSelectable, true);
+    setFlag(QGraphicsItem::ItemIsMovable, true);
 }
 //----------------------------------------------------------------------------------------------
 void GraphNodeView::AddEdge(GraphEdgeView* p_edge)
 {
-	m_edges.append(p_edge);
+    m_edges.append(p_edge);
 }
 //----------------------------------------------------------------------------------------------
 void GraphNodeView::RemoveEdge(GraphEdgeView* p_edge)
 {
-	QList<GraphEdgeView*>::iterator where = find(m_edges.begin(), m_edges.end(), p_edge);
+    QList<GraphEdgeView*>::iterator where = find(m_edges.begin(), m_edges.end(), p_edge);
 
-	if(where != m_edges.end())
-		m_edges.erase(where);
+    if(where != m_edges.end())
+        m_edges.erase(where);
 }
 //----------------------------------------------------------------------------------------------
 QList<GraphEdgeView*> GraphNodeView::Disconnect()
 {
-	GraphNodeView *other = NULL;
-	QList<GraphEdgeView*> edges(m_edges);
+    GraphNodeView *other = NULL;
+    QList<GraphEdgeView*> edges(m_edges);
 
-	foreach(GraphEdgeView* edge, edges)
-	{
-		if(edge->StartNode() != this)
-			other = edge->StartNode();
-		else
-			other = edge->EndNode();
+    foreach(GraphEdgeView* edge, edges)
+    {
+        if(edge->StartNode() != this)
+            other = edge->StartNode();
+        else
+            other = edge->EndNode();
 
-		other->RemoveEdge(edge);
-		this->RemoveEdge(edge);
-	}
+        other->RemoveEdge(edge);
+        this->RemoveEdge(edge);
+    }
 
-	return edges;
+    return edges;
 }
 //----------------------------------------------------------------------------------------------
 QVariant GraphNodeView::itemChange(GraphicsItemChange change,
-								 const QVariant &value)
+                                 const QVariant &value)
 {
-	if (change == QGraphicsItem::ItemPositionChange) 
-	{
-		foreach (GraphEdgeView *edge, m_edges) 
-		{
-			edge->UpdatePosition();
-		}
-	}
+    if (change == QGraphicsItem::ItemPositionChange) 
+    {
+        foreach (GraphEdgeView *edge, m_edges) 
+        {
+            edge->UpdatePosition();
+        }
+    }
 
-	return value;
+    return value;
 }
 //----------------------------------------------------------------------------------------------
 void GraphNodeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p_option, QWidget *p_widget)
 { 
-	QGraphicsRectItem::paint(p_painter, p_option, p_widget);
-	
+    QGraphicsRectItem::paint(p_painter, p_option, p_widget);
+    
     m_style = GetStyle();
 
     setBrush(m_style.BackgroundBrush);
@@ -120,8 +120,8 @@ void GraphNodeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
         // Measure text width and set the node width accordingly with small padding
     QFontMetrics fontMetric(m_style.TxtFont);
 
-    m_nodeHeight	= fontMetric.height() + 20;
-    m_nodeWidth		= fontMetric.width(m_nodeTxt) + 20;
+    m_nodeHeight    = fontMetric.height() + 20;
+    m_nodeWidth        = fontMetric.width(m_nodeTxt) + 20;
 
     // Call setRect ONLY in case the node dimensions changed, if it is called each paint
     // it will cause infinite loop (and lead to stack overflow) because setRect always
@@ -129,16 +129,16 @@ void GraphNodeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
     if (rect().width() != m_nodeWidth || rect().height() != m_nodeHeight)
         setRect(0, 0, m_nodeWidth, m_nodeHeight);
 
-	p_painter->drawText(this->rect(), m_nodeTxt, textOption);
+    p_painter->drawText(this->rect(), m_nodeTxt, textOption);
 }
 //----------------------------------------------------------------------------------------------
 void GraphNodeView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 {
-	event->accept();
-	scene()->clearSelection();
-	setSelected(true);
-	if(m_contextMenu != NULL)
-		m_contextMenu->exec(event->screenPos());
+    event->accept();
+    scene()->clearSelection();
+    setSelected(true);
+    if(m_contextMenu != NULL)
+        m_contextMenu->exec(event->screenPos());
 }
 //////////////////////////////////////////////////////////////////////////
 GraphNodeView::NodeStyle GraphNodeView::GetStyle()

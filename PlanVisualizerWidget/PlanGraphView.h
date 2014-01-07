@@ -13,28 +13,28 @@ class QGraphicsView;
 
 namespace IStrategizer
 {
-	class PlanGraph;
-	class GraphScene;
-	class PlanStepView;
-	class GraphNodeView;
-	class GoalEx;
+    class PlanGraph;
+    class GraphScene;
+    class PlanStepView;
+    class GraphNodeView;
+    class GoalEx;
 
-	class PlanGraphView : public QWidget
-	{
-		Q_OBJECT
+    class PlanGraphView : public QWidget
+    {
+        Q_OBJECT
 
-	public:
-		PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, std::string>* p_idLookup, QWidget *p_parent = 0);
+    public:
+        PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, std::string>* p_idLookup, QWidget *p_parent = 0);
         
-		void View(IPlanDigraph* pPlanGraph);
-		void SetMode(int p_mode);
+        void View(IPlanDigraph* pPlanGraph);
+        void SetMode(int p_mode);
         void OnPlanStructureChange();
 
-	private:
-		Ui::PlanGraphViewClass	ui;
-		QGraphicsView*			m_graphicsView;		
-		GraphScene*				m_scene;
-		PlanStepView*			m_planStepView;
+    private:
+        Ui::PlanGraphViewClass    ui;
+        QGraphicsView*            m_graphicsView;        
+        GraphScene*                m_scene;
+        PlanStepView*            m_planStepView;
 
         private slots:
             void HandleNodeSelected(GraphNodeView* p_node);

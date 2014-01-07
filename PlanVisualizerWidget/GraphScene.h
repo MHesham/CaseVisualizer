@@ -61,9 +61,9 @@ namespace IStrategizer
 
         //************************************
         // IStrategizer::GraphScene::OnGraphStructureChange
-        // Description:	Called when the model graph nodes structure change, which gives the graph
+        // Description:    Called when the model graph nodes structure change, which gives the graph
         // scene a chance to redraw and layout the graph view
-        // Returns:   	void
+        // Returns:       void
         //************************************
         virtual void OnGraphStructureChange();
 
@@ -93,7 +93,7 @@ namespace IStrategizer
         std::map<PlanStepEx*, GraphNodeView*> m_nodeModelViewMapping;
         std::map<int, GraphNodeView*> m_nodeIndexViewMapping;
         IPlanDigraph *m_pGraph;
-        std::vector< std::vector<NodeID> >	m_graphLevels;
+        std::vector< std::vector<NodeID> >    m_graphLevels;
         std::map<NodeID, GraphNodeView*> m_nodeIdToNodeViewMap;
         int updateTimerId;
 
@@ -102,9 +102,9 @@ namespace IStrategizer
 
         //************************************
         // IStrategizer::GraphScene::ComputeGraphLevels
-        // Description:	Do a BFS traversal on the graph to decide node levels to be used
+        // Description:    Do a BFS traversal on the graph to decide node levels to be used
         // in graph layout and drawing
-        // Returns:   	void
+        // Returns:       void
         //************************************
         void ComputeGraphLevels();
 
@@ -131,8 +131,8 @@ namespace IStrategizer
 
         //************************************
         // IStrategizer::GraphScene::OnGraphRedraw
-        // Description:	Called periodically to redraw each node in the graph
-        // Returns:   	void
+        // Description:    Called periodically to redraw each node in the graph
+        // Returns:       void
         //************************************
         void OnGraphRedraw();
 
