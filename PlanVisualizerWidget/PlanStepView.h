@@ -18,30 +18,30 @@ using namespace stdext;
 
 namespace IStrategizer
 {
-	class PlanStepEx;
-	class ParameterEdit;
+    class PlanStepEx;
+    class ParameterEdit;
 
-	class PlanStepView : public QWidget
-	{
-		Q_OBJECT
+    class PlanStepView : public QWidget
+    {
+        Q_OBJECT
 
-	public:
-		PlanStepView(CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
-		void View(PlanStepEx* p_planStep);
-		~PlanStepView();
+    public:
+        PlanStepView(CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
+        void View(PlanStepEx* p_planStep);
+        ~PlanStepView();
 
-	private:
-		CrossMap<unsigned, std::string>*	m_idLookup;
-		PlanStepEx* m_planStep;
-		ParameterEdit* m_paramEditDialog;
-		void ViewParameters( const PlanStepParameters* p_params );
-		void ViewConditions(const PlanStepEx* p_planStep);
-		Ui::PlanStepViewClass ui;
+    private:
+        CrossMap<unsigned, std::string>* m_idLookup;
+        PlanStepEx* m_planStep;
+        ParameterEdit* m_paramEditDialog;
+        void ViewParameters( const PlanStepParameters* p_params );
+        void ViewConditions(const PlanStepEx* p_planStep);
+        Ui::PlanStepViewClass ui;
 
-		private slots:
-			void on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item);
-			void EditSelectedParameter();
-	};
+        private slots:
+            void on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item);
+            void EditSelectedParameter();
+    };
 }
 
 #endif // PLANSTEPVIEW_H
