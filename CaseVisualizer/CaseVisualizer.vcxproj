@@ -79,6 +79,7 @@
       <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
       <WarningLevel>Level4</WarningLevel>
       <DisableSpecificWarnings>4480;4290;4100;4481;4127</DisableSpecificWarnings>
+      <MinimalRebuild>true</MinimalRebuild>
     </ClCompile>
     <Link>
       <AdditionalDependencies>qtmaind.lib;Qt5Cored.lib;Qt5Guid.lib;IStrategizerD.lib;ObjectSerializer.lib;Qt5Widgetsd.lib;Qt5OpenGLd.lib;opengl32.lib;glu32.lib;PlanVisualizerWidget.lib;%(AdditionalDependencies)</AdditionalDependencies>
