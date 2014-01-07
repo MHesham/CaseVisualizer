@@ -37,6 +37,7 @@
 #include <QGraphicsSceneMouseEvent>
 #include <QPen>
 #include <QAction>
+#include <QTimer>
 
 using namespace IStrategizer;
 using namespace Serialization;
@@ -44,9 +45,6 @@ using namespace std;
 
 GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent) : QGraphicsScene(p_parent)
 {
-	m_cellSize				= DefaultCellSize;
-	m_nodeHeight			= DefaultNodeHeight;
-	m_nodeWidth				= DefaultNodeWidth;
 	m_horizontalNodeSpacing = DefaultHorizontalNodeSpacing;
 	m_verticalNodeSpacing	= DefaultVerticalNodeSpacing;
 	m_pNodeMenu				= nullptr;
@@ -55,8 +53,10 @@ GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent
 	m_mode					= MODE_Move;
 	m_pConnectionLine		= nullptr;
     m_pGraph                = nullptr;
+    m_cellSize              = DefaultGridCellSize;
 
 	connect(this, SIGNAL(selectionChanged()), SLOT(NodeSelected()));
+    updateTimerId = startTimer(GraphRedrawIntervalMs);
 
 	CreateMenus();
 	CreateGrid();
@@ -110,7 +110,7 @@ void GraphScene::CreateSceneMenu()
 
 	QAction *layoutGraph = new QAction(tr("L&ayout Plan"), this);
 	layoutGraph->setStatusTip(tr("Layout plan graph in the scene"));
-	connect(layoutGraph, SIGNAL(triggered()), this, SLOT(UpdateView()));
+	connect(layoutGraph, SIGNAL(triggered()), this, SLOT(RedrawScene()));
 
 	m_sceneMenu = new QMenu(tr("Scene Menu"));
 	m_sceneMenu->setTearOffEnabled(true);
@@ -123,13 +123,13 @@ void GraphScene::View(IPlanDigraph* pPlan)
     m_pGraph = pPlan;
 }
 //----------------------------------------------------------------------------------------------
-void GraphScene::UpdateView()
+void GraphScene::RedrawScene()
 {
     clear();	
 
 	CreateGrid();
 	ConstructGraph();
-	LayoutGraph();
+    LayoutGraph();
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateGrid()
@@ -170,8 +170,6 @@ void GraphScene::ConstructGraph()
             pNodeView = new GraphNodeView(pNodeModel, m_pNodeMenu, nullptr);
 
             m_nodeIdToNodeViewMap[nodeId] = pNodeView;
-
-			pNodeView->setRect(0, 0, m_nodeWidth, m_nodeHeight);
 
 			addItem(pNodeView);
 		}
@@ -252,23 +250,17 @@ void GraphScene::LayoutGraph()
 
 	GraphNodeView* pNodeView	= nullptr;
 	PlanStepEx* pNodeModel	= nullptr;
-	int x, y;
-	int levelWidth, leveStartlX;
+	int currNodeX;
+	int levelWidth, levelHeight;
+    int leveStartlX, levelStartY;
 
 	for (size_t currLevel = 0 ; currLevel < m_graphLevels.size(); ++currLevel)
 	{
+        levelWidth = ComputeLevelWidth(currLevel);
+        levelHeight = ComputeLevelHeight(currLevel);
+
         // Calculate the level drawing start y coordinate
-		y = m_verticalNodeSpacing + (currLevel * (m_nodeHeight + m_verticalNodeSpacing));
-
-        levelWidth = 0;
-
-        // Calculate the level width
-        for each (NodeID nodeID in m_graphLevels[currLevel])
-        {
-            levelWidth += m_nodeIdToNodeViewMap[nodeID]->NodeTxtWidth();
-        }
-
-		levelWidth += ((m_graphLevels[currLevel].size() - 1) * m_horizontalNodeSpacing);
+		levelStartY = m_verticalNodeSpacing + (currLevel * (levelHeight + m_verticalNodeSpacing));
 
         // Calculate the level drawing start x coordinate
 		leveStartlX = (width() - levelWidth) / 2.0;
@@ -277,14 +269,59 @@ void GraphScene::LayoutGraph()
 		for (size_t currNodeIdx = 0 ; currNodeIdx < m_graphLevels[currLevel].size(); ++currNodeIdx)
 		{
             NodeID currNodeId = m_graphLevels[currLevel][currNodeIdx];
-            int nodeWidth = m_nodeIdToNodeViewMap[currNodeId]->NodeTxtWidth();
+            int nodeWidth = m_nodeIdToNodeViewMap[currNodeId]->NodeWidth();
 
             // Calculate current node drawing start x coordinate
-			x = leveStartlX + (currNodeIdx  * (nodeWidth + m_horizontalNodeSpacing));
+			currNodeX = leveStartlX + (currNodeIdx  * (nodeWidth + m_horizontalNodeSpacing));
 
-			m_nodeIdToNodeViewMap[currNodeId]->setPos(QPointF(x, y));
+			m_nodeIdToNodeViewMap[currNodeId]->setPos(QPointF(currNodeX, levelStartY));
 		}
 	}
+}
+//----------------------------------------------------------------------------------------------
+int IStrategizer::GraphScene::ComputeLevelWidth(int levelIdx)
+{
+    int levelWidth = 0;
+
+    // Sum the width of all level nodes
+    for each (NodeID nodeID in m_graphLevels[levelIdx])
+    {
+        levelWidth += m_nodeIdToNodeViewMap[nodeID]->NodeWidth();
+    }
+
+    // Take into account the inter node horizontal spacing
+    levelWidth += ((m_graphLevels[levelIdx].size() - 1) * m_horizontalNodeSpacing);
+
+    return levelWidth;
+}
+//----------------------------------------------------------------------------------------------
+int IStrategizer::GraphScene::ComputeLevelHeight(int levelIdx)
+{
+    int levelHeight = 0;
+
+    // Level height is the height of the node with the largest height
+    for each (NodeID nodeID in m_graphLevels[levelIdx])
+    {
+        levelHeight = max(levelHeight, m_nodeIdToNodeViewMap[nodeID]->NodeHeight());
+    }
+
+    return levelHeight;
+}
+//----------------------------------------------------------------------------------------------
+void IStrategizer::GraphScene::timerEvent(QTimerEvent *event)
+{
+    if (event->timerId() == updateTimerId)
+        OnGraphRedraw();
+}
+//----------------------------------------------------------------------------------------------
+void GraphScene::OnGraphStructureChange()
+{
+    QApplication::postEvent(this, new QEvent((QEvent::Type)SCENEEVT_GraphStructureChange));
+}
+//----------------------------------------------------------------------------------------------
+void GraphScene::OnGraphRedraw()
+{
+    QApplication::postEvent(this, new QEvent((QEvent::Type)SCENEEVT_GraphRedraw));
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
@@ -336,7 +373,7 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 			GraphNodeView *startNode = qgraphicsitem_cast<GraphNodeView *>(startItems.first());
 			GraphNodeView *endNode = qgraphicsitem_cast<GraphNodeView *>(endItems.first());
 			ConnectNodes(startNode, endNode);
-			UpdateView();
+			RedrawScene();
 		}
 	}
 
@@ -381,7 +418,7 @@ void GraphScene::NewNode()
 
 		assert(planStepId != NULL);
 		m_pPlanGraph->AddNode(planStep, m_pPlanGraph->Size());
-		UpdateView();
+		RedrawScene();
 	}
 }
 //----------------------------------------------------------------------------------------------
@@ -507,9 +544,17 @@ void GraphScene::DisconnectNode()
 //----------------------------------------------------------------------------------------------
 bool GraphScene::event( QEvent * e )
 {
-    if (e->type() == QEvent::User)
+    assert(e);
+    SceneEvent evt = (SceneEvent)e->type();
+
+    if (evt == SCENEEVT_GraphStructureChange)
     {
-        UpdateView();
+        RedrawScene();
+        return true;
+    }
+    else if (evt == SCENEEVT_GraphRedraw)
+    {
+        update();
         return true;
     }
     else

@@ -58,7 +58,6 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 	CreateToolBox();
 
     IStrategizer::Init();
-    SerializationEssentials::Init();
 
 	if (InitIdLookup())
 	{

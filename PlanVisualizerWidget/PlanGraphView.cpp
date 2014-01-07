@@ -84,5 +84,5 @@ void PlanGraphView::HandleNodeSelected(GraphNodeView* p_node)
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::OnPlanStructureChange()
 {
-    QApplication::postEvent(m_scene, new QEvent(QEvent::User));
+    m_scene->OnGraphStructureChange();
 }

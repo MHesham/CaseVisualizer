@@ -27,23 +27,8 @@ using namespace std;
 GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
 	: QGraphicsRectItem(p_parent)
 {
-	m_nodeModel		= p_planStep;
-	m_nodeHeight	= DefaultNodeHeight;
-	m_nodeWidth		= DefaultNodeWidth;
-	m_contextMenu	= p_contextMeun;
-
-    if(BELONG(GoalType, p_planStep->StepTypeId()))
-	{
-		QColor color(0, 0, 255, 192);
-		QBrush brush(color, Qt::SolidPattern);
-		setBrush(brush);
-	}
-	else
-	{
-		QColor color(0, 255, 0, 192);
-		QBrush brush(color, Qt::SolidPattern);
-		setBrush(brush);
-	}
+	m_nodeModel	= p_planStep;
+	m_contextMenu = p_contextMeun;
 
     string nodeName = m_nodeModel->ToString();
     size_t findLeftParanPos = nodeName.find("(");
@@ -55,12 +40,16 @@ GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGrap
 
     m_nodeTxt = QString::fromStdString(nodeName);
 
-    m_nodeTxtFont.setBold(true);
-    m_nodeTxtFont.setPixelSize(20);
+    m_style = GetStyle();
+
+    setBrush(m_style.BackgroundBrush);
+    setPen(m_style.BorderPen);
 
     // Measure text width and set the node width accordingly with small padding
-    QFontMetrics fontMetric(m_nodeTxtFont);
-    m_nodeTxtWidth = fontMetric.width(m_nodeTxt) + 10;
+    QFontMetrics fontMetric(m_style.TxtFont);
+
+    m_nodeHeight	= fontMetric.height() + 20;
+    m_nodeWidth		= fontMetric.width(m_nodeTxt) + 20;
 
 	setToolTip(QString::fromLocal8Bit(p_planStep->TypeName().c_str()));
 	setFlag(QGraphicsItem::ItemIsSelectable, true);
@@ -117,12 +106,28 @@ void GraphNodeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
 { 
 	QGraphicsRectItem::paint(p_painter, p_option, p_widget);
 	
+    m_style = GetStyle();
+
+    setBrush(m_style.BackgroundBrush);
+    setPen(m_style.BorderPen);
+    
     QTextOption textOption;
     textOption.setAlignment(Qt::AlignCenter);
 
-    setRect(0, 0, m_nodeTxtWidth, m_nodeHeight);
+    p_painter->setFont(m_style.TxtFont);
+    p_painter->setPen(m_style.TxtPen);
 
-    p_painter->setFont(m_nodeTxtFont);
+        // Measure text width and set the node width accordingly with small padding
+    QFontMetrics fontMetric(m_style.TxtFont);
+
+    m_nodeHeight	= fontMetric.height() + 20;
+    m_nodeWidth		= fontMetric.width(m_nodeTxt) + 20;
+
+    // Call setRect ONLY in case the node dimensions changed, if it is called each paint
+    // it will cause infinite loop (and lead to stack overflow) because setRect always
+    // case the node to repaint
+    if (rect().width() != m_nodeWidth || rect().height() != m_nodeHeight)
+        setRect(0, 0, m_nodeWidth, m_nodeHeight);
 
 	p_painter->drawText(this->rect(), m_nodeTxt, textOption);
 }
@@ -135,3 +140,54 @@ void GraphNodeView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
 	if(m_contextMenu != NULL)
 		m_contextMenu->exec(event->screenPos());
 }
+//////////////////////////////////////////////////////////////////////////
+GraphNodeView::NodeStyle GraphNodeView::GetStyle()
+{
+    NodeStyle style;
+
+    Qt::GlobalColor bgBrushColor;
+    Qt::GlobalColor txtPenColor = Qt::black;
+    Qt::GlobalColor borderColor = Qt::black;
+
+    switch (m_nodeModel->State())
+    {
+    case ESTATE_Failed:
+        bgBrushColor = Qt::red;
+        break;
+    case ESTATE_Succeeded:
+        bgBrushColor = Qt::green;
+        break;
+    case ESTATE_NotPrepared:
+        bgBrushColor = Qt::lightGray;
+        break;
+    case ESTATE_Pending:
+        bgBrushColor = Qt::yellow;
+        break;
+    case ESTATE_Executing:
+        bgBrushColor = Qt::blue;
+        txtPenColor = Qt::white;
+        break;
+    default:
+        bgBrushColor = Qt::white;
+        break;
+    }
+
+    style.BackgroundBrush = QBrush(bgBrushColor, Qt::SolidPattern);
+    style.BorderPen = QPen(QColor(borderColor));
+    style.TxtPen = QPen(QColor(txtPenColor));
+
+    if (BELONG(GoalType, m_nodeModel->StepTypeId()))
+    {
+        style.TxtFont.setBold(true);
+        style.TxtFont.setPixelSize(26);
+        style.BorderPen.setWidth(2);
+    }
+    else
+    {
+        //style.TxtFont.setBold(true);
+        style.TxtFont.setPixelSize(22);
+        style.BorderPen.setWidth(1);
+    }
+
+    return style;
+} 

@@ -3,7 +3,9 @@
 
 #include <QGraphicsRectItem>
 #include <QList>
+#include <QPen>
 #include <QFont>
+#include <QBrush>
 
 class QGraphicsItem;
 class QGraphicsScene;
@@ -23,6 +25,14 @@ namespace IStrategizer
 	class GraphNodeView : public QGraphicsRectItem
 	{
 	public:
+        struct NodeStyle
+        {
+            QBrush BackgroundBrush;
+            QPen BorderPen;
+            QPen TxtPen;
+            QFont TxtFont;
+        };
+
 		GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMenu, QGraphicsItem *p_parent = 0);
 		void RemoveEdge(GraphEdgeView* p_edge);
 		QList<GraphEdgeView*> Disconnect();
@@ -31,12 +41,14 @@ namespace IStrategizer
 		void AddEdge(GraphEdgeView* p_edge);
 		int Index() const { return m_index; }
 		void Index(int p_index) { m_index = p_index; }
-        int NodeTxtWidth() const { return m_nodeTxtWidth; }
+        int NodeWidth() const { return m_nodeWidth; }
+        int NodeHeight() const { return m_nodeHeight; }
 
 	protected:
 		QVariant itemChange(GraphicsItemChange change, const QVariant &value);
 		void paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p_option, QWidget *p_widget = 0);
 		void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
+        NodeStyle GetStyle();
 
 	private:
 		int m_nodeWidth;
@@ -45,9 +57,8 @@ namespace IStrategizer
 		int m_index;
 		PlanStepEx* m_nodeModel;
         QString m_nodeTxt;
-        int m_nodeTxtWidth;
-        QFont m_nodeTxtFont;
         QList<GraphEdgeView*> m_edges;
+        NodeStyle   m_style;
 	};
 }
 
