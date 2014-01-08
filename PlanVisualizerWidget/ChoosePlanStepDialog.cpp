@@ -14,12 +14,26 @@
 #endif
 using namespace IStrategizer;
 
-ChoosePlanStepDialog::ChoosePlanStepDialog(CrossMap<unsigned, string>* p_idLookup, bool p_goals, bool p_actions, QWidget *parent)
-: QDialog(parent, Qt::FramelessWindowHint)
+ChoosePlanStepDialog::ChoosePlanStepDialog(CrossMap<unsigned, string>* p_idLookup, bool p_chooseGoals, bool p_chooseActions, QWidget *parent)
+: QDialog(parent, Qt::FramelessWindowHint),
+m_chooseGoals(p_chooseGoals),
+m_chooseActions(p_chooseActions),
+m_autoComplete(nullptr),
+m_initialized(false)
 {
     ui.setupUi(this);
     m_idLookup = p_idLookup;
-    InitializePlanStepList(p_goals, p_actions);
+}
+//----------------------------------------------------------------------------------------------
+int ChoosePlanStepDialog::exec()
+{
+    if (!m_initialized)
+    {
+        InitializePlanStepList(m_chooseGoals, m_chooseActions);
+        m_initialized = true;
+    }
+
+    return QDialog::exec();
 }
 //----------------------------------------------------------------------------------------------
 void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
@@ -63,7 +77,7 @@ void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
         }
     }
 
-    m_autoComplete = new QCompleter(planStepList);
+    m_autoComplete = new QCompleter(planStepList, this);
     ui.comboBox->setCompleter(m_autoComplete);
     ui.comboBox->setEditable(true);
     ui.comboBox->addItems(planStepList);
@@ -101,9 +115,4 @@ void ChoosePlanStepDialog::on_btnOK_clicked()
 void ChoosePlanStepDialog::on_btnCancel_clicked()
 {
     this->reject();
-}
-//----------------------------------------------------------------------------------------------
-ChoosePlanStepDialog::~ChoosePlanStepDialog()
-{
-    Toolbox::MemoryClean(m_autoComplete);
 }

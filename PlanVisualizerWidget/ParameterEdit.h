@@ -20,7 +20,6 @@ namespace IStrategizer
         ParameterEdit(std::string p_paramName, std::string p_paramValue, CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
 
         void InitializeAutoComplete();
-        ~ParameterEdit();
         int exec();
         std::string ParamName() const { return m_paramName; }
         void ParamName(const std::string& p_paramName) { m_paramName = p_paramName; }
@@ -33,6 +32,7 @@ namespace IStrategizer
         std::string m_paramValue;
         CrossMap<unsigned, std::string>* m_idLookup;
         QCompleter* m_autoComplete;
+        bool m_initialized;
 
     private slots:
         void on_btnCancel_clicked();

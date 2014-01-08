@@ -81,9 +81,9 @@ bool CaseVisualizer::InitIdLookup()
         return false;
     }
 
-    // Read engine specific IDs
     for (unsigned currID = 0; currID < ENUMS_SIZE; ++currID)
     {
+        // Read engine specific IDs form Enums to the IdLookup
         if (!BELONG(EntityClassType, currID) &&
             !BELONG(ResearchType, currID))
         {
@@ -91,6 +91,11 @@ bool CaseVisualizer::InitIdLookup()
             {
                 m_idLookup.SetByFirst(currID, string(Enums[currID]));
             }
+        }
+        // Read game specific IDs from Idlookup to Enums if such IDs are valid game type ids
+        else if (Enums[currID] == nullptr && m_idLookup.ContainsFirst(currID))
+        {
+            Enums[currID] = _strdup(m_idLookup.GetByFirst(currID).c_str());
         }
     }
 

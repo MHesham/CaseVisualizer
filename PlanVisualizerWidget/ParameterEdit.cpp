@@ -9,15 +9,15 @@
 using namespace IStrategizer;
 
 ParameterEdit::ParameterEdit(string p_paramName, string p_paramValue, CrossMap<unsigned, string>* p_idLookup, QWidget *parent)
-: QDialog(parent, Qt::FramelessWindowHint)
+: QDialog(parent, Qt::FramelessWindowHint),
+m_autoComplete(nullptr),
+m_initialized(false)
 {
     ui.setupUi(this);
 
     m_paramName = p_paramName;
     m_paramValue = p_paramValue;
     m_idLookup = p_idLookup;
-
-    InitializeAutoComplete();
 }
 //----------------------------------------------------------------------------------------------
 void ParameterEdit::InitializeAutoComplete()
@@ -31,7 +31,7 @@ void ParameterEdit::InitializeAutoComplete()
         qtStringParamValues << QString::fromLocal8Bit(stdStringValues[i].c_str());
     }
 
-    m_autoComplete = new QCompleter(qtStringParamValues);
+    m_autoComplete = new QCompleter(qtStringParamValues, this);
     m_autoComplete->setCompletionMode(QCompleter::PopupCompletion);
     m_autoComplete->setCaseSensitivity(Qt::CaseInsensitive);
     ui.lineEditParamValue->setCompleter(m_autoComplete);
@@ -39,8 +39,15 @@ void ParameterEdit::InitializeAutoComplete()
 //----------------------------------------------------------------------------------------------
 int ParameterEdit::exec()
 {
-    ui.lblActualParamName->setText(QString::fromLocal8Bit(m_paramName.c_str()));
-    ui.lineEditParamValue->setText(QString::fromLocal8Bit(m_paramValue.c_str()));
+    if (!m_initialized)
+    {
+        InitializeAutoComplete();
+        ui.lblActualParamName->setText(QString::fromLocal8Bit(m_paramName.c_str()));
+        ui.lineEditParamValue->setText(QString::fromLocal8Bit(m_paramValue.c_str()));
+
+        m_initialized = true;
+    }
+
 
     return QDialog::exec();
 }
@@ -55,9 +62,4 @@ void ParameterEdit::on_btnOK_clicked()
 void ParameterEdit::on_btnCancel_clicked()
 {
     this->reject();
-}
-//----------------------------------------------------------------------------------------------
-ParameterEdit::~ParameterEdit()
-{
-    Toolbox::MemoryClean(m_autoComplete);
 }

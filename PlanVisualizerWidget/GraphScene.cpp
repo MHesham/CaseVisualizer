@@ -46,14 +46,14 @@ using namespace std;
 GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent) : QGraphicsScene(p_parent)
 {
     m_horizontalNodeSpacing = DefaultHorizontalNodeSpacing;
-    m_verticalNodeSpacing    = DefaultVerticalNodeSpacing;
-    m_pNodeMenu                = nullptr;
-    m_pPlanGraph            = nullptr;
-    m_pChoosePlanStepDlg    = new ChoosePlanStepDialog(p_idLookup, true, true);
-    m_mode                    = MODE_Move;
-    m_pConnectionLine        = nullptr;
-    m_pGraph                = nullptr;
-    m_cellSize              = DefaultGridCellSize;
+    m_verticalNodeSpacing = DefaultVerticalNodeSpacing;
+    m_pNodeMenu = nullptr;
+    m_pPlanGraph = nullptr;
+    m_pChoosePlanStepDlg = new ChoosePlanStepDialog(p_idLookup, true, true);
+    m_pointerMode = PTRMODE_Move;
+    m_pConnectionLine = nullptr;
+    m_pGraph = nullptr;
+    m_cellSize = DefaultGridCellSize;
 
     connect(this, SIGNAL(selectionChanged()), SLOT(NodeSelected()));
     updateTimerId = startTimer(GraphRedrawIntervalMs);
@@ -329,7 +329,7 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
     if (p_mouseEvent->button() != Qt::LeftButton)
         return;
 
-    if(m_mode == MODE_Connect)
+    if(m_pointerMode == MODE_Connect)
     {
         m_pConnectionLine = new QGraphicsLineItem(QLineF(p_mouseEvent->scenePos(), p_mouseEvent->scenePos()));
         m_pConnectionLine->setPen(QPen(QColor("black"), 2));
@@ -341,12 +341,12 @@ void GraphScene::mousePressEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 //----------------------------------------------------------------------------------------------
 void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 {
-    if (m_mode == MODE_Connect && m_pConnectionLine != 0) 
+    if (m_pointerMode == MODE_Connect && m_pConnectionLine != 0) 
     {
         QLineF newLine(m_pConnectionLine->line().p1(), p_mouseEvent->scenePos());
         m_pConnectionLine->setLine(newLine);
     } 
-    else if (m_mode == MODE_Move) 
+    else if (m_pointerMode == PTRMODE_Move) 
     {
         QGraphicsScene::mouseMoveEvent(p_mouseEvent);
     }
@@ -354,7 +354,7 @@ void GraphScene::mouseMoveEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 //----------------------------------------------------------------------------------------------
 void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
 {
-    if (m_pConnectionLine != 0 && m_mode == MODE_Connect) 
+    if (m_pConnectionLine != 0 && m_pointerMode == MODE_Connect) 
     {
         QList<QGraphicsItem *> startItems = items(m_pConnectionLine->line().p1());
         if (startItems.count() && startItems.first() == m_pConnectionLine)
