@@ -114,7 +114,7 @@ void CaseVisualizer::CreateToolBox()
     linePointerButton->setText(QString("Connect"));
 
     m_pointerTypeGroup = new QButtonGroup;
-    m_pointerTypeGroup->addButton(pointerButton, (int)GraphScene::MODE_Move);
+    m_pointerTypeGroup->addButton(pointerButton, (int)GraphScene::PTRMODE_Move);
     m_pointerTypeGroup->addButton(linePointerButton, (int)GraphScene::MODE_Connect);
     connect(m_pointerTypeGroup, SIGNAL(buttonClicked(int)), this, SLOT(PointerGroupClicked(int)));
 
@@ -125,7 +125,7 @@ void CaseVisualizer::CreateToolBox()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::PointerGroupClicked(int)
 {
-    m_caseView->SetMode(m_pointerTypeGroup->checkedId());
+    m_caseView->SetMode((GraphScene::PointerMode)m_pointerTypeGroup->checkedId());
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionOpen_triggered()

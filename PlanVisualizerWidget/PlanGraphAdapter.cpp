@@ -6,7 +6,7 @@
 using namespace IStrategizer;
 
 
-PlanGraphAdapter::NodeID PlanGraphAdapter::AddNode(NodeValue id)
+PlanGraphAdapter::NodeID PlanGraphAdapter::AddNode(NodeValue val)
 {
     throw NotImplementedException(XcptHere);
 }

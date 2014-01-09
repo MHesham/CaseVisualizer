@@ -47,7 +47,7 @@ CaseView::CaseView(CrossMap<unsigned, string>* p_idLookup, QWidget *parent)
 	CreatePlanView();
 }
 //----------------------------------------------------------------------------------------------
-void CaseView::SetMode(int p_mode)
+void CaseView::SetMode(GraphScene::PointerMode p_mode)
 {
 	 m_graphView->SetMode(p_mode);
 }

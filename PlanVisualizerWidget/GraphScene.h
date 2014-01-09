@@ -34,7 +34,6 @@ namespace IStrategizer
     const int DefaultGridCellSize = 16;
     const int DefaultHorizontalNodeSpacing = 48;
     const int DefaultVerticalNodeSpacing = 48;
-    const int GraphRedrawIntervalMs = 500;
 
     typedef IDigraph<PlanStepEx*> IPlanDigraph;
 
@@ -52,12 +51,12 @@ namespace IStrategizer
         typedef IPlanDigraph::NodeID NodeID;
         typedef IPlanDigraph::NodeSet NodeSet;
 
-        enum PointerMode { MODE_Move, MODE_Connect };
+        enum PointerMode { PTRMODE_Move, MODE_Connect };
 
         GraphScene(CrossMap<unsigned, std::string>* p_idLookup, QObject *p_parent = 0);
         void View(IPlanDigraph* pGraph);
-        void Mode(PointerMode p_mode) { m_mode = p_mode; }
-        PointerMode Mode() const { return m_mode; }
+        void Mode(PointerMode p_mode) { m_pointerMode = p_mode; }
+        PointerMode Mode() const { return m_pointerMode; }
 
         //************************************
         // IStrategizer::GraphScene::OnGraphStructureChange
@@ -67,14 +66,19 @@ namespace IStrategizer
         //************************************
         virtual void OnGraphStructureChange();
 
-
+        //************************************
+        // IStrategizer::GraphScene::OnGraphUpdate
+        // Description:	Called to redraw the current graph nodes without layouting the graph
+        // Returns:   	void
+        //************************************
+        virtual void OnGraphUpdate();
 
     protected:
-        void contextMenuEvent(QGraphicsSceneContextMenuEvent *event);
-        void mousePressEvent(QGraphicsSceneMouseEvent *p_mouseEvent);
-        void mouseMoveEvent(QGraphicsSceneMouseEvent *p_mouseEvent);
-        void mouseReleaseEvent(QGraphicsSceneMouseEvent *p_mouseEvent);
-        bool event ( QEvent * e );
+        void contextMenuEvent(QGraphicsSceneContextMenuEvent *pEvent);
+        void mousePressEvent(QGraphicsSceneMouseEvent *pMouseEvent);
+        void mouseMoveEvent(QGraphicsSceneMouseEvent *pMouseEvent);
+        void mouseReleaseEvent(QGraphicsSceneMouseEvent *pMouseEvent);
+        bool event ( QEvent * eEvt );
 
     private:
         int m_cellSize;
@@ -83,19 +87,18 @@ namespace IStrategizer
         PlanGraph *m_pPlanGraph;
         GoalEx* m_caseGoal;
         QMenu* m_pNodeMenu;
-        QMenu* m_edgeMenu;
-        QMenu* m_sceneMenu;
+        QMenu* m_pEdgeMenu;
+        QMenu* m_pSceneMenu;
         QColor m_nodeColor;
         QColor m_lineColor;
         QGraphicsLineItem* m_pConnectionLine;
         ChoosePlanStepDialog* m_pChoosePlanStepDlg;
-        PointerMode m_mode;
+        PointerMode m_pointerMode;
         std::map<PlanStepEx*, GraphNodeView*> m_nodeModelViewMapping;
         std::map<int, GraphNodeView*> m_nodeIndexViewMapping;
         IPlanDigraph *m_pGraph;
-        std::vector< std::vector<NodeID> >    m_graphLevels;
+        std::vector< std::vector<NodeID> > m_graphLevels;
         std::map<NodeID, GraphNodeView*> m_nodeIdToNodeViewMap;
-        int updateTimerId;
 
         void CreateGrid();
         void ConstructGraph();
@@ -112,13 +115,12 @@ namespace IStrategizer
         void CreateNodeMenu();
         void CreateSceneMenu();
         void UpdateNodesIndices();
-        void ConnectNodes(GraphNodeView* p_start, GraphNodeView* p_end);
+        void ConnectNodes(GraphNodeView* pStartNode, GraphNodeView* pEndNode);
         void CreateMenus();
         void ConnectGraphNodes();
         void LayoutGraph();
         int ComputeLevelWidth(int levelIdx);
         int ComputeLevelHeight(int levelIdx);
-        void timerEvent(QTimerEvent *event);
 
     private slots:
         void RedrawScene();
@@ -129,16 +131,8 @@ namespace IStrategizer
         void DisconnectNode();
         void DuplicateNode();
 
-        //************************************
-        // IStrategizer::GraphScene::OnGraphRedraw
-        // Description:    Called periodically to redraw each node in the graph
-        // Returns:       void
-        //************************************
-        void OnGraphRedraw();
-
 signals:
-            void NodeSelected(GraphNodeView* p_node);
-
+            void NodeSelected(GraphNodeView* pNode);
     };
 }
 

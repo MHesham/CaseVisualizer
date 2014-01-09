@@ -19,25 +19,31 @@ namespace IStrategizer
     class GraphNodeView;
     class GoalEx;
 
+    const int GraphUpdateIntervalMs = 500;
+
     class PlanGraphView : public QWidget
     {
         Q_OBJECT
 
     public:
-        PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, std::string>* p_idLookup, QWidget *p_parent = 0);
+        PlanGraphView(GraphScene* pScene, CrossMap<unsigned, std::string>* pIdLookup, QWidget *pParent = 0);
         
         void View(IPlanDigraph* pPlanGraph);
-        void SetMode(int p_mode);
+        void SetMode(GraphScene::PointerMode mode);
         void OnPlanStructureChange();
 
+    protected:
+        void timerEvent(QTimerEvent *pEvt);
+
     private:
-        Ui::PlanGraphViewClass    ui;
-        QGraphicsView*            m_graphicsView;        
-        GraphScene*                m_scene;
-        PlanStepView*            m_planStepView;
+        Ui::PlanGraphViewClass m_ui;
+        QGraphicsView* m_pGraphicsView;        
+        GraphScene* m_pScene;
+        PlanStepView* m_pPlanStepView;
+        int m_updateTimerId;
 
         private slots:
-            void HandleNodeSelected(GraphNodeView* p_node);
+            void HandleNodeSelected(GraphNodeView* pNode);
     };
 }
 

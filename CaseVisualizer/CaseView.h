@@ -13,6 +13,7 @@
 
 #include <string>
 #include <hash_map>
+#include "GraphScene.h"
 
 #define GameIdsLookupFilename "IdLookup.txt"
 
@@ -32,7 +33,7 @@ namespace IStrategizer
 		CaseView(CrossMap<unsigned, std::string>* p_idLookup, QWidget *parent = 0);
 		~CaseView();
 		void View(CaseEx* p_case);
-		void SetMode(int p_mode);
+		void SetMode(GraphScene::PointerMode p_mode);
 
 	private:
 		CrossMap<unsigned, std::string>* m_idLookup;

@@ -43,20 +43,19 @@ using namespace IStrategizer;
 using namespace Serialization;
 using namespace std;
 
-GraphScene::GraphScene(CrossMap<unsigned, string>* p_idLookup, QObject *p_parent) : QGraphicsScene(p_parent)
+GraphScene::GraphScene(CrossMap<unsigned, string>* pIdLookup, QObject *pParent) : QGraphicsScene(pParent)
 {
     m_horizontalNodeSpacing = DefaultHorizontalNodeSpacing;
     m_verticalNodeSpacing = DefaultVerticalNodeSpacing;
     m_pNodeMenu = nullptr;
     m_pPlanGraph = nullptr;
-    m_pChoosePlanStepDlg = new ChoosePlanStepDialog(p_idLookup, true, true);
+    m_pChoosePlanStepDlg = new ChoosePlanStepDialog(pIdLookup, true, true);
     m_pointerMode = PTRMODE_Move;
     m_pConnectionLine = nullptr;
     m_pGraph = nullptr;
     m_cellSize = DefaultGridCellSize;
 
     connect(this, SIGNAL(selectionChanged()), SLOT(NodeSelected()));
-    updateTimerId = startTimer(GraphRedrawIntervalMs);
 
     CreateMenus();
     CreateGrid();
@@ -71,51 +70,51 @@ void GraphScene::CreateMenus()
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateNodeMenu()
 {
-    QAction *duplicateAction = new QAction(tr("Duplicate"), this);
-    duplicateAction->setStatusTip(tr("Duplicates graph node"));
-    connect(duplicateAction, SIGNAL(triggered()), this, SLOT(DuplicateNode()));
+    QAction *pDuplicateAction = new QAction(tr("Duplicate"), this);
+    pDuplicateAction->setStatusTip(tr("Duplicates graph node"));
+    connect(pDuplicateAction, SIGNAL(triggered()), this, SLOT(DuplicateNode()));
 
-    QAction *deleteAction = new QAction(tr("Delete"), this);
-    duplicateAction->setStatusTip(tr("Deletes graph node"));
-    connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteNode()));
+    QAction *pDeleteAction = new QAction(tr("Delete"), this);
+    pDuplicateAction->setStatusTip(tr("Deletes graph node"));
+    connect(pDeleteAction, SIGNAL(triggered()), this, SLOT(DeleteNode()));
 
-    QAction *disconnectAction = new QAction(tr("Disconnect"), this);
-    disconnectAction->setStatusTip(tr("Disconnects the node from the graph"));
-    connect(disconnectAction, SIGNAL(triggered()), this, SLOT(DisconnectNode()));
+    QAction *pDisconnectAction = new QAction(tr("Disconnect"), this);
+    pDisconnectAction->setStatusTip(tr("Disconnects the node from the graph"));
+    connect(pDisconnectAction, SIGNAL(triggered()), this, SLOT(DisconnectNode()));
 
     m_pNodeMenu = new QMenu(tr("Node Menu"));
     m_pNodeMenu->setTearOffEnabled(true);
-    m_pNodeMenu->addAction(deleteAction);
-    m_pNodeMenu->addAction(duplicateAction);
-    m_pNodeMenu->addAction(disconnectAction);
+    m_pNodeMenu->addAction(pDeleteAction);
+    m_pNodeMenu->addAction(pDuplicateAction);
+    m_pNodeMenu->addAction(pDisconnectAction);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateEdgeMenu()
 {
-    QAction *deleteAction = new QAction(tr("&Delete"), this);
-    deleteAction->setStatusTip(tr("Deletes graph edge"));
-    deleteAction->setShortcut(QString::fromLocal8Bit("D"));
-    connect(deleteAction, SIGNAL(triggered()), this, SLOT(DeleteEdge()));
+    QAction *pDeleteAction = new QAction(tr("&Delete"), this);
+    pDeleteAction->setStatusTip(tr("Deletes graph edge"));
+    pDeleteAction->setShortcut(QString::fromLocal8Bit("D"));
+    connect(pDeleteAction, SIGNAL(triggered()), this, SLOT(DeleteEdge()));
 
-    m_edgeMenu = new QMenu(tr("Edge Menu"));
-    m_edgeMenu->setTearOffEnabled(true);
-    m_edgeMenu->addAction(deleteAction);
+    m_pEdgeMenu = new QMenu(tr("Edge Menu"));
+    m_pEdgeMenu->setTearOffEnabled(true);
+    m_pEdgeMenu->addAction(pDeleteAction);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateSceneMenu()
 {
-    QAction *newNodeAction = new QAction(tr("N&ew Node"), this);
-    newNodeAction->setStatusTip(tr("Creates new plan graph node"));
-    connect(newNodeAction, SIGNAL(triggered()), this, SLOT(NewNode()));
+    QAction *pNewNodeAction = new QAction(tr("N&ew Node"), this);
+    pNewNodeAction->setStatusTip(tr("Creates new plan graph node"));
+    connect(pNewNodeAction, SIGNAL(triggered()), this, SLOT(NewNode()));
 
-    QAction *layoutGraph = new QAction(tr("L&ayout Plan"), this);
-    layoutGraph->setStatusTip(tr("Layout plan graph in the scene"));
-    connect(layoutGraph, SIGNAL(triggered()), this, SLOT(RedrawScene()));
+    QAction *pLayoutGraph = new QAction(tr("L&ayout Plan"), this);
+    pLayoutGraph->setStatusTip(tr("Layout plan graph in the scene"));
+    connect(pLayoutGraph, SIGNAL(triggered()), this, SLOT(RedrawScene()));
 
-    m_sceneMenu = new QMenu(tr("Scene Menu"));
-    m_sceneMenu->setTearOffEnabled(true);
-    m_sceneMenu->addAction(newNodeAction);
-    m_sceneMenu->addAction(layoutGraph);
+    m_pSceneMenu = new QMenu(tr("Scene Menu"));
+    m_pSceneMenu->setTearOffEnabled(true);
+    m_pSceneMenu->addAction(pNewNodeAction);
+    m_pSceneMenu->addAction(pLayoutGraph);
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::View(IPlanDigraph* pPlan)
@@ -232,13 +231,13 @@ void GraphScene::ConnectGraphNodes()
 
         for each (NodeID destNodeId in adjNodes)
         {
-            GraphNodeView* start = m_nodeIdToNodeViewMap[srcNodeId];
-            GraphNodeView* end = m_nodeIdToNodeViewMap[destNodeId];
+            GraphNodeView* pStart = m_nodeIdToNodeViewMap[srcNodeId];
+            GraphNodeView* pEnd = m_nodeIdToNodeViewMap[destNodeId];
 
-            GraphEdgeView* edge = new GraphEdgeView(start, end, m_edgeMenu, nullptr);
-            start->AddEdge(edge);
-            end->AddEdge(edge);
-            addItem(edge);
+            GraphEdgeView* pEdge = new GraphEdgeView(pStart, pEnd, m_pEdgeMenu, nullptr);
+            pStart->AddEdge(pEdge);
+            pEnd->AddEdge(pEdge);
+            addItem(pEdge);
         }
     }
 }
@@ -308,18 +307,12 @@ int IStrategizer::GraphScene::ComputeLevelHeight(int levelIdx)
     return levelHeight;
 }
 //----------------------------------------------------------------------------------------------
-void IStrategizer::GraphScene::timerEvent(QTimerEvent *event)
-{
-    if (event->timerId() == updateTimerId)
-        OnGraphRedraw();
-}
-//----------------------------------------------------------------------------------------------
 void GraphScene::OnGraphStructureChange()
 {
     QApplication::postEvent(this, new QEvent((QEvent::Type)SCENEEVT_GraphStructureChange));
 }
 //----------------------------------------------------------------------------------------------
-void GraphScene::OnGraphRedraw()
+void GraphScene::OnGraphUpdate()
 {
     QApplication::postEvent(this, new QEvent((QEvent::Type)SCENEEVT_GraphRedraw));
 }
@@ -390,8 +383,8 @@ void GraphScene::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     if(!event->isAccepted())
     {
         event->setAccepted(true);
-        if(m_sceneMenu != NULL)
-            m_sceneMenu->exec(event->screenPos());
+        if(m_pSceneMenu != NULL)
+            m_pSceneMenu->exec(event->screenPos());
     }
 }
 //----------------------------------------------------------------------------------------------

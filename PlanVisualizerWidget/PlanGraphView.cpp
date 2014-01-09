@@ -36,53 +36,61 @@ using namespace std;
 PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_idLookup, QWidget *p_parent)
 : QWidget(p_parent)
 {
-    ui.setupUi(this);
+    m_ui.setupUi(this);
     
     QHBoxLayout* layout = new QHBoxLayout;
-    m_planStepView = new PlanStepView(p_idLookup);
-    m_graphicsView = new QGraphicsView();
-    m_graphicsView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
+    m_pPlanStepView = new PlanStepView(p_idLookup);
+    m_pGraphicsView = new QGraphicsView();
+    m_pGraphicsView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-    m_scene = p_scene;
-    m_scene->setSceneRect(0, 0, 1000, 1000);
+    m_pScene = p_scene;
+    m_pScene->setSceneRect(0, 0, 1000, 1000);
 
-    m_graphicsView->setScene(m_scene);
-    m_graphicsView->fitInView(m_scene->sceneRect(), Qt::KeepAspectRatio);
+    m_pGraphicsView->setScene(m_pScene);
+    m_pGraphicsView->fitInView(m_pScene->sceneRect(), Qt::KeepAspectRatio);
     
-    m_graphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_graphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_pGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_pGraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
 
     layout->setMargin(0);
-    layout->addWidget(m_graphicsView);
-    layout->addWidget(m_planStepView);
+    layout->addWidget(m_pGraphicsView);
+    layout->addWidget(m_pPlanStepView);
     
-    QRectF r1 = m_planStepView->geometry();
-    QRectF r2 = m_graphicsView->geometry();
+    QRectF r1 = m_pPlanStepView->geometry();
+    QRectF r2 = m_pGraphicsView->geometry();
 
     setLayout(layout);
 
-    connect(m_scene, SIGNAL(NodeSelected(GraphNodeView*)), SLOT(HandleNodeSelected(GraphNodeView*)));
+    connect(m_pScene, SIGNAL(NodeSelected(GraphNodeView*)), SLOT(HandleNodeSelected(GraphNodeView*)));
+
+    m_updateTimerId = startTimer(GraphUpdateIntervalMs);
 }
 //----------------------------------------------------------------------------------------------
-void PlanGraphView::SetMode(int p_mode) 
+void PlanGraphView::SetMode(GraphScene::PointerMode mode) 
 {
-    m_scene->Mode((GraphScene::PointerMode)p_mode); 
+    m_pScene->Mode((GraphScene::PointerMode)mode); 
 }
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::View(IPlanDigraph* pPlanGraph)
 {
-    m_scene->View(pPlanGraph);
+    m_pScene->View(pPlanGraph);
 }
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::HandleNodeSelected(GraphNodeView* p_node)
 {
     if(p_node == NULL)
-        m_planStepView->View(NULL);
+        m_pPlanStepView->View(NULL);
     else
-        m_planStepView->View(p_node->NodeModel());
+        m_pPlanStepView->View(p_node->NodeModel());
 }
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::OnPlanStructureChange()
 {
-    m_scene->OnGraphStructureChange();
+    m_pScene->OnGraphStructureChange();
+}
+//----------------------------------------------------------------------------------------------
+void PlanGraphView::timerEvent(QTimerEvent *pEvt)
+{
+    if (pEvt->timerId() == m_updateTimerId)
+        m_pScene->OnGraphUpdate();
 }
