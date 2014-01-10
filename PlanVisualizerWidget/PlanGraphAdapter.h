@@ -11,9 +11,7 @@ namespace IStrategizer
     class PlanGraphAdapter : public IDigraph<PlanStepEx*>
     {
     public:
-        PlanGraphAdapter(PlanGraph* pAdaptee)
-            : m_pAdaptee(pAdaptee)
-        { }
+        PlanGraphAdapter(PlanGraph* pAdaptee);
 
         ~PlanGraphAdapter() {}
 
@@ -36,7 +34,11 @@ namespace IStrategizer
         NodeSet GetOrphanNodes() const;
 
     private:
+        NodeID GetNodeIdFromIdx(size_t nodeIdx) const;
+
         PlanGraph* m_pAdaptee;
+        NodeID m_lastNodeID;
+        std::map<NodeID, size_t> m_nodeIdToAdjMatrixIdx;
     };
 }
 #endif // PLANGRAPHADAPTER_H

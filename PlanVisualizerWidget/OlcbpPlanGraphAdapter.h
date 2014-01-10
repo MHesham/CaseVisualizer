@@ -9,7 +9,9 @@ namespace IStrategizer
 {
     class PlanGraphNode;
 
-    class OlcbpPlanGraphAdapter : public IDigraph<PlanStepEx*>
+    typedef IDigraph<PlanStepEx*> IPlanDigraph;
+
+    class OlcbpPlanGraphAdapter : public IPlanDigraph
     {
     public:
         OlcbpPlanGraphAdapter(OnlinePlanExpansionExecutionEx& adaptee)

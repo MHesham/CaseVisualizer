@@ -35,8 +35,6 @@ namespace IStrategizer
     const int DefaultHorizontalNodeSpacing = 48;
     const int DefaultVerticalNodeSpacing = 48;
 
-    typedef IDigraph<PlanStepEx*> IPlanDigraph;
-
     class GraphScene : public QGraphicsScene
     {
         Q_OBJECT
@@ -84,18 +82,16 @@ namespace IStrategizer
         int m_cellSize;
         int m_horizontalNodeSpacing;
         int m_verticalNodeSpacing;
-        PlanGraph *m_pPlanGraph;
         GoalEx* m_caseGoal;
         QMenu* m_pNodeMenu;
         QMenu* m_pEdgeMenu;
         QMenu* m_pSceneMenu;
         QColor m_nodeColor;
         QColor m_lineColor;
+        QPointF m_lastCtxtMenuScreenPos;
         QGraphicsLineItem* m_pConnectionLine;
         ChoosePlanStepDialog* m_pChoosePlanStepDlg;
         PointerMode m_pointerMode;
-        std::map<PlanStepEx*, GraphNodeView*> m_nodeModelViewMapping;
-        std::map<int, GraphNodeView*> m_nodeIndexViewMapping;
         IPlanDigraph *m_pGraph;
         std::vector< std::vector<NodeID> > m_graphLevels;
         std::map<NodeID, GraphNodeView*> m_nodeIdToNodeViewMap;
@@ -115,7 +111,7 @@ namespace IStrategizer
         void CreateNodeMenu();
         void CreateSceneMenu();
         void UpdateNodesIndices();
-        void ConnectNodes(GraphNodeView* pStartNode, GraphNodeView* pEndNode);
+        void ConnectNodeViews(GraphNodeView* pStartNode, GraphNodeView* pEndNode);
         void CreateMenus();
         void ConnectGraphNodes();
         void LayoutGraph();
@@ -123,7 +119,7 @@ namespace IStrategizer
         int ComputeLevelHeight(int levelIdx);
 
     private slots:
-        void RedrawScene();
+        void ReconstructScene();
         void NodeSelected();
         void NewNode();
         void DeleteNode();

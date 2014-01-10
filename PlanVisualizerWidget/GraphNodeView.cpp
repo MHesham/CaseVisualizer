@@ -24,13 +24,14 @@
 using namespace IStrategizer;
 using namespace std;
 
-GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGraphicsItem *p_parent /* = 0 */) 
-    : QGraphicsRectItem(p_parent)
+GraphNodeView::GraphNodeView(PlanStepEx* pPlanStep, NodeID modelId, QMenu *pContextMeun, QGraphicsItem *pParent /* = 0 */) 
+    : QGraphicsRectItem(pParent),
+    m_modelId(modelId)
 {
-    m_nodeModel    = p_planStep;
-    m_contextMenu = p_contextMeun;
+    m_pNodeModel = pPlanStep;
+    m_pContextMenu = pContextMeun;
 
-    string nodeName = m_nodeModel->ToString();
+    string nodeName = m_pNodeModel->ToString();
     size_t findLeftParanPos = nodeName.find("(");
 
     if (findLeftParanPos != string::npos)
@@ -51,7 +52,7 @@ GraphNodeView::GraphNodeView(PlanStepEx* p_planStep, QMenu *p_contextMeun, QGrap
     m_nodeHeight    = fontMetric.height() + 20;
     m_nodeWidth        = fontMetric.width(m_nodeTxt) + 20;
 
-    setToolTip(QString::fromLocal8Bit(p_planStep->TypeName().c_str()));
+    setToolTip(QString::fromLocal8Bit(pPlanStep->TypeName().c_str()));
     setFlag(QGraphicsItem::ItemIsSelectable, true);
     setFlag(QGraphicsItem::ItemIsMovable, true);
 }
@@ -137,8 +138,8 @@ void GraphNodeView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
     event->accept();
     scene()->clearSelection();
     setSelected(true);
-    if(m_contextMenu != NULL)
-        m_contextMenu->exec(event->screenPos());
+    if(m_pContextMenu != NULL)
+        m_pContextMenu->exec(event->screenPos());
 }
 //////////////////////////////////////////////////////////////////////////
 GraphNodeView::NodeStyle GraphNodeView::GetStyle()
@@ -149,7 +150,7 @@ GraphNodeView::NodeStyle GraphNodeView::GetStyle()
     Qt::GlobalColor txtPenColor = Qt::black;
     Qt::GlobalColor borderColor = Qt::black;
 
-    switch (m_nodeModel->State())
+    switch (m_pNodeModel->State())
     {
     case ESTATE_Failed:
         bgBrushColor = Qt::red;
@@ -176,7 +177,7 @@ GraphNodeView::NodeStyle GraphNodeView::GetStyle()
     style.BorderPen = QPen(QColor(borderColor));
     style.TxtPen = QPen(QColor(txtPenColor));
 
-    if (BELONG(GoalType, m_nodeModel->StepTypeId()))
+    if (BELONG(GoalType, m_pNodeModel->StepTypeId()))
     {
         style.TxtFont.setBold(true);
         style.TxtFont.setPixelSize(26);
