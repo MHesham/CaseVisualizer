@@ -1,5 +1,5 @@
-#ifndef OLCBPOlcbpPlanGraphAdapter_H
-#define OLCBPOlcbpPlanGraphAdapter_H
+#ifndef OLCBPPLANGRAPHADAPTER_H
+#define OLCBPPLANGRAPHADAPTER_H
 
 #include "IDigraph.h"
 #include "PlanStepEx.h"
@@ -46,4 +46,4 @@ namespace IStrategizer
     };
 }
 
-#endif // OLCBPOlcbpPlanGraphAdapter_H
+#endif // OLCBPPLANGRAPHADAPTER_H

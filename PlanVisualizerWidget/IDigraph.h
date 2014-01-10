@@ -1,5 +1,5 @@
-#ifndef IPLANGRAPH_H
-#define IPLANGRAPH_H
+#ifndef IDIGRAPH_H
+#define IDIGRAPH_H
 
 #include <set>
 
@@ -27,4 +27,4 @@ namespace IStrategizer
     };
 }
 
-#endif // IPLANGRAPH_H
+#endif // IDIGRAPH_H
