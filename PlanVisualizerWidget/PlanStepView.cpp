@@ -1,14 +1,12 @@
+#include "stdafx.h"
 #include <QTableWidget>
-#include <fstream>
-#include <cassert>
-#include <string>
 #include <QHeaderView>
-#include <sstream>
 #include <QLayout>
 #include <QScrollBar>
 #include <QGridLayout>
 #include <QGraphicsView>
 #include <QFontMetrics>
+#include <QTableWidgetItem>
 
 #include "PlanStepView.h"
 

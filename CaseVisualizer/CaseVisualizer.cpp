@@ -55,7 +55,6 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
     CreateToolBox();
 
     IStrategizer::Init();
-    SerializationEssentials::Init();
 
     if (InitIdLookup())
     {
@@ -79,9 +78,9 @@ bool CaseVisualizer::InitIdLookup()
         return false;
     }
 
-    // Read engine specific IDs
     for (unsigned currID = 0; currID < ENUMS_SIZE; ++currID)
     {
+        // Read engine specific IDs form Enums to the IdLookup
         if (!BELONG(EntityClassType, currID) &&
             !BELONG(ResearchType, currID))
         {
@@ -89,6 +88,11 @@ bool CaseVisualizer::InitIdLookup()
             {
                 m_idLookup.SetByFirst(currID, string(Enums[currID]));
             }
+        }
+        // Read game specific IDs from Idlookup to Enums if such IDs are valid game type ids
+        else if (Enums[currID] == nullptr && m_idLookup.ContainsFirst(currID))
+        {
+            Enums[currID] = _strdup(m_idLookup.GetByFirst(currID).c_str());
         }
     }
 
@@ -107,7 +111,7 @@ void CaseVisualizer::CreateToolBox()
     linePointerButton->setText(QString("Connect"));
 
     m_pointerTypeGroup = new QButtonGroup;
-    m_pointerTypeGroup->addButton(pointerButton, (int)GraphScene::MODE_Move);
+    m_pointerTypeGroup->addButton(pointerButton, (int)GraphScene::PTRMODE_Move);
     m_pointerTypeGroup->addButton(linePointerButton, (int)GraphScene::MODE_Connect);
     connect(m_pointerTypeGroup, SIGNAL(buttonClicked(int)), this, SLOT(PointerGroupClicked(int)));
 
@@ -118,7 +122,7 @@ void CaseVisualizer::CreateToolBox()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::PointerGroupClicked(int)
 {
-    m_caseView->SetMode(m_pointerTypeGroup->checkedId());
+    m_caseView->SetMode((GraphScene::PointerMode)m_pointerTypeGroup->checkedId());
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionOpen_triggered()
