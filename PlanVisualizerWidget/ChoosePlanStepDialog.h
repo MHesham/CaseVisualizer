@@ -20,16 +20,20 @@ namespace IStrategizer
 
     public:
         ChoosePlanStepDialog(CrossMap<unsigned, std::string>* p_idLookup, bool p_goals = true, bool p_actions = true, QWidget *parent = 0);
-        ~ChoosePlanStepDialog();
         unsigned SelectedPlanStepId() const { return m_selectedPlanStepId; }
-        void InitializePlanStepList(bool p_goals, bool p_actions);
+        int exec();
 
     private:
+        void InitializePlanStepList(bool p_goals, bool p_actions);
+        void ItemChanged();
+
         Ui::ChoosePlanStepDialogClass ui;
         CrossMap<unsigned, std::string>* m_idLookup;
         unsigned m_selectedPlanStepId;
         QCompleter* m_autoComplete;
-        void ItemChanged();
+        bool m_chooseGoals;
+        bool m_chooseActions;
+        bool m_initialized;
 
         private slots:
             void on_comboBox_currentIndexChanged(QString p_item);
