@@ -28,7 +28,7 @@ namespace IStrategizer
     public:
         PlanGraphView(GraphScene* pScene, CrossMap<unsigned, std::string>* pIdLookup, QWidget *pParent = 0);
         
-        void View(IPlanDigraph* pPlanGraph);
+        void View(IOlcbpPlanDigraph* pPlanGraph);
         void SetMode(GraphScene::PointerMode mode);
         void OnPlanStructureChange();
 

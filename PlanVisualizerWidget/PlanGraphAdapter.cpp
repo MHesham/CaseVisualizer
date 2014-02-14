@@ -66,7 +66,7 @@ void PlanGraphAdapter::RemoveEdge(NodeID sourceNodeId, NodeID destNodeId)
     m_pAdaptee->Disconnect(m_nodeIdToAdjMatrixIdx[sourceNodeId], m_nodeIdToAdjMatrixIdx[destNodeId]);
 }
 
-NodeValue PlanGraphAdapter::GetNode(NodeID id)
+PlanGraphAdapter::NodeValue PlanGraphAdapter::GetNode(NodeID id)
 {
     if (m_nodeIdToAdjMatrixIdx.count(id) == 0)
         return nullptr;

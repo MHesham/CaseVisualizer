@@ -22,7 +22,7 @@ namespace IStrategizer
     class GraphNodeView : public QGraphicsRectItem
     {
     public:
-        typedef IPlanDigraph::NodeID NodeID;
+        typedef IOlcbpPlanDigraph::NodeID NodeID;
 
         struct NodeStyle
         {

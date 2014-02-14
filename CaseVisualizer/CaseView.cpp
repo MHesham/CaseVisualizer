@@ -93,7 +93,7 @@ void CaseView::View(CaseEx* p_case)
 	{
 		ViewGoal(p_case->Goal());
 		ViewGameState(p_case->GameState());
-		ViewPlanGraph(p_case->Goal(), p_case->GetPlanGraph());
+		ViewPlanGraph(p_case->Goal(), p_case->GetPlan());
 		ViewPerformance(p_case);
 	}
 }
@@ -216,9 +216,9 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
 	connect(ui.tblGameState, SIGNAL(cellChanged(int,int)), SLOT(OnCellChanged(int, int)));
 }
 //----------------------------------------------------------------------------------------------
-void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, PlanGraph* p_planGraph)
+void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlanDigraph* p_planGraph)
 {
-    m_graphView->View(new PlanGraphAdapter(p_planGraph));
+    m_graphView->View(p_planGraph);
     m_graphView->OnPlanStructureChange();
     //m_graphScene->Hello();
 

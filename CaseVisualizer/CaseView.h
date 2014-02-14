@@ -44,7 +44,7 @@ namespace IStrategizer
 		void ViewGoal(GoalEx* p_goal);
 		void ViewGoalParameters(PlanStepParameters* p_params);
 		void ViewGameState(GameStateEx* p_gameState);
-		void ViewPlanGraph(GoalEx* p_caseGoal, IStrategizer::PlanGraph* p_planGraph);
+		void ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlanDigraph* p_planGraph);
 		void InitializeIdLookup();
 		void CreatePlanView();
 		void ViewPerformance(CaseEx *p_pCase);

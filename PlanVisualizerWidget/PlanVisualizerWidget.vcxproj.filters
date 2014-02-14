@@ -118,9 +118,6 @@
     <ClInclude Include="GeneratedFiles\ui_ParameterEdit.h">
       <Filter>Generated Files</Filter>
     </ClInclude>
-    <ClInclude Include="IDigraph.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PlanGraphAdapter.h">
       <Filter>Header Files</Filter>
     </ClInclude>

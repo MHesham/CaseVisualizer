@@ -35,8 +35,8 @@ using namespace std;
 #ifndef CASEVIEW_H
 #include "CaseView.h"
 #endif
-#ifndef WINWARGUSGOALEX_H
-#include "WinWargusGoalEx.h"
+#ifndef WINGAMEGOAL_H
+#include "WinGameGoal.h"
 #endif
 #ifndef CHOOSEPLANSTEPDIALOG_H
 #include "ChoosePlanStepDialog.h"
@@ -285,7 +285,7 @@ void CaseVisualizer::NewCase()
 void CaseVisualizer::NewCase(GoalType p_caseGoal)
 {
     GoalEx* newGoal = g_GoalFactory.GetGoal(p_caseGoal, false);
-    CaseEx* newCase = new CaseEx(new PlanGraph, newGoal, new GameStateEx, 1, 1);
+    CaseEx* newCase = new CaseEx(new OlcbpPlanDigraph, newGoal, new GameStateEx, 1, 1);
     m_caseBase->CaseContainer.push_back(newCase);
     Refresh();
 }

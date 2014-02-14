@@ -46,13 +46,14 @@ namespace IStrategizer
             SCENEEVT_GraphRedraw,
         };
 
-        typedef IPlanDigraph::NodeID NodeID;
-        typedef IPlanDigraph::NodeSet NodeSet;
+        typedef IOlcbpPlanDigraph::NodeID NodeID;
+        typedef IOlcbpPlanDigraph::NodeSet NodeSet;
+        typedef IOlcbpPlanDigraph::NodeValue NodeValue;
 
         enum PointerMode { PTRMODE_Move, MODE_Connect };
 
         GraphScene(CrossMap<unsigned, std::string>* p_idLookup, QObject *p_parent = 0);
-        void View(IPlanDigraph* pGraph);
+        void View(IOlcbpPlanDigraph* pGraph);
         void Mode(PointerMode p_mode) { m_pointerMode = p_mode; }
         PointerMode Mode() const { return m_pointerMode; }
 
@@ -92,7 +93,7 @@ namespace IStrategizer
         QGraphicsLineItem* m_pConnectionLine;
         ChoosePlanStepDialog* m_pChoosePlanStepDlg;
         PointerMode m_pointerMode;
-        IPlanDigraph *m_pGraph;
+        IOlcbpPlanDigraph *m_pGraph;
         std::vector< std::vector<NodeID> > m_graphLevels;
         std::map<NodeID, GraphNodeView*> m_nodeIdToNodeViewMap;
 

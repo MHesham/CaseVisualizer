@@ -71,7 +71,7 @@ void PlanGraphView::SetMode(GraphScene::PointerMode mode)
     m_pScene->Mode((GraphScene::PointerMode)mode); 
 }
 //----------------------------------------------------------------------------------------------
-void PlanGraphView::View(IPlanDigraph* pPlanGraph)
+void PlanGraphView::View(IOlcbpPlanDigraph* pPlanGraph)
 {
     m_pScene->View(pPlanGraph);
 }

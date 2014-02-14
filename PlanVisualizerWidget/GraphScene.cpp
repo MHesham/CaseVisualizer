@@ -118,7 +118,7 @@ void GraphScene::CreateSceneMenu()
     m_pSceneMenu->addAction(pLayoutGraph);
 }
 //----------------------------------------------------------------------------------------------
-void GraphScene::View(IPlanDigraph* pPlan)
+void GraphScene::View(IOlcbpPlanDigraph* pPlan)
 {
     m_pGraph = pPlan;
 }
@@ -181,10 +181,10 @@ void GraphScene::ConstructGraph()
 void IStrategizer::GraphScene::ComputeGraphLevels()
 {
     NodeSet roots = m_pGraph->GetOrphanNodes();
-    NodeSet    visitedNodes;
+    NodeSet visitedNodes;
 
-    typedef int NodeLevel;
-    deque< pair<NodeID, NodeLevel> >    Q;
+    typedef size_t NodeLevel;
+    deque< pair<NodeID, NodeLevel> > Q;
 
     for each (NodeID nodeId in roots)
     {
@@ -520,7 +520,7 @@ void GraphScene::DisconnectNode()
         if(pNodeView == NULL)
             continue;
 
-        IPlanDigraph::NodeValue pNodeModel = m_pGraph->GetNode(pNodeView->ModelId());
+        IOlcbpPlanDigraph::NodeValue pNodeModel = m_pGraph->GetNode(pNodeView->ModelId());
         QList<GraphEdgeView*> disconnectedEdges = pNodeView->Disconnect();
         
         foreach(GraphEdgeView* pEdge, disconnectedEdges)

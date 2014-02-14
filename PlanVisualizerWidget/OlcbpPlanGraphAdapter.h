@@ -4,14 +4,13 @@
 #include "IDigraph.h"
 #include "PlanStepEx.h"
 #include "OnlinePlanExpansionExecutionEx.h"
+#include "EngineData.h"
 
 namespace IStrategizer
 {
     class PlanGraphNode;
 
-    typedef IDigraph<PlanStepEx*> IPlanDigraph;
-
-    class OlcbpPlanGraphAdapter : public IPlanDigraph
+    class OlcbpPlanGraphAdapter : public IOlcbpPlanDigraph
     {
     public:
         OlcbpPlanGraphAdapter(OnlinePlanExpansionExecutionEx& adaptee)
