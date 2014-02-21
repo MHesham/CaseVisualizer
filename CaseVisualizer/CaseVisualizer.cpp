@@ -67,6 +67,11 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 
         NewCaseBase();
         NewCase(GOALEX_WinGame);
+
+        _ASSERTE(ui.lstCases->count() > 0);
+        QListWidgetItem *pFirstCase = ui.lstCases->item(0);
+        _ASSERTE(pFirstCase != nullptr);
+        pFirstCase->setSelected(true);
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -184,6 +189,10 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
     else if (caseIdx == m_caseBase->CaseContainer.size())
     {
         m_caseView->View(m_caseBase->CaseContainer[caseIdx -1]);
+    }
+    else if (caseIdx == -1 && m_caseBase->CaseContainer.size() > 0)
+    {
+        m_caseView->View(m_caseBase->CaseContainer[0]);
     }
 }
 //----------------------------------------------------------------------------------------------
