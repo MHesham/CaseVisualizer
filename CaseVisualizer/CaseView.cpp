@@ -248,14 +248,20 @@ void CaseView::ViewPerformance(CaseEx *p_pCase)
 //----------------------------------------------------------------------------------------------
 void CaseView::on_txtSuccessCount_textChanged(const QString &p_newText)
 {
-	int newSuccessCount = p_newText.toInt();
-	m_currentCase->SuccessCount(newSuccessCount);
+    if (m_currentCase != nullptr)
+    {
+	    int newSuccessCount = p_newText.toInt();
+	    m_currentCase->SuccessCount(newSuccessCount);
+    }
 }
 //----------------------------------------------------------------------------------------------
 void CaseView::on_txtTrialCount_textChanged(const QString &p_newText)
 {
-	int newTrialCount = p_newText.toInt();
-	m_currentCase->TrialCount(newTrialCount);
+    if (m_currentCase != nullptr)
+    {
+	    int newTrialCount = p_newText.toInt();
+	    m_currentCase->TrialCount(newTrialCount);
+    }
 }
 //----------------------------------------------------------------------------------------------
 CaseView::~CaseView()

@@ -38,11 +38,12 @@ namespace IStrategizer
         void NewCase(GoalType p_caseGoal);
         void DeleteCase(int p_caseIdx);
         void EditCase();
+        void SelectCase(int caseIdx);
 
     private:
         Ui::CaseVisualizerClass ui;
-        CaseBaseEx* m_caseBase;
-        CaseView* m_caseView;
+        CaseBaseEx* m_pCaseBase;
+        CaseView* m_pCaseView;
         QToolBar* m_pointerToolbar;
         QButtonGroup* m_pointerTypeGroup;
         QString m_caseBasePath;
