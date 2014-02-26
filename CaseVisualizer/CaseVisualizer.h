@@ -1,8 +1,11 @@
 #ifndef CASEVISUALIZER_H
 #define CASEVISUALIZER_H
 
+#pragma warning(push, 3)
 #include <QMainWindow>
 #include "ui_CaseVisualizer.h"
+#pragma warning(pop)
+
 #include <string>
 
 #ifndef CROSSMAP_H

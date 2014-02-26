@@ -1,12 +1,4 @@
 #include "stdafx.h"
-#include <QTableWidget>
-#include <QHeaderView>
-#include <QLayout>
-#include <QScrollBar>
-#include <QGridLayout>
-#include <QGraphicsView>
-#include <QFontMetrics>
-#include <QTableWidgetItem>
 
 #include "PlanStepView.h"
 
@@ -165,10 +157,10 @@ void PlanStepView::EditSelectedParameter()
 //----------------------------------------------------------------------------------------------
 void PlanStepView::ViewConditions(const PlanStepEx* p_planStep)
 {
-    if(BELONG(ActionType, p_planStep->StepTypeId()))
-    {
-        const Action* action = static_cast<const Action*>(p_planStep);
-    }
+    //if(BELONG(ActionType, p_planStep->StepTypeId()))
+    //{
+    //    const Action* action = static_cast<const Action*>(p_planStep);
+    //}
 }
 //----------------------------------------------------------------------------------------------
 PlanStepView::~PlanStepView()

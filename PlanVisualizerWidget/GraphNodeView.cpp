@@ -11,16 +11,6 @@
 #include "PlanStepEx.h"
 #endif
 
-#include <QBrush>
-#include <QColor>
-#include <QTextOption>
-#include <QTextItem>
-#include <QMenu>
-#include <QList>
-#include <QGraphicsScene>
-#include <QGraphicsSceneMouseEvent>
-#include <QMessageBox>
-
 using namespace IStrategizer;
 using namespace std;
 

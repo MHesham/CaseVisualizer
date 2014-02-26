@@ -1,12 +1,15 @@
 #ifndef GRAPHNODEVIEW_H
 #define GRAPHNODEVIEW_H
 
+#pragma warning(push, 3)
 #include <QGraphicsRectItem>
 #include <QList>
 #include <QPen>
 #include <QFont>
 #include <QBrush>
-#include "OlcbpPlanGraphAdapter.h"
+#pragma warning(pop)
+
+#include "EngineData.h"
 
 class QGraphicsItem;
 class QGraphicsScene;
@@ -22,7 +25,7 @@ namespace IStrategizer
     class GraphNodeView : public QGraphicsRectItem
     {
     public:
-        typedef IOlcbpPlanDigraph::NodeID NodeID;
+        typedef IOlcbpPlan::NodeID NodeID;
 
         struct NodeStyle
         {

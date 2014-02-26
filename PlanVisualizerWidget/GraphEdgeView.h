@@ -1,9 +1,11 @@
 #ifndef GRAPHEDGEVIEW_H
 #define GRAPHEDGEVIEW_H
 
+#pragma warning(push, 3)
 #include <QGraphicsLineItem>
 #include <QPolygonF>
 #include <QPainterPath>
+#pragma warning(pop)
 
 class QGraphicsItem;
 class QGraphicsScene;

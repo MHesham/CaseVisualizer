@@ -14,8 +14,7 @@
 #include "GameStateEx.h"
 #endif
 
-using namespace IStrategizer;
-
+#pragma warning(push, 3)
 #include <QtWidgets>
 #include <QTableWidget>
 #include <fstream>
@@ -28,11 +27,12 @@ using namespace IStrategizer;
 #include <QGridLayout>
 #include <QFont>
 #include <QFontMetrics>
-
 #include <QGraphicsView>
+#pragma warning(pop)
+
 #include "PlanGraphView.h"
 #include "GraphScene.h"
-#include "PlanGraphAdapter.h"
+#include "GoalEx.h"
 
 using namespace std;
 using namespace IStrategizer;
@@ -58,7 +58,7 @@ void CaseView::OnCellChanged(int p_row, int p_column)
 		return;
 
 	stringstream stream;
-	double val;
+	float val;
 	QTableWidgetItem* item = ui.tblGameState->item(p_row, p_column);
 	stream.str(string(item->text().toLocal8Bit()));
 
@@ -93,7 +93,7 @@ void CaseView::View(CaseEx* p_case)
 	{
 		ViewGoal(p_case->Goal());
 		ViewGameState(p_case->GameState());
-		ViewPlanGraph(p_case->Goal(), p_case->GetPlan());
+		ViewPlanGraph(p_case->Goal(), p_case->Plan());
 		ViewPerformance(p_case);
 	}
 }
@@ -190,9 +190,8 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
     ui.tblGameState->setColumnCount(2);
     ui.tblGameState->setRowCount(sfeatures.size());
 
-    int columnWidth = ui.tblGameState->width() / 2;
-    ui.tblGameState->setColumnWidth(0, ui.tblGameState->width() * 3.0 / 4.0 - 10);
-    ui.tblGameState->setColumnWidth(1, ui.tblGameState->width() * 1.0 / 4.0 - 10);
+    ui.tblGameState->setColumnWidth(0, (int)(ui.tblGameState->width() * (3.0f / 4.0f)) - 10);
+    ui.tblGameState->setColumnWidth(1, (int)(ui.tblGameState->width() * (1.0f / 4.0f)) - 10);
     ui.tblGameState->setSelectionMode(QAbstractItemView::NoSelection);
     QTableWidgetItem* cell = NULL;
     int row = 0;
@@ -216,7 +215,7 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
 	connect(ui.tblGameState, SIGNAL(cellChanged(int,int)), SLOT(OnCellChanged(int, int)));
 }
 //----------------------------------------------------------------------------------------------
-void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlanDigraph* p_planGraph)
+void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlan* p_planGraph)
 {
     m_graphView->View(p_planGraph);
     m_graphView->OnPlanStructureChange();

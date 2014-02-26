@@ -1,8 +1,10 @@
 #ifndef CASEVIEW_H
 #define CASEVIEW_H
 
+#pragma warning(push, 3)
 #include <QWidget>
 #include "ui_CaseView.h"
+#pragma warning(pop)
 
 #ifndef ENGINEDATA_H
 #include "EngineData.h"
@@ -44,7 +46,7 @@ namespace IStrategizer
 		void ViewGoal(GoalEx* p_goal);
 		void ViewGoalParameters(PlanStepParameters* p_params);
 		void ViewGameState(GameStateEx* p_gameState);
-		void ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlanDigraph* p_planGraph);
+		void ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlan* p_planGraph);
 		void InitializeIdLookup();
 		void CreatePlanView();
 		void ViewPerformance(CaseEx *p_pCase);

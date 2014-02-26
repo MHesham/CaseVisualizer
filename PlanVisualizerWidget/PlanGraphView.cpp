@@ -21,14 +21,6 @@
 #include "CrossMap.h"
 #endif
 
-#include <QGridLayout>
-#include <QGraphicsScene>
-#include <QGraphicsView>
-#include <QLabel>
-#include <QGraphicsRectItem>
-#include <QHBoxLayout>
-#include <QButtonGroup>
-#include <QToolButton>
 
 using namespace IStrategizer;
 using namespace std;
@@ -71,7 +63,7 @@ void PlanGraphView::SetMode(GraphScene::PointerMode mode)
     m_pScene->Mode((GraphScene::PointerMode)mode); 
 }
 //----------------------------------------------------------------------------------------------
-void PlanGraphView::View(IOlcbpPlanDigraph* pPlanGraph)
+void PlanGraphView::View(IOlcbpPlan* pPlanGraph)
 {
     m_pScene->View(pPlanGraph);
 }

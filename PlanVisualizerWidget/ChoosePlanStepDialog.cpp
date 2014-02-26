@@ -1,11 +1,6 @@
 #include "stdafx.h"
 #include "ChoosePlanStepDialog.h"
 
-#include <QStringList>
-#include <QKeyEvent>
-#include <QCompleter> 
-#include <QMessageBox>
-
 #ifndef TOOLBOX_H
 #include "Toolbox.h"
 #endif
@@ -52,7 +47,7 @@ void ChoosePlanStepDialog::InitializePlanStepList(bool p_goals, bool p_actions)
             else
             {
                 string errorMsg = "Key '";
-                errorMsg += i;
+                errorMsg += std::to_string((_ULonglong)i);
                 errorMsg += "' not found";
 
                 QMessageBox::warning(this, tr("Initialization Error"), tr("Key '%1' not found in the ID lookup file").arg(i));

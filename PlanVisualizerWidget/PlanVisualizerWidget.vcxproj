@@ -120,9 +120,7 @@
     <ClCompile Include="GraphEdgeView.cpp" />
     <ClCompile Include="GraphNodeView.cpp" />
     <ClCompile Include="GraphScene.cpp" />
-    <ClCompile Include="OlcbpPlanGraphAdapter.cpp" />
     <ClCompile Include="ParameterEdit.cpp" />
-    <ClCompile Include="PlanGraphAdapter.cpp" />
     <ClCompile Include="PlanGraphView.cpp" />
     <ClCompile Include="PlanStepView.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -157,8 +155,6 @@
       <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp</Outputs>
       <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">"$(QTDIR)\bin\moc.exe"  "%(FullPath)" -o ".\GeneratedFiles\$(ConfigurationName)\moc_%(Filename).cpp" "-fstdafx.h" "-f../../ParameterEdit.h"  -DUNICODE -DWIN32 -DWIN64 -DQT_DLL -DQT_NO_DEBUG -DNDEBUG -DQT_CORE_LIB -DQT_GUI_LIB -DQT_MULTIMEDIA_LIB -DQT_OPENGL_LIB -DQT_WIDGETS_LIB -DPLANVISUALIZERWIDGET_LIB "-I.\GeneratedFiles" "-I." "-I$(QTDIR)\include" "-I.\GeneratedFiles\$(ConfigurationName)\." "-I$(QTDIR)\include\QtCore" "-I$(QTDIR)\include\QtGui" "-I$(QTDIR)\include\QtMultimedia" "-I$(QTDIR)\include\QtOpenGL" "-I$(QTDIR)\include\QtWidgets"</Command>
     </CustomBuild>
-    <ClInclude Include="OlcbpPlanGraphAdapter.h" />
-    <ClInclude Include="PlanGraphAdapter.h" />
     <CustomBuild Include="PlanStepView.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
       <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Moc%27ing PlanStepView.h...</Message>

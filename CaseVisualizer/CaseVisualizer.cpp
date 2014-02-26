@@ -1,5 +1,6 @@
 #include "CaseVisualizer.h"
 
+#pragma warning(push, 3)
 #include <QFileDialog>
 #include <QString>
 #include <sstream>
@@ -11,8 +12,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QStatusBar>
-
-using namespace std;
+#pragma warning(pop)
 
 #ifndef CASEBASEEX_H
 #include "CaseBaseEx.h"
@@ -48,6 +48,7 @@ using namespace std;
 #include "GraphScene.h"
 #endif
 
+using namespace std;
 using namespace IStrategizer;
 
 CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
@@ -287,7 +288,7 @@ void CaseVisualizer::NewCase()
     if(m_goalDialog->exec() == QDialog::Accepted)
     {
         GoalEx* newGoal = g_GoalFactory.GetGoal((GoalType)m_goalDialog->SelectedPlanStepId(), false);
-        CaseEx* newCase = new CaseEx(new OlcbpPlanDigraph, newGoal, new GameStateEx, 1, 1);
+        CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, new GameStateEx, 1, 1);
         m_pCaseBase->CaseContainer.push_back(newCase);
         Refresh();
     }
@@ -296,7 +297,7 @@ void CaseVisualizer::NewCase()
 void CaseVisualizer::NewCase(GoalType p_caseGoal)
 {
     GoalEx* newGoal = g_GoalFactory.GetGoal(p_caseGoal, false);
-    CaseEx* newCase = new CaseEx(new OlcbpPlanDigraph, newGoal, new GameStateEx, 1, 1);
+    CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, new GameStateEx, 1, 1);
     m_pCaseBase->CaseContainer.push_back(newCase);
     Refresh();
 }

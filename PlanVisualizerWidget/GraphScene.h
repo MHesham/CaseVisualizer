@@ -1,16 +1,18 @@
 #ifndef GRAPHSCENE_H
 #define GRAPHSCENE_H
 
+#pragma warning(push, 3)
 #include <QGraphicsScene>
+#include <QEvent>
+#pragma warning(pop)
+
 #include <map>
 #include <vector>
-#include <QEvent>
 
 #ifndef CROSSMAP_H
 #include "CrossMap.h"
 #endif
-
-#include "OlcbpPlanGraphAdapter.h"
+#include "EngineData.h"
 
 class QGraphicsSceneMouseEvent;
 class QMenu;
@@ -46,14 +48,14 @@ namespace IStrategizer
             SCENEEVT_GraphRedraw,
         };
 
-        typedef IOlcbpPlanDigraph::NodeID NodeID;
-        typedef IOlcbpPlanDigraph::NodeSet NodeSet;
-        typedef IOlcbpPlanDigraph::NodeValue NodeValue;
+        typedef IOlcbpPlan::NodeID NodeID;
+        typedef IOlcbpPlan::NodeSet NodeSet;
+        typedef IOlcbpPlan::NodeValue NodeValue;
 
         enum PointerMode { PTRMODE_Move, MODE_Connect };
 
         GraphScene(CrossMap<unsigned, std::string>* p_idLookup, QObject *p_parent = 0);
-        void View(IOlcbpPlanDigraph* pGraph);
+        void View(IOlcbpPlan* pGraph);
         void Mode(PointerMode p_mode) { m_pointerMode = p_mode; }
         PointerMode Mode() const { return m_pointerMode; }
 
@@ -93,7 +95,7 @@ namespace IStrategizer
         QGraphicsLineItem* m_pConnectionLine;
         ChoosePlanStepDialog* m_pChoosePlanStepDlg;
         PointerMode m_pointerMode;
-        IOlcbpPlanDigraph *m_pGraph;
+        IOlcbpPlan *m_pGraph;
         std::vector< std::vector<NodeID> > m_graphLevels;
         std::map<NodeID, GraphNodeView*> m_nodeIdToNodeViewMap;
 
