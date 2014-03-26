@@ -15,6 +15,7 @@
 #include <fstream>
 #include <cassert>
 #include <string>
+
 using namespace std;
 using namespace IStrategizer;
 
@@ -29,6 +30,7 @@ IdLookupReader::~IdLookupReader()
     Toolbox::MemoryClean(m_scanner);
 }
 //----------------------------------------------------------------------------------------------
+#pragma warning(disable:4706)
 void IdLookupReader::Read(const char* p_filePath, CrossMap<unsigned, string>& p_table)
 {
     fstream file;
@@ -72,11 +74,13 @@ void IdLookupReader::Read(const char* p_filePath, CrossMap<unsigned, string>& p_
         if(key.empty())
             ++lastId;
 
-        p_table.SetByFirst(lastId, EnumToSentence(value));
+        std::string enumStr = EnumToSentence(value);
+        p_table.SetByFirst(lastId, enumStr);
     }
 
     file.close();
 }
+#pragma warning(default:4706)
 //----------------------------------------------------------------------------------------------
 bool IdLookupReader::ReadEx(const char* p_filePath, CrossMap<unsigned, string>& p_table)
 {

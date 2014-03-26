@@ -1,8 +1,11 @@
 #ifndef CASEVISUALIZER_H
 #define CASEVISUALIZER_H
 
+#pragma warning(push, 3)
 #include <QMainWindow>
 #include "ui_CaseVisualizer.h"
+#pragma warning(pop)
+
 #include <string>
 
 #ifndef CROSSMAP_H
@@ -38,11 +41,12 @@ namespace IStrategizer
         void NewCase(GoalType p_caseGoal);
         void DeleteCase(int p_caseIdx);
         void EditCase();
+        void SelectCase(int caseIdx);
 
     private:
         Ui::CaseVisualizerClass ui;
-        CaseBaseEx* m_caseBase;
-        CaseView* m_caseView;
+        CaseBaseEx* m_pCaseBase;
+        CaseView* m_pCaseView;
         QToolBar* m_pointerToolbar;
         QButtonGroup* m_pointerTypeGroup;
         QString m_caseBasePath;

@@ -1,5 +1,6 @@
 #include "CaseVisualizer.h"
 
+#pragma warning(push, 3)
 #include <QFileDialog>
 #include <QString>
 #include <sstream>
@@ -11,8 +12,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QStatusBar>
-
-using namespace std;
+#pragma warning(pop)
 
 #ifndef CASEBASEEX_H
 #include "CaseBaseEx.h"
@@ -35,6 +35,9 @@ using namespace std;
 #ifndef CASEVIEW_H
 #include "CaseView.h"
 #endif
+#ifndef WINGAMEGOAL_H
+#include "WinGameGoal.h"
+#endif
 #ifndef CHOOSEPLANSTEPDIALOG_H
 #include "ChoosePlanStepDialog.h"
 #endif
@@ -45,10 +48,11 @@ using namespace std;
 #include "GraphScene.h"
 #endif
 
+using namespace std;
 using namespace IStrategizer;
 
 CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
-: QMainWindow(parent, flags), m_caseBase(new CaseBaseEx)
+: QMainWindow(parent, flags), m_pCaseBase(new CaseBaseEx)
 {
 
     ui.setupUi(this);
@@ -58,12 +62,13 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 
     if (InitIdLookup())
     {
-        m_caseView = new CaseView(&m_idLookup, ui.caseViewFrame);
+        m_pCaseView = new CaseView(&m_idLookup, ui.caseViewFrame);
         m_goalDialog = new ChoosePlanStepDialog(&m_idLookup, true, false, this);
         this->setCentralWidget(ui.caseViewFrame);
 
         NewCaseBase();
         NewCase(GOALEX_WinGame);
+        SelectCase(0);
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -122,7 +127,7 @@ void CaseVisualizer::CreateToolBox()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::PointerGroupClicked(int)
 {
-    m_caseView->SetMode((GraphScene::PointerMode)m_pointerTypeGroup->checkedId());
+    m_pCaseView->SetMode((GraphScene::PointerMode)m_pointerTypeGroup->checkedId());
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionOpen_triggered()
@@ -174,13 +179,22 @@ void CaseVisualizer::on_btnDeleteCase_clicked()
 void CaseVisualizer::on_lstCases_itemSelectionChanged()
 {
     int caseIdx = ui.lstCases->currentIndex().row();
+    int numCases = (int)m_pCaseBase->CaseContainer.size();
 
     if(caseIdx >= 0 &&
-        caseIdx < m_caseBase->CaseContainer.size())
-        m_caseView->View(m_caseBase->CaseContainer[caseIdx]);
-    else if (caseIdx == m_caseBase->CaseContainer.size())
+        caseIdx < numCases)
+        m_pCaseView->View(m_pCaseBase->CaseContainer[caseIdx]);
+    else if (caseIdx == numCases  && numCases > 0)
     {
-        m_caseView->View(m_caseBase->CaseContainer[caseIdx -1]);
+        m_pCaseView->View(m_pCaseBase->CaseContainer[caseIdx -1]);
+    }
+    else if (caseIdx == -1 && numCases > 0)
+    {
+        m_pCaseView->View(m_pCaseBase->CaseContainer[0]);
+    }
+    else
+    {
+        m_pCaseView->View(nullptr);
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -193,20 +207,21 @@ void CaseVisualizer::OpenCaseBase()
 
     if(QFile::exists(fileName))
     {
-        Toolbox::MemoryClean(m_caseBase);
+        Toolbox::MemoryClean(m_pCaseBase);
 
         m_caseBasePath = fileName;
-        m_caseBase = new CaseBaseEx();
-        g_ObjectSerializer.Deserialize(m_caseBase, string(fileName.toLocal8Bit()));
+        m_pCaseBase = new CaseBaseEx();
+        g_ObjectSerializer.Deserialize(m_pCaseBase, string(fileName.toLocal8Bit()));
         Refresh();
+        SelectCase(0);
     }
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::NewCaseBase()
 {
-    Toolbox::MemoryClean(m_caseBase);
-    m_caseBase = new CaseBaseEx();
-    Refresh();
+    Toolbox::MemoryClean(m_pCaseBase);
+    m_pCaseBase = new CaseBaseEx();
+    SelectCase(0);
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::SaveCaseBaseAs()
@@ -220,7 +235,7 @@ void CaseVisualizer::SaveCaseBaseAs()
 
     if(!fileName.isEmpty())
     {
-        g_ObjectSerializer.Serialize(m_caseBase, string(fileName.toLocal8Bit()));
+        g_ObjectSerializer.Serialize(m_pCaseBase, string(fileName.toLocal8Bit()));
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -231,7 +246,7 @@ void CaseVisualizer::SaveCaseBase()
     else
     {
         statusBar()->showMessage("Case base saved ...", 2000);
-        g_ObjectSerializer.Serialize(m_caseBase, string(m_caseBasePath.toLocal8Bit()));
+        g_ObjectSerializer.Serialize(m_pCaseBase, string(m_caseBasePath.toLocal8Bit()));
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -244,8 +259,8 @@ void CaseVisualizer::Refresh()
     ui.lstCases->clear();
 
     int i = 0;
-    for(SVector<CaseEx*>::iterator caseItr = m_caseBase->CaseContainer.begin();
-        caseItr != m_caseBase->CaseContainer.end();
+    for(SVector<CaseEx*>::iterator caseItr = m_pCaseBase->CaseContainer.begin();
+        caseItr != m_pCaseBase->CaseContainer.end();
         ++caseItr)
     {
         entryStream.str("");
@@ -273,8 +288,8 @@ void CaseVisualizer::NewCase()
     if(m_goalDialog->exec() == QDialog::Accepted)
     {
         GoalEx* newGoal = g_GoalFactory.GetGoal((GoalType)m_goalDialog->SelectedPlanStepId(), false);
-        CaseEx* newCase = new CaseEx(new PlanGraph, newGoal, new GameStateEx, 1, 1);
-        m_caseBase->CaseContainer.push_back(newCase);
+        CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, new GameStateEx, 1, 1);
+        m_pCaseBase->CaseContainer.push_back(newCase);
         Refresh();
     }
 }
@@ -282,16 +297,16 @@ void CaseVisualizer::NewCase()
 void CaseVisualizer::NewCase(GoalType p_caseGoal)
 {
     GoalEx* newGoal = g_GoalFactory.GetGoal(p_caseGoal, false);
-    CaseEx* newCase = new CaseEx(new PlanGraph, newGoal, new GameStateEx, 1, 1);
-    m_caseBase->CaseContainer.push_back(newCase);
+    CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, new GameStateEx, 1, 1);
+    m_pCaseBase->CaseContainer.push_back(newCase);
     Refresh();
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::DeleteCase(int p_caseIdx)
 {
-    CaseEx* c = *(m_caseBase->CaseContainer.begin() + p_caseIdx);
+    CaseEx* c = *(m_pCaseBase->CaseContainer.begin() + p_caseIdx);
     Toolbox::MemoryClean(c);
-    m_caseBase->CaseContainer.erase(m_caseBase->CaseContainer.begin() + p_caseIdx);
+    m_pCaseBase->CaseContainer.erase(m_pCaseBase->CaseContainer.begin() + p_caseIdx);
     Refresh();
 }
 //----------------------------------------------------------------------------------------------
@@ -301,7 +316,21 @@ void CaseVisualizer::EditCase()
 //----------------------------------------------------------------------------------------------
 CaseVisualizer::~CaseVisualizer()
 {
-    Toolbox::MemoryClean(m_caseBase);
-    Toolbox::MemoryClean(m_caseView);
+    Toolbox::MemoryClean(m_pCaseBase);
+    Toolbox::MemoryClean(m_pCaseView);
     Toolbox::MemoryClean(m_goalDialog);
+}
+//----------------------------------------------------------------------------------------------
+void CaseVisualizer::SelectCase(int caseIdx)
+{
+    if (ui.lstCases->count() > 0)
+    {
+        QListWidgetItem *pFirstCase = ui.lstCases->item(0);
+        _ASSERTE(pFirstCase != nullptr);
+        pFirstCase->setSelected(true);
+    }
+    else
+    {
+        ui.lstCases->selectAll();
+    }
 }

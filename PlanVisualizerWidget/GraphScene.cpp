@@ -31,14 +31,6 @@
 #endif
 #include "IStrategizerException.h"
 
-#include <QGraphicsSceneContextMenuEvent>
-#include <QMenu>
-#include <QGraphicsScene>
-#include <QGraphicsRectItem>
-#include <QGraphicsSceneMouseEvent>
-#include <QPen>
-#include <QAction>
-#include <QTimer>
 
 using namespace IStrategizer;
 using namespace Serialization;
@@ -118,7 +110,7 @@ void GraphScene::CreateSceneMenu()
     m_pSceneMenu->addAction(pLayoutGraph);
 }
 //----------------------------------------------------------------------------------------------
-void GraphScene::View(IPlanDigraph* pPlan)
+void GraphScene::View(IOlcbpPlan* pPlan)
 {
     m_pGraph = pPlan;
 }
@@ -134,7 +126,7 @@ void GraphScene::ReconstructScene()
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateGrid()
 {
-    int height = this->height(), width = this->width();
+    int height = (int)this->height(), width = (int)this->width();
 
     QPen p(Qt::DotLine);
 
@@ -181,10 +173,10 @@ void GraphScene::ConstructGraph()
 void IStrategizer::GraphScene::ComputeGraphLevels()
 {
     NodeSet roots = m_pGraph->GetOrphanNodes();
-    NodeSet    visitedNodes;
+    NodeSet visitedNodes;
 
-    typedef int NodeLevel;
-    deque< pair<NodeID, NodeLevel> >    Q;
+    typedef size_t NodeLevel;
+    deque< pair<NodeID, NodeLevel> > Q;
 
     for each (NodeID nodeId in roots)
     {
@@ -226,7 +218,9 @@ void GraphScene::ConnectGraphNodes()
     if(m_pGraph == nullptr)
         return;
 
-    for each (NodeID srcNodeId in m_pGraph->GetNodes())
+    IOlcbpPlan::NodeSet nodes = m_pGraph->GetNodes();
+
+    for each (NodeID srcNodeId in nodes)
     {
         NodeSet adjNodes = m_pGraph->GetAdjacentNodes(srcNodeId);
 
@@ -245,8 +239,6 @@ void GraphScene::LayoutGraph()
     if(m_pGraph == nullptr)
         return;
 
-    GraphNodeView* pNodeView    = nullptr;
-    NodeValue pNodeModel    = nullptr;
     int currNodeX;
     int levelWidth, levelHeight;
     int leveStartlX, levelStartY;
@@ -260,7 +252,7 @@ void GraphScene::LayoutGraph()
         levelStartY = m_verticalNodeSpacing + (currLevel * (levelHeight + m_verticalNodeSpacing));
 
         // Calculate the level drawing start x coordinate
-        leveStartlX = (width() - levelWidth) / 2.0;
+        leveStartlX = (int)((width() - (qreal)levelWidth) / 2.0f);
         currNodeX = leveStartlX;
 
         // Place each node in the current level in its appropriate coordinate
@@ -364,8 +356,13 @@ void GraphScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *p_mouseEvent)
         {
             GraphNodeView *pStartNode = qgraphicsitem_cast<GraphNodeView *>(startItems.first());
             GraphNodeView *pEndNode = qgraphicsitem_cast<GraphNodeView *>(endItems.first());
-            m_pGraph->AddEdge(pStartNode->ModelId(), pEndNode->ModelId());
-            ConnectNodeViews(pStartNode, pEndNode);
+
+            if (pStartNode != nullptr &&
+                pEndNode != nullptr)
+            {
+                m_pGraph->AddEdge(pStartNode->ModelId(), pEndNode->ModelId());
+                ConnectNodeViews(pStartNode, pEndNode);
+            }
         }
     }
 
@@ -520,7 +517,6 @@ void GraphScene::DisconnectNode()
         if(pNodeView == NULL)
             continue;
 
-        IPlanDigraph::NodeValue pNodeModel = m_pGraph->GetNode(pNodeView->ModelId());
         QList<GraphEdgeView*> disconnectedEdges = pNodeView->Disconnect();
         
         foreach(GraphEdgeView* pEdge, disconnectedEdges)

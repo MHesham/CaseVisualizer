@@ -1,10 +1,12 @@
 #ifndef CHOOSEPLANSTEPDIALOG_H
 #define CHOOSEPLANSTEPDIALOG_H
 
+#pragma warning(push, 3)
 #include "ui_ChoosePlanStepDialog.h"
+#include <QDialog>
+#pragma warning(pop)
 
 #include <string>
-#include <QDialog>
 
 #ifndef CROSSMAP_H
 #include "CrossMap.h"

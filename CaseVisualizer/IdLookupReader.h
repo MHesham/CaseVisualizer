@@ -3,8 +3,6 @@
 
 #include <hash_map>
 #include <string>
-using namespace std;
-using namespace stdext;
 
 #ifndef CROSSMAP_H
 #include "CrossMap.h"

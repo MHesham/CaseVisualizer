@@ -1,8 +1,11 @@
 #ifndef PARAMETEREDIT_H
 #define PARAMETEREDIT_H
 
+#pragma warning(push, 3)
 #include <QDialog>
 #include "ui_ParameterEdit.h"
+#pragma warning(pop)
+
 #include <string>
 #ifndef CROSSMAP_H
 #include "CrossMap.h"

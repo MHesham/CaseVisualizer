@@ -45,16 +45,7 @@
     <ClCompile Include="GeneratedFiles\Debug\moc_CaseView.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CaseView.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_CaseVisualizer.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
     <ClCompile Include="GeneratedFiles\Debug\moc_CaseVisualizer.cpp">
-      <Filter>Generated Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GeneratedFiles\Release\moc_ChooseCaseGoalDialog.cpp">
       <Filter>Generated Files</Filter>
     </ClCompile>
   </ItemGroup>

@@ -6,13 +6,6 @@
 #include "GraphEdgeView.h"
 #endif
 
-#include <QColor>
-#include <QtGui>
-#include <QPolygonF>
-#include <QLine>
-#include <QMenu>
-#include <QGraphicsSceneContextMenuEvent>
-#include <QGraphicsScene>
 
 using namespace std;
 using namespace IStrategizer;

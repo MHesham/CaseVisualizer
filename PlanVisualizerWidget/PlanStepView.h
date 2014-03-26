@@ -1,11 +1,13 @@
 #ifndef PLANSTEPVIEW_H
 #define PLANSTEPVIEW_H
 
+#pragma warning(push, 3)
 #include <QWidget>
+#include <QTableWidgetItem>
 #include "ui_PlanStepView.h"
+#pragma warning(pop)
+
 #include <string>
-using namespace std;
-using namespace stdext;
 
 #ifndef CROSSMAP_H
 #include "CrossMap.h"
@@ -13,8 +15,6 @@ using namespace stdext;
 #ifndef ENGINEDATA_H
 #include "EngineData.h"
 #endif
-
-#include <QTableWidgetItem>
 
 namespace IStrategizer
 {

@@ -1,10 +1,13 @@
 #ifndef PLANGRAPHVIEW_H
 #define PLANGRAPHVIEW_H
 
+#pragma warning(push, 3)
 #include <QWidget>
+#include "ui_PlanGraphView.h"
+#pragma warning(pop)
+
 #include <hash_map>
 #include <string>
-#include "ui_PlanGraphView.h"
 #include "CrossMap.h"
 #include "GraphScene.h"
 #include "MessagePump.h"
@@ -28,7 +31,7 @@ namespace IStrategizer
     public:
         PlanGraphView(GraphScene* pScene, CrossMap<unsigned, std::string>* pIdLookup, QWidget *pParent = 0);
         
-        void View(IPlanDigraph* pPlanGraph);
+        void View(IOlcbpPlan* pPlanGraph);
         void SetMode(GraphScene::PointerMode mode);
         void OnPlanStructureChange();
 
