@@ -10,10 +10,6 @@
 #include "Toolbox.h"
 #endif
 
-#ifndef GAMESTATEEX_H
-#include "GameStateEx.h"
-#endif
-
 #pragma warning(push, 3)
 #include <QtWidgets>
 #include <QTableWidget>
@@ -63,7 +59,7 @@ void CaseView::OnCellChanged(int p_row, int p_column)
 	stream.str(string(item->text().toLocal8Bit()));
 
 	stream >> val;
-	ShallowFeaturesEx &sfeatures = m_currentCase->GameState()->ShallowFeatures();
+	ShallowFeaturesEx &sfeatures = ShallowFeaturesEx(); //m_currentCase->GameState()->ShallowFeatures();
 	sfeatures[p_row] = val;
 }
 //----------------------------------------------------------------------------------------------
@@ -176,7 +172,7 @@ void CaseView::ViewGoalParameters( PlanStepParameters* p_params )
 	ui.tblParameters->setColumnWidth(1, maxParamValWidth + 10);
 }
 //----------------------------------------------------------------------------------------------
-void CaseView::ViewGameState(GameStateEx* p_gameState)
+void CaseView::ViewGameState(RtsGame* p_gameState)
 {
     ui.tblGameState->clear();
 
@@ -185,7 +181,7 @@ void CaseView::ViewGameState(GameStateEx* p_gameState)
 
 	disconnect(ui.tblGameState, SIGNAL(cellChanged(int,int)), this, SLOT(OnCellChanged(int, int)));
 
-	const ShallowFeaturesEx& sfeatures = p_gameState->ShallowFeatures();
+	const ShallowFeaturesEx& sfeatures = ShallowFeaturesEx(); //p_gameState->ShallowFeatures();
 
     ui.tblGameState->setColumnCount(2);
     ui.tblGameState->setRowCount(sfeatures.size());

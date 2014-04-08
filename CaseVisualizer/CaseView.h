@@ -23,7 +23,7 @@ namespace IStrategizer
 {
 	class CaseEx;
 	class GoalEx; 
-	class GameStateEx;
+	class RtsGame;
 	class GraphScene;
 	class PlanGraphView;
 
@@ -45,7 +45,7 @@ namespace IStrategizer
 
 		void ViewGoal(GoalEx* p_goal);
 		void ViewGoalParameters(PlanStepParameters* p_params);
-		void ViewGameState(GameStateEx* p_gameState);
+		void ViewGameState(RtsGame* p_gameState);
 		void ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlan* p_planGraph);
 		void InitializeIdLookup();
 		void CreatePlanView();
