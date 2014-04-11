@@ -16,6 +16,7 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLayout>
+#include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBox>
 #include <QtWidgets/QWidget>
@@ -28,6 +29,11 @@ public:
     QToolBox *toolBox;
     QWidget *Parameters;
     QTableWidget *tblParameters;
+    QWidget *Preformance;
+    QLabel *lblVulnerableCondition;
+    QLineEdit *txtVulnerableCondition;
+    QLineEdit *txtFailureProbability;
+    QLabel *lblFailureProbability;
     QWidget *Conditions;
     QLabel *lblPlanStep;
 
@@ -35,14 +41,14 @@ public:
     {
         if (PlanStepViewClass->objectName().isEmpty())
             PlanStepViewClass->setObjectName(QStringLiteral("PlanStepViewClass"));
-        PlanStepViewClass->resize(260, 450);
+        PlanStepViewClass->resize(302, 450);
         toolBox = new QToolBox(PlanStepViewClass);
         toolBox->setObjectName(QStringLiteral("toolBox"));
         toolBox->setGeometry(QRect(10, 30, 241, 411));
         toolBox->setLayoutDirection(Qt::LeftToRight);
         Parameters = new QWidget();
         Parameters->setObjectName(QStringLiteral("Parameters"));
-        Parameters->setGeometry(QRect(0, 0, 241, 349));
+        Parameters->setGeometry(QRect(0, 0, 241, 330));
         tblParameters = new QTableWidget(Parameters);
         tblParameters->setObjectName(QStringLiteral("tblParameters"));
         tblParameters->setGeometry(QRect(10, 10, 221, 331));
@@ -65,9 +71,25 @@ public:
         tblParameters->setGridStyle(Qt::NoPen);
         tblParameters->setCornerButtonEnabled(false);
         toolBox->addItem(Parameters, QStringLiteral("Parameters"));
+        Preformance = new QWidget();
+        Preformance->setObjectName(QStringLiteral("Preformance"));
+        lblVulnerableCondition = new QLabel(Preformance);
+        lblVulnerableCondition->setObjectName(QStringLiteral("lblVulnerableCondition"));
+        lblVulnerableCondition->setGeometry(QRect(10, 60, 101, 18));
+        txtVulnerableCondition = new QLineEdit(Preformance);
+        txtVulnerableCondition->setObjectName(QStringLiteral("txtVulnerableCondition"));
+        txtVulnerableCondition->setGeometry(QRect(120, 60, 111, 23));
+        txtVulnerableCondition->setMaxLength(10);
+        txtFailureProbability = new QLineEdit(Preformance);
+        txtFailureProbability->setObjectName(QStringLiteral("txtFailureProbability"));
+        txtFailureProbability->setGeometry(QRect(120, 20, 111, 23));
+        lblFailureProbability = new QLabel(Preformance);
+        lblFailureProbability->setObjectName(QStringLiteral("lblFailureProbability"));
+        lblFailureProbability->setGeometry(QRect(10, 20, 91, 18));
+        toolBox->addItem(Preformance, QStringLiteral("Performance"));
         Conditions = new QWidget();
         Conditions->setObjectName(QStringLiteral("Conditions"));
-        Conditions->setGeometry(QRect(0, 0, 98, 28));
+        Conditions->setGeometry(QRect(0, 0, 241, 330));
         toolBox->addItem(Conditions, QStringLiteral("Conditions"));
         lblPlanStep = new QLabel(PlanStepViewClass);
         lblPlanStep->setObjectName(QStringLiteral("lblPlanStep"));
@@ -86,7 +108,7 @@ public:
 
         retranslateUi(PlanStepViewClass);
 
-        toolBox->setCurrentIndex(0);
+        toolBox->setCurrentIndex(1);
 
 
         QMetaObject::connectSlotsByName(PlanStepViewClass);
@@ -96,6 +118,11 @@ public:
     {
         PlanStepViewClass->setWindowTitle(QApplication::translate("PlanStepViewClass", "PlanStepView", 0));
         toolBox->setItemText(toolBox->indexOf(Parameters), QApplication::translate("PlanStepViewClass", "Parameters", 0));
+        lblVulnerableCondition->setText(QApplication::translate("PlanStepViewClass", "Vulnerable Condition", 0));
+        txtVulnerableCondition->setInputMask(QApplication::translate("PlanStepViewClass", "9999999999", 0));
+        txtFailureProbability->setInputMask(QApplication::translate("PlanStepViewClass", "9999999999", 0));
+        lblFailureProbability->setText(QApplication::translate("PlanStepViewClass", "Failure Probability", 0));
+        toolBox->setItemText(toolBox->indexOf(Preformance), QApplication::translate("PlanStepViewClass", "Performance", 0));
         toolBox->setItemText(toolBox->indexOf(Conditions), QApplication::translate("PlanStepViewClass", "Conditions", 0));
         lblPlanStep->setText(QApplication::translate("PlanStepViewClass", "Plan Step Name", 0));
     } // retranslateUi

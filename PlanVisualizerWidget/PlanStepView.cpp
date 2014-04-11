@@ -20,6 +20,9 @@
 #ifndef PARAMETEREDIT_H
 #include "ParameterEdit.h"
 #endif
+#ifndef ROOTMETADATA_H
+#include "RootMetaData.h"
+#endif
 
 using namespace std;
 using namespace IStrategizer;
@@ -40,13 +43,35 @@ void PlanStepView::on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item)
     EditSelectedParameter();
 }
 //----------------------------------------------------------------------------------------------
-void PlanStepView::View( PlanStepEx* p_planStep )
+void PlanStepView::ViewPerformance(const PlanStepEx* p_planStep) const
+{
+    if(p_planStep == NULL)
+    {
+        ui.txtFailureProbability->setText(tr("%1").arg(0.0));
+        ui.txtVulnerableCondition->clear();
+    }
+    else
+    {
+        if (BELONG(ActionType, p_planStep->StepTypeId()))
+        {
+            ui.txtFailureProbability->setText(tr("%1").arg(((Action*)p_planStep)->ExecutionHistory().GetFailureProbability()));
+            ConditionEx* condition = ((Action*)p_planStep)->ExecutionHistory().GetMostVulnerableAliveCondition();
+            ui.txtVulnerableCondition->setText(tr("%1").arg(Enums[condition->Type()]));
+        }
+    }
+}
+//----------------------------------------------------------------------------------------------
+void PlanStepView::View(PlanStepEx* p_planStep)
 {
     m_planStep = p_planStep;
+    
+    ViewPerformance(p_planStep);
+    
     if(m_planStep == NULL)
     {
         ui.lblPlanStep->setText(QString::fromLocal8Bit("Plan Step Name"));
         ui.tblParameters->clear();
+        ui.txtFailureProbability->setText(tr("%1").arg(0));
     }
     else
     {

@@ -34,8 +34,9 @@ namespace IStrategizer
         CrossMap<unsigned, std::string>* m_idLookup;
         PlanStepEx* m_planStep;
         ParameterEdit* m_paramEditDialog;
-        void ViewParameters( const PlanStepParameters* p_params );
+        void ViewParameters(const PlanStepParameters* p_params);
         void ViewConditions(const PlanStepEx* p_planStep);
+        void ViewPerformance(const PlanStepEx* p_planStep) const;
         Ui::PlanStepViewClass ui;
 
         private slots:
