@@ -54,9 +54,12 @@ void PlanStepView::ViewPerformance(const PlanStepEx* p_planStep) const
     {
         if (BELONG(ActionType, p_planStep->StepTypeId()))
         {
-            ui.txtFailureProbability->setText(tr("%1").arg(((Action*)p_planStep)->ExecutionHistory().GetFailureProbability()));
+            double probability = ((Action*)p_planStep)->ExecutionHistory().GetFailureProbability();
+            ui.txtFailureProbability->setText(tr("%1").arg(probability));
+
             ConditionEx* condition = ((Action*)p_planStep)->ExecutionHistory().GetMostVulnerableAliveCondition();
-            ui.txtVulnerableCondition->setText(tr("%1").arg(Enums[condition->Type()]));
+            const char* conditionName = condition ? Enums[condition->Type()] : "";
+            ui.txtVulnerableCondition->setText(tr("%1").arg(conditionName));
         }
     }
 }

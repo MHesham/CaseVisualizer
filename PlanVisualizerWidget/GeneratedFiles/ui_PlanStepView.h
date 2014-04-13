@@ -80,9 +80,11 @@ public:
         txtVulnerableCondition->setObjectName(QStringLiteral("txtVulnerableCondition"));
         txtVulnerableCondition->setGeometry(QRect(120, 60, 111, 23));
         txtVulnerableCondition->setMaxLength(10);
+        txtVulnerableCondition->setReadOnly(true);
         txtFailureProbability = new QLineEdit(Preformance);
         txtFailureProbability->setObjectName(QStringLiteral("txtFailureProbability"));
         txtFailureProbability->setGeometry(QRect(120, 20, 111, 23));
+        txtFailureProbability->setReadOnly(true);
         lblFailureProbability = new QLabel(Preformance);
         lblFailureProbability->setObjectName(QStringLiteral("lblFailureProbability"));
         lblFailureProbability->setGeometry(QRect(10, 20, 91, 18));
@@ -108,7 +110,7 @@ public:
 
         retranslateUi(PlanStepViewClass);
 
-        toolBox->setCurrentIndex(1);
+        toolBox->setCurrentIndex(0);
 
 
         QMetaObject::connectSlotsByName(PlanStepViewClass);
