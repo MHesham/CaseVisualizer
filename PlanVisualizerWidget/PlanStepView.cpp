@@ -47,7 +47,7 @@ void PlanStepView::ViewPerformance(const PlanStepEx* p_planStep) const
 {
     if(p_planStep == NULL)
     {
-        ui.txtFailureProbability->setText(tr("%1").arg(0.0));
+        ui.txtFailureProbability->setText(tr("0"));
         ui.txtVulnerableCondition->clear();
     }
     else
@@ -59,7 +59,7 @@ void PlanStepView::ViewPerformance(const PlanStepEx* p_planStep) const
 
             ConditionEx* condition = ((Action*)p_planStep)->ExecutionHistory().GetMostVulnerableAliveCondition();
             const char* conditionName = condition ? Enums[condition->Type()] : "";
-            ui.txtVulnerableCondition->setText(tr("%1").arg(conditionName));
+            ui.txtVulnerableCondition->setText(QString::fromLocal8Bit(conditionName));
         }
     }
 }
@@ -74,7 +74,6 @@ void PlanStepView::View(PlanStepEx* p_planStep)
     {
         ui.lblPlanStep->setText(QString::fromLocal8Bit("Plan Step Name"));
         ui.tblParameters->clear();
-        ui.txtFailureProbability->setText(tr("%1").arg(0));
     }
     else
     {

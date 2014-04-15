@@ -90,6 +90,14 @@
     </widget>
    </widget>
    <widget class="QWidget" name="Preformance">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>0</y>
+      <width>241</width>
+      <height>330</height>
+     </rect>
+    </property>
     <attribute name="label">
      <string>Performance</string>
     </attribute>
@@ -106,25 +114,6 @@
       <string>Vulnerable Condition</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtVulnerableCondition">
-     <property name="geometry">
-      <rect>
-       <x>120</x>
-       <y>60</y>
-       <width>111</width>
-       <height>23</height>
-      </rect>
-     </property>
-     <property name="inputMask">
-      <string>9999999999</string>
-     </property>
-     <property name="maxLength">
-      <number>10</number>
-     </property>
-     <property name="readOnly">
-      <bool>true</bool>
-     </property>
-    </widget>
     <widget class="QLineEdit" name="txtFailureProbability">
      <property name="geometry">
       <rect>
@@ -135,7 +124,10 @@
       </rect>
      </property>
      <property name="inputMask">
-      <string>9999999999</string>
+      <string notr="true">9999999999</string>
+     </property>
+     <property name="text">
+      <string notr="true"/>
      </property>
      <property name="readOnly">
       <bool>true</bool>
@@ -152,6 +144,25 @@
      </property>
      <property name="text">
       <string>Failure Probability</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="txtVulnerableCondition">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>50</y>
+       <width>111</width>
+       <height>23</height>
+      </rect>
+     </property>
+     <property name="inputMask">
+      <string notr="true"/>
+     </property>
+     <property name="text">
+      <string notr="true"/>
+     </property>
+     <property name="readOnly">
+      <bool>false</bool>
      </property>
     </widget>
    </widget>
