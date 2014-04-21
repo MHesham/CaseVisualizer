@@ -2,9 +2,6 @@
 #ifndef GRAPHSCENE_H
 #include "GraphScene.h"
 #endif
-#ifndef PLANGRAPH_H
-#include "PlanGraph.h"
-#endif
 #ifndef PLANSTEPEX_H
 #include "PlanStepEx.h"
 #endif
