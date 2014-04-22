@@ -13,6 +13,7 @@
 #ifndef GAMESTATEEX_H
 #include "GameStateEx.h"
 #endif
+#include "ParameterEdit.h"
 
 #pragma warning(push, 3)
 #include <QtWidgets>
@@ -126,7 +127,6 @@ void CaseView::ViewGoalParameters( PlanStepParameters* p_params )
 	int columnWidth = (ui.tblParameters->width() / 2) - 10;
 	ui.tblParameters->setColumnWidth(0, columnWidth);
 	ui.tblParameters->setColumnWidth(1, columnWidth);
-	ui.tblParameters->setSelectionMode(QAbstractItemView::NoSelection);
 	QTableWidgetItem* cell = NULL;
 	int row = 0;
 
@@ -267,4 +267,49 @@ CaseView::~CaseView()
 {
 
 }
+//----------------------------------------------------------------------------------------------
+void CaseView::on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item)
+{
+    EditSelectedParameter();
+}
+//----------------------------------------------------------------------------------------------
+void CaseView::EditSelectedParameter()
+{
+    QList<QTableWidgetItem*> items = ui.tblParameters->selectedItems();
+    // param key/value cell selected
+    assert(items.size() == 2);
 
+    string keyTxt = items[0]->text().toLocal8Bit();
+    string oldValueTxt = items[1]->text().toLocal8Bit();
+
+    ParameterType key = (ParameterType)m_idLookup->GetBySecond(keyTxt);
+    ParameterType oldValue = PARAM_END;
+
+    if (m_idLookup->ContainsSecond(oldValueTxt))
+    {
+        oldValue = (ParameterType)m_idLookup->GetBySecond(oldValueTxt);
+    }
+
+    m_paramEditDialog = new ParameterEdit("Param Name", "Param Value", m_idLookup, ui.tblParameters);
+    m_paramEditDialog->ParamName(keyTxt);
+    m_paramEditDialog->ParamValue(oldValueTxt);
+
+    if(m_paramEditDialog->exec() == QDialog::Accepted)
+    {
+        string newValueTxt = m_paramEditDialog->ParamValue();
+        int newValue = 0;
+
+        if (m_idLookup->ContainsSecond(newValueTxt))
+        {
+            newValue = m_idLookup->GetBySecond(newValueTxt);
+        }
+        else
+        {
+            newValue = QString::fromLocal8Bit(newValueTxt.c_str()).toInt();
+        }
+
+        PlanStepParameters& params = m_currentCase->Goal()->Parameters();
+        params[key] = newValue;
+        this->View(m_currentCase);
+    }
+}

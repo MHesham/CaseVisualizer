@@ -1,7 +1,8 @@
-<ui version="4.0" >
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
  <class>CaseViewClass</class>
- <widget class="QWidget" name="CaseViewClass" >
-  <property name="geometry" >
+ <widget class="QWidget" name="CaseViewClass">
+  <property name="geometry">
    <rect>
     <x>0</x>
     <y>0</y>
@@ -9,11 +10,11 @@
     <height>499</height>
    </rect>
   </property>
-  <property name="windowTitle" >
+  <property name="windowTitle">
    <string>CaseView</string>
   </property>
-  <widget class="QFrame" name="frmPlanView" >
-   <property name="geometry" >
+  <widget class="QFrame" name="frmPlanView">
+   <property name="geometry">
     <rect>
      <x>260</x>
      <y>10</y>
@@ -21,24 +22,24 @@
      <height>480</height>
     </rect>
    </property>
-   <property name="sizePolicy" >
-    <sizepolicy vsizetype="Fixed" hsizetype="Fixed" >
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
      <horstretch>0</horstretch>
      <verstretch>0</verstretch>
     </sizepolicy>
    </property>
-   <property name="focusPolicy" >
+   <property name="focusPolicy">
     <enum>Qt::NoFocus</enum>
    </property>
-   <property name="frameShape" >
+   <property name="frameShape">
     <enum>QFrame::NoFrame</enum>
    </property>
-   <property name="frameShadow" >
+   <property name="frameShadow">
     <enum>QFrame::Plain</enum>
    </property>
   </widget>
-  <widget class="QToolBox" name="toolBox" >
-   <property name="geometry" >
+  <widget class="QToolBox" name="toolBox">
+   <property name="geometry">
     <rect>
      <x>10</x>
      <y>10</y>
@@ -46,26 +47,26 @@
      <height>481</height>
     </rect>
    </property>
-   <property name="frameShadow" >
+   <property name="frameShadow">
     <enum>QFrame::Plain</enum>
    </property>
-   <property name="currentIndex" >
-    <number>2</number>
+   <property name="currentIndex">
+    <number>0</number>
    </property>
-   <widget class="QWidget" name="Goal" >
-    <property name="geometry" >
+   <widget class="QWidget" name="Goal">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>388</height>
+      <height>400</height>
      </rect>
     </property>
-    <attribute name="label" >
+    <attribute name="label">
      <string>Goal</string>
     </attribute>
-    <widget class="QTableWidget" name="tblParameters" >
-     <property name="geometry" >
+    <widget class="QTableWidget" name="tblParameters">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>40</y>
@@ -73,7 +74,7 @@
        <height>341</height>
       </rect>
      </property>
-     <property name="font" >
+     <property name="font">
       <font>
        <family>Tahoma</family>
        <pointsize>8</pointsize>
@@ -84,30 +85,30 @@
        <strikeout>false</strikeout>
       </font>
      </property>
-     <property name="frameShape" >
+     <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Plain</enum>
      </property>
-     <property name="editTriggers" >
+     <property name="editTriggers">
       <set>QAbstractItemView::NoEditTriggers</set>
      </property>
-     <property name="selectionBehavior" >
+     <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
-     <property name="showGrid" >
+     <property name="showGrid">
       <bool>false</bool>
      </property>
-     <property name="gridStyle" >
+     <property name="gridStyle">
       <enum>Qt::NoPen</enum>
      </property>
-     <property name="cornerButtonEnabled" >
+     <property name="cornerButtonEnabled">
       <bool>false</bool>
      </property>
     </widget>
-    <widget class="QLabel" name="lblGoalName" >
-     <property name="geometry" >
+    <widget class="QLabel" name="lblGoalName">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>10</y>
@@ -115,7 +116,7 @@
        <height>20</height>
       </rect>
      </property>
-     <property name="font" >
+     <property name="font">
       <font>
        <family>MS Shell Dlg 2</family>
        <pointsize>12</pointsize>
@@ -126,28 +127,28 @@
        <strikeout>false</strikeout>
       </font>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Goal Name</string>
      </property>
-     <property name="textFormat" >
+     <property name="textFormat">
       <enum>Qt::AutoText</enum>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="Game State" >
-    <property name="geometry" >
+   <widget class="QWidget" name="Game State">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>388</height>
+      <height>400</height>
      </rect>
     </property>
-    <attribute name="label" >
+    <attribute name="label">
      <string>Game State</string>
     </attribute>
-    <widget class="QTableWidget" name="tblGameState" >
-     <property name="geometry" >
+    <widget class="QTableWidget" name="tblGameState">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>0</y>
@@ -155,7 +156,7 @@
        <height>391</height>
       </rect>
      </property>
-     <property name="font" >
+     <property name="font">
       <font>
        <family>Tahoma</family>
        <pointsize>8</pointsize>
@@ -166,46 +167,46 @@
        <strikeout>false</strikeout>
       </font>
      </property>
-     <property name="frameShadow" >
+     <property name="frameShadow">
       <enum>QFrame::Plain</enum>
      </property>
-     <property name="horizontalScrollBarPolicy" >
+     <property name="horizontalScrollBarPolicy">
       <enum>Qt::ScrollBarAlwaysOff</enum>
      </property>
-     <property name="showDropIndicator" stdset="0" >
+     <property name="showDropIndicator" stdset="0">
       <bool>false</bool>
      </property>
-     <property name="alternatingRowColors" >
+     <property name="alternatingRowColors">
       <bool>true</bool>
      </property>
-     <property name="selectionMode" >
+     <property name="selectionMode">
       <enum>QAbstractItemView::NoSelection</enum>
      </property>
-     <property name="showGrid" >
+     <property name="showGrid">
       <bool>false</bool>
      </property>
-     <property name="gridStyle" >
+     <property name="gridStyle">
       <enum>Qt::NoPen</enum>
      </property>
-     <property name="cornerButtonEnabled" >
+     <property name="cornerButtonEnabled">
       <bool>false</bool>
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="Performance" >
-    <property name="geometry" >
+   <widget class="QWidget" name="Performance">
+    <property name="geometry">
      <rect>
       <x>0</x>
       <y>0</y>
       <width>241</width>
-      <height>388</height>
+      <height>400</height>
      </rect>
     </property>
-    <attribute name="label" >
+    <attribute name="label">
      <string>Performance</string>
     </attribute>
-    <widget class="QLabel" name="lblSuccessCount" >
-     <property name="geometry" >
+    <widget class="QLabel" name="lblSuccessCount">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>20</y>
@@ -213,12 +214,12 @@
        <height>18</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Success Count</string>
      </property>
     </widget>
-    <widget class="QLabel" name="lblTrialCount" >
-     <property name="geometry" >
+    <widget class="QLabel" name="lblTrialCount">
+     <property name="geometry">
       <rect>
        <x>10</x>
        <y>60</y>
@@ -226,12 +227,12 @@
        <height>18</height>
       </rect>
      </property>
-     <property name="text" >
+     <property name="text">
       <string>Trial Count</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtSuccessCount" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="txtSuccessCount">
+     <property name="geometry">
       <rect>
        <x>110</x>
        <y>20</y>
@@ -239,12 +240,12 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="inputMask" >
-      <string>9999999999; </string>
+     <property name="inputMask">
+      <string>9999999999</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="txtTrialCount" >
-     <property name="geometry" >
+    <widget class="QLineEdit" name="txtTrialCount">
+     <property name="geometry">
       <rect>
        <x>110</x>
        <y>60</y>
@@ -252,17 +253,17 @@
        <height>23</height>
       </rect>
      </property>
-     <property name="inputMask" >
-      <string>9999999999; </string>
+     <property name="inputMask">
+      <string>9999999999</string>
      </property>
-     <property name="maxLength" >
+     <property name="maxLength">
       <number>10</number>
      </property>
     </widget>
    </widget>
   </widget>
  </widget>
- <layoutdefault spacing="6" margin="11" />
+ <layoutdefault spacing="6" margin="11"/>
  <resources/>
  <connections/>
 </ui>

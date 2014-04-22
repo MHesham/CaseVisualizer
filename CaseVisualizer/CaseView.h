@@ -26,6 +26,7 @@ namespace IStrategizer
 	class GameStateEx;
 	class GraphScene;
 	class PlanGraphView;
+	class ParameterEdit;
 
 	class CaseView : public QWidget
 	{
@@ -39,9 +40,10 @@ namespace IStrategizer
 
 	private:
 		CrossMap<unsigned, std::string>* m_idLookup;
-		PlanGraphView*				m_graphView;
-		Ui::CaseViewClass			ui;
-		CaseEx*						m_currentCase;
+		PlanGraphView* m_graphView;
+		Ui::CaseViewClass ui;
+		CaseEx* m_currentCase;
+		ParameterEdit* m_paramEditDialog;
 
 		void ViewGoal(GoalEx* p_goal);
 		void ViewGoalParameters(PlanStepParameters* p_params);
@@ -50,11 +52,13 @@ namespace IStrategizer
 		void InitializeIdLookup();
 		void CreatePlanView();
 		void ViewPerformance(CaseEx *p_pCase);
+		void EditSelectedParameter();
 
 		private slots:
 			void on_txtTrialCount_textChanged(const QString &p_newText);
 			void on_txtSuccessCount_textChanged(const QString &p_newText);
 			void OnCellChanged(int p_row, int p_column);
+			void on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item);
 	};
 }
 
