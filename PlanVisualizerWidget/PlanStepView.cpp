@@ -35,7 +35,6 @@ PlanStepView::PlanStepView(CrossMap<unsigned, string>* p_idLookup, QWidget *pare
 {
     ui.setupUi(this);
     m_idLookup = p_idLookup;
-    m_paramEditDialog = new ParameterEdit("Param Name", "Param Value", m_idLookup, ui.tblParameters);
 }
 //----------------------------------------------------------------------------------------------
 void PlanStepView::on_tblParameters_itemDoubleClicked(QTableWidgetItem* p_item)
@@ -67,9 +66,9 @@ void PlanStepView::ViewPerformance(const PlanStepEx* p_planStep) const
 void PlanStepView::View(PlanStepEx* p_planStep)
 {
     m_planStep = p_planStep;
-    
+
     ViewPerformance(p_planStep);
-    
+
     if(m_planStep == NULL)
     {
         ui.lblPlanStep->setText(QString::fromLocal8Bit("Plan Step Name"));
@@ -123,7 +122,6 @@ void PlanStepView::ViewParameters( const PlanStepParameters* p_params )
         }
         else
         {
-            
             cell = new QTableWidgetItem(QString::fromLocal8Bit(m_idLookup->GetByFirst(itr->second).c_str()));
         }
 
@@ -154,11 +152,12 @@ void PlanStepView::EditSelectedParameter()
     ParameterType key = (ParameterType)m_idLookup->GetBySecond(keyTxt);
     ParameterType oldValue = PARAM_END;
 
-  if (m_idLookup->ContainsSecond(oldValueTxt))
-  {
-    oldValue = (ParameterType)m_idLookup->GetBySecond(oldValueTxt);
-  }
+    if (m_idLookup->ContainsSecond(oldValueTxt))
+    {
+        oldValue = (ParameterType)m_idLookup->GetBySecond(oldValueTxt);
+    }
 
+    m_paramEditDialog = new ParameterEdit("Param Name", "Param Value", m_idLookup, ui.tblParameters);
     m_paramEditDialog->ParamName(keyTxt);
     m_paramEditDialog->ParamValue(oldValueTxt);
 
@@ -167,14 +166,14 @@ void PlanStepView::EditSelectedParameter()
         string newValueTxt = m_paramEditDialog->ParamValue();
         int newValue = 0;
 
-    if (m_idLookup->ContainsSecond(newValueTxt))
-    {
-      newValue = m_idLookup->GetBySecond(newValueTxt);
-    }
-    else
-    {
-      newValue = QString::fromLocal8Bit(newValueTxt.c_str()).toInt();
-    }
+        if (m_idLookup->ContainsSecond(newValueTxt))
+        {
+            newValue = m_idLookup->GetBySecond(newValueTxt);
+        }
+        else
+        {
+            newValue = QString::fromLocal8Bit(newValueTxt.c_str()).toInt();
+        }
 
         PlanStepParameters& params = m_planStep->Parameters();
         params[key] = newValue;
