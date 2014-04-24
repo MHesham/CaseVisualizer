@@ -98,15 +98,7 @@ namespace IStrategizer
         std::vector< std::vector<NodeID> > m_graphLevels;
         std::map<NodeID, GraphNodeView*> m_nodeIdToNodeViewMap;
 
-        void CreateGrid();
         void ConstructGraph();
-
-        //************************************
-        // IStrategizer::GraphScene::ComputeGraphLevels
-        // Description:    Do a BFS traversal on the graph to decide node levels to be used
-        // in graph layout and drawing
-        // Returns:       void
-        //************************************
         void ComputeGraphLevels();
 
         void CreateEdgeMenu();
@@ -114,7 +106,6 @@ namespace IStrategizer
         void CreateSceneMenu();
         void UpdateNodesIndices();
         void ConnectNodeViews(GraphNodeView* pStartNode, GraphNodeView* pEndNode);
-        void CreateMenus();
         void ConnectGraphNodes();
         void LayoutGraph();
         int ComputeLevelWidth(int levelIdx);
@@ -129,8 +120,8 @@ namespace IStrategizer
         void DisconnectNode();
         void DuplicateNode();
 
-signals:
-            void NodeSelected(GraphNodeView* pNode);
+    signals:
+        void NodeSelected(GraphNodeView* pNode);
     };
 }
 

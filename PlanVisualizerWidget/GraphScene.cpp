@@ -46,13 +46,7 @@ GraphScene::GraphScene(CrossMap<unsigned, string>* pIdLookup, QObject *pParent) 
     m_lastCtxtMenuScreenPos = QPointF(0.0, 0.0);
 
     connect(this, SIGNAL(selectionChanged()), SLOT(NodeSelected()));
-
-    CreateMenus();
-    CreateGrid();
-}
-//----------------------------------------------------------------------------------------------
-void GraphScene::CreateMenus()
-{
+    
     CreateNodeMenu();
     CreateEdgeMenu();
     CreateSceneMenu();
@@ -115,30 +109,8 @@ void GraphScene::View(IOlcbpPlan* pPlan)
 void GraphScene::ReconstructScene()
 {
     clear();
-
-    CreateGrid();
     ConstructGraph();
     LayoutGraph();
-}
-//----------------------------------------------------------------------------------------------
-void GraphScene::CreateGrid()
-{
-    int height = (int)this->height(), width = (int)this->width();
-
-    QPen p(Qt::DotLine);
-
-    if (height > 0 && width > 0)
-    {
-        for(int y = 0; y < height - 1; y += m_cellSize)
-        {
-            addLine(0, y, width, y, p);
-        }
-
-        for(int x = 0; x < width - 1; x += m_cellSize)
-        {    
-            addLine(x, 0, x, height, p);
-        }
-    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::ConstructGraph()
@@ -148,18 +120,12 @@ void GraphScene::ConstructGraph()
 
     ComputeGraphLevels();
 
-    GraphNodeView* pNodeView = nullptr;
-    NodeValue pNodeModel = nullptr;
-
     for (size_t level = 0 ; level < m_graphLevels.size(); ++level)
     {
         for each (NodeID nodeId in m_graphLevels[level])
         {
-            pNodeModel = m_pGraph->GetNode(nodeId);
-            pNodeView = new GraphNodeView(pNodeModel, nodeId, m_pNodeMenu, nullptr);
-
+            GraphNodeView* pNodeView = new GraphNodeView(m_pGraph->GetNode(nodeId), nodeId, m_pNodeMenu, nullptr);
             m_nodeIdToNodeViewMap[nodeId] = pNodeView;
-
             addItem(pNodeView);
         }
     }
@@ -235,35 +201,28 @@ void GraphScene::LayoutGraph()
 {
     if(m_pGraph == nullptr)
         return;
+    
+    int maximumLevelWidth = 0, runningVerticalPosition = m_verticalNodeSpacing;
 
-    int currNodeX;
-    int levelWidth, levelHeight;
-    int leveStartlX, levelStartY;
-
-    for (size_t currLevel = 0 ; currLevel < m_graphLevels.size(); ++currLevel)
+    for (size_t currentLevel = 0 ; currentLevel < m_graphLevels.size(); ++currentLevel)
     {
-        levelWidth = ComputeLevelWidth(currLevel);
-        levelHeight = ComputeLevelHeight(currLevel);
-
-        // Calculate the level drawing start y coordinate
-        levelStartY = m_verticalNodeSpacing + (currLevel * (levelHeight + m_verticalNodeSpacing));
-
-        // Calculate the level drawing start x coordinate
-        leveStartlX = (int)((width() - (qreal)levelWidth) / 2.0f);
-        currNodeX = leveStartlX;
-
-        // Place each node in the current level in its appropriate coordinate
-        for (size_t currNodeIdx = 0 ; currNodeIdx < m_graphLevels[currLevel].size(); ++currNodeIdx)
-        {
-            NodeID currNodeId = m_graphLevels[currLevel][currNodeIdx];
-            int nodeWidth = m_nodeIdToNodeViewMap[currNodeId]->NodeWidth();
-
-            m_nodeIdToNodeViewMap[currNodeId]->setPos(QPointF(currNodeX, levelStartY));
-
-            // Calculate current node drawing start x coordinate
-            currNodeX += nodeWidth + m_horizontalNodeSpacing;
-        }
+        maximumLevelWidth = max(maximumLevelWidth, ComputeLevelWidth(currentLevel));
     }
+
+    for (size_t currentLevel = 0 ; currentLevel < m_graphLevels.size(); ++currentLevel)
+    {
+        int runningHorizontalPosition = m_horizontalNodeSpacing + (maximumLevelWidth - ComputeLevelWidth(currentLevel)) / 2;
+        
+        for each(NodeID nodeId in m_graphLevels[currentLevel])
+        {
+            m_nodeIdToNodeViewMap[nodeId]->setPos(QPointF(runningHorizontalPosition, runningVerticalPosition));
+            runningHorizontalPosition += m_nodeIdToNodeViewMap[nodeId]->NodeWidth() + m_horizontalNodeSpacing;
+        }
+
+        runningVerticalPosition += ComputeLevelHeight(currentLevel) + m_verticalNodeSpacing;
+    }
+
+    this->setSceneRect(0, 0, maximumLevelWidth + m_horizontalNodeSpacing * 2, runningVerticalPosition);
 }
 //----------------------------------------------------------------------------------------------
 int IStrategizer::GraphScene::ComputeLevelWidth(int levelIdx)
