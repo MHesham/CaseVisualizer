@@ -36,6 +36,7 @@ PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_
     m_pScene->setSceneRect(0, 0, 1000, 1000);
 
     m_pGraphicsView->setScene(m_pScene);
+    m_pGraphicsView->setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
     m_pGraphicsView->fitInView(m_pScene->sceneRect(), Qt::KeepAspectRatio);
     
     m_pGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
