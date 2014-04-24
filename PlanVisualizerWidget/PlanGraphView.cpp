@@ -18,6 +18,7 @@
 #include "CrossMap.h"
 #endif
 
+#include "GraphGraphicsView.h"
 
 using namespace IStrategizer;
 using namespace std;
@@ -29,26 +30,18 @@ PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_
     
     QHBoxLayout* layout = new QHBoxLayout;
     m_pPlanStepView = new PlanStepView(p_idLookup);
-    m_pGraphicsView = new QGraphicsView();
-    m_pGraphicsView->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
     m_pScene = p_scene;
     m_pScene->setSceneRect(0, 0, 1000, 1000);
-
-    m_pGraphicsView->setScene(m_pScene);
-    m_pGraphicsView->setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
-    m_pGraphicsView->fitInView(m_pScene->sceneRect(), Qt::KeepAspectRatio);
     
-    m_pGraphicsView->setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
-    m_pGraphicsView->setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+    m_pGraphicsView = new GraphGraphicsView();
+    m_pGraphicsView->setScene(m_pScene);
+    m_pGraphicsView->fitInView(m_pScene->sceneRect(), Qt::KeepAspectRatio);
 
     layout->setMargin(0);
     layout->addWidget(m_pGraphicsView);
     layout->addWidget(m_pPlanStepView);
     
-    QRectF r1 = m_pPlanStepView->geometry();
-    QRectF r2 = m_pGraphicsView->geometry();
-
     setLayout(layout);
 
     connect(m_pScene, SIGNAL(NodeSelected(GraphNodeView*)), SLOT(HandleNodeSelected(GraphNodeView*)));
