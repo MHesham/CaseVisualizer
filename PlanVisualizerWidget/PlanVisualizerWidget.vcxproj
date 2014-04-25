@@ -118,6 +118,7 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</ExcludedFromBuild>
     </ClCompile>
     <ClCompile Include="GraphEdgeView.cpp" />
+    <ClCompile Include="GraphGraphicsView.cpp" />
     <ClCompile Include="GraphNodeView.cpp" />
     <ClCompile Include="GraphScene.cpp" />
     <ClCompile Include="ParameterEdit.cpp" />
@@ -144,6 +145,7 @@
     <ClInclude Include="GeneratedFiles\ui_PlanGraphView.h" />
     <ClInclude Include="GeneratedFiles\ui_PlanStepView.h" />
     <ClInclude Include="GraphEdgeView.h" />
+    <ClInclude Include="GraphGraphicsView.h" />
     <ClInclude Include="GraphNodeView.h" />
     <CustomBuild Include="ParameterEdit.h">
       <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(QTDIR)\bin\moc.exe;%(FullPath)</AdditionalInputs>
