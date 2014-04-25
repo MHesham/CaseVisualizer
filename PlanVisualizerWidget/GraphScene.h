@@ -28,7 +28,6 @@ class QTimer;
 
 namespace IStrategizer
 {
-    class PlanGraph;
     class GraphNodeView;
     class GoalEx;
     class ChoosePlanStepDialog;

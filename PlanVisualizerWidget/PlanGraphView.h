@@ -16,7 +16,6 @@ class QGraphicsView;
 
 namespace IStrategizer
 {
-    class PlanGraph;
     class GraphScene;
     class PlanStepView;
     class GraphNodeView;

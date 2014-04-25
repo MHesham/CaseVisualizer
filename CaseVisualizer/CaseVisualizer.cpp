@@ -26,9 +26,6 @@
 #ifndef GOALFACTORY_H
 #include "GoalFactory.h"
 #endif
-#ifndef GAMESTATEEX_H
-#include "GameStateEx.h"
-#endif
 #ifndef TOOLBOX_H
 #include "Toolbox.h"
 #endif
@@ -288,7 +285,7 @@ void CaseVisualizer::NewCase()
     if(m_goalDialog->exec() == QDialog::Accepted)
     {
         GoalEx* newGoal = g_GoalFactory.GetGoal((GoalType)m_goalDialog->SelectedPlanStepId(), false);
-        CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, new GameStateEx, 1, 1);
+        CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, nullptr, 1, 1);
         m_pCaseBase->CaseContainer.push_back(newCase);
         Refresh();
     }
@@ -297,7 +294,7 @@ void CaseVisualizer::NewCase()
 void CaseVisualizer::NewCase(GoalType p_caseGoal)
 {
     GoalEx* newGoal = g_GoalFactory.GetGoal(p_caseGoal, false);
-    CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, new GameStateEx, 1, 1);
+    CaseEx* newCase = new CaseEx(new OlcbpPlan, newGoal, nullptr, 1, 1);
     m_pCaseBase->CaseContainer.push_back(newCase);
     Refresh();
 }

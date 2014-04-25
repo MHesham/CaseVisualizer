@@ -2,9 +2,6 @@
 #ifndef PLANGRAPHVIEW_H
 #include "PlanGraphView.h"
 #endif
-#ifndef PLANGRAPH_H
-#include "PlanGraph.h"
-#endif
 #ifndef TOOLBOX_H
 #include "Toolbox.h"
 #endif
