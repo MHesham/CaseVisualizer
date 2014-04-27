@@ -31,7 +31,8 @@ const char* NewParamText = "New Param";
 const char* NewValText = "New Val";
 
 PlanStepView::PlanStepView(CrossMap<unsigned, string>* p_idLookup, QWidget *parent)
-    : QWidget(parent)
+    : QWidget(parent),
+    m_paramEditDialog(nullptr)
 {
     ui.setupUi(this);
     m_idLookup = p_idLookup;

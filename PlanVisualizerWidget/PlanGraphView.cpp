@@ -67,9 +67,9 @@ void PlanGraphView::HandleNodeSelected(GraphNodeView* p_node)
         m_pPlanStepView->View(p_node->NodeModel());
 }
 //----------------------------------------------------------------------------------------------
-void PlanGraphView::OnPlanStructureChange()
+void PlanGraphView::OnPlanStructureChange(IOlcbpPlan* pPlan)
 {
-    m_pScene->OnGraphStructureChange();
+    m_pScene->OnGraphStructureChange(pPlan);
 }
 //----------------------------------------------------------------------------------------------
 void PlanGraphView::timerEvent(QTimerEvent *pEvt)
