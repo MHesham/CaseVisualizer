@@ -37,6 +37,7 @@ namespace IStrategizer
     const int DefaultHorizontalNodeSpacing = 48;
     const int DefaultVerticalNodeSpacing = 48;
 
+    
     class GraphScene : public QGraphicsScene
     {
         Q_OBJECT
@@ -46,6 +47,21 @@ namespace IStrategizer
         {
             SCENEEVT_GraphStructureChange = (int)(QEvent::User) + 1,
             SCENEEVT_GraphRedraw,
+        };
+
+        class QGraphStructureChangeEvent : public QEvent
+        {
+        public:
+            QGraphStructureChangeEvent(IOlcbpPlan* pPlan) :
+                QEvent((QEvent::Type)SCENEEVT_GraphStructureChange),
+                m_pPlan(pPlan)
+            {
+            }
+
+            IOlcbpPlan* Plan() const { return m_pPlan; }
+
+        protected:
+            IOlcbpPlan* m_pPlan;
         };
 
         typedef IOlcbpPlan::NodeID NodeID;
@@ -65,7 +81,7 @@ namespace IStrategizer
         // scene a chance to redraw and layout the graph view
         // Returns:       void
         //************************************
-        virtual void OnGraphStructureChange();
+        virtual void OnGraphStructureChange(IOlcbpPlan* pGraph);
 
         //************************************
         // IStrategizer::GraphScene::OnGraphUpdate

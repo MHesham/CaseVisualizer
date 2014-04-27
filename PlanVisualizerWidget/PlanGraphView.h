@@ -33,7 +33,7 @@ namespace IStrategizer
         
         void View(IOlcbpPlan* pPlanGraph);
         void SetMode(GraphScene::PointerMode mode);
-        void OnPlanStructureChange();
+        void OnPlanStructureChange(IOlcbpPlan* pPlan);
 
     protected:
         void timerEvent(QTimerEvent *pEvt);

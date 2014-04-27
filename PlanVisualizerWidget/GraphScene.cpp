@@ -119,9 +119,13 @@ void GraphScene::ReconstructScene()
 {
     clear();
 
+    m_pGraph->Lock();
+
     CreateGrid();
     ConstructGraph();
     LayoutGraph();
+
+    m_pGraph->Unlock();
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::CreateGrid()
@@ -156,7 +160,7 @@ void GraphScene::ConstructGraph()
 
     for (size_t level = 0 ; level < m_graphLevels.size(); ++level)
     {
-        for each (NodeID nodeId in m_graphLevels[level])
+        for (NodeID nodeId : m_graphLevels[level])
         {
             pNodeModel = m_pGraph->GetNode(nodeId);
             pNodeView = new GraphNodeView(pNodeModel, nodeId, m_pNodeMenu, nullptr);
@@ -178,7 +182,7 @@ void IStrategizer::GraphScene::ComputeGraphLevels()
     typedef size_t NodeLevel;
     deque< pair<NodeID, NodeLevel> > Q;
 
-    for each (NodeID nodeId in roots)
+    for (NodeID nodeId : roots)
     {
         Q.push_back(make_pair(nodeId, 0));
         visitedNodes.insert(nodeId);
@@ -202,7 +206,7 @@ void IStrategizer::GraphScene::ComputeGraphLevels()
 
         NodeSet children = m_pGraph->GetAdjacentNodes(nodeId);
 
-        for each(NodeID nodeId in children)
+        for (NodeID nodeId : children)
         {
             if(visitedNodes.count(nodeId) == 0)
             {
@@ -220,11 +224,15 @@ void GraphScene::ConnectGraphNodes()
 
     IOlcbpPlan::NodeSet nodes = m_pGraph->GetNodes();
 
-    for each (NodeID srcNodeId in nodes)
+    _ASSERTE(nodes.size() == m_pGraph->Size());
+    LogInfo("Connect plan graph %d nodes", m_pGraph->Size());
+
+    for (NodeID srcNodeId : nodes)
     {
+        _ASSERTE(nodes.size() == m_pGraph->Size());
         NodeSet adjNodes = m_pGraph->GetAdjacentNodes(srcNodeId);
 
-        for each (NodeID destNodeId in adjNodes)
+        for (NodeID destNodeId : adjNodes)
         {
             GraphNodeView* pStart = m_nodeIdToNodeViewMap[srcNodeId];
             GraphNodeView* pEnd = m_nodeIdToNodeViewMap[destNodeId];
@@ -274,7 +282,7 @@ int IStrategizer::GraphScene::ComputeLevelWidth(int levelIdx)
     int levelWidth = 0;
 
     // Sum the width of all level nodes
-    for each (NodeID nodeID in m_graphLevels[levelIdx])
+    for (NodeID nodeID : m_graphLevels[levelIdx])
     {
         levelWidth += m_nodeIdToNodeViewMap[nodeID]->NodeWidth();
     }
@@ -290,7 +298,7 @@ int IStrategizer::GraphScene::ComputeLevelHeight(int levelIdx)
     int levelHeight = 0;
 
     // Level height is the height of the node with the largest height
-    for each (NodeID nodeID in m_graphLevels[levelIdx])
+    for (NodeID nodeID : m_graphLevels[levelIdx])
     {
         levelHeight = max(levelHeight, m_nodeIdToNodeViewMap[nodeID]->NodeHeight());
     }
@@ -298,9 +306,9 @@ int IStrategizer::GraphScene::ComputeLevelHeight(int levelIdx)
     return levelHeight;
 }
 //----------------------------------------------------------------------------------------------
-void GraphScene::OnGraphStructureChange()
+void GraphScene::OnGraphStructureChange(IOlcbpPlan* pGraph)
 {
-    QApplication::postEvent(this, new QEvent((QEvent::Type)SCENEEVT_GraphStructureChange));
+    QApplication::postEvent(this, new QGraphStructureChangeEvent(pGraph));
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::OnGraphUpdate()
@@ -401,7 +409,7 @@ void GraphScene::NewNode()
         else
             throw NotImplementedException(XcptHere);
 
-        assert(planStepId != NULL);
+        _ASSERTE(planStepId != NULL);
 
         NodeID nodeId = m_pGraph->AddNode(pNodeModel);
 
@@ -529,7 +537,7 @@ void GraphScene::DisconnectNode()
 //----------------------------------------------------------------------------------------------
 bool GraphScene::event(QEvent * pEvt)
 {
-    assert(pEvt);
+    _ASSERTE(pEvt);
     SceneEvent evt = (SceneEvent)pEvt->type();
 
     if (evt == SCENEEVT_GraphStructureChange)
