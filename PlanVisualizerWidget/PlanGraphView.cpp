@@ -28,7 +28,6 @@ PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_
 {
     m_ui.setupUi(this);
     
-    QHBoxLayout* layout = new QHBoxLayout;
     m_pPlanStepView = new PlanStepView(p_idLookup);
 
     m_pScene = p_scene;
@@ -38,11 +37,9 @@ PlanGraphView::PlanGraphView(GraphScene* p_scene, CrossMap<unsigned, string>* p_
     m_pGraphicsView->setScene(m_pScene);
     m_pGraphicsView->fitInView(m_pScene->sceneRect(), Qt::KeepAspectRatio);
 
-    layout->setMargin(0);
-    layout->addWidget(m_pGraphicsView);
-    layout->addWidget(m_pPlanStepView);
     
-    setLayout(layout);
+    ((QHBoxLayout*)m_ui.planGraphViewInnerLayout)->addWidget(m_pGraphicsView);
+    ((QHBoxLayout*)m_ui.planGraphViewInnerLayout)->addWidget(m_pPlanStepView);
 
     connect(m_pScene, SIGNAL(NodeSelected(GraphNodeView*)), SLOT(HandleNodeSelected(GraphNodeView*)));
 

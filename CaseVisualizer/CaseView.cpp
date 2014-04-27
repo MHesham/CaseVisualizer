@@ -69,10 +69,7 @@ void CaseView::CreatePlanView()
 	GraphScene* pGraphScene = new GraphScene(m_idLookup);
 	m_graphView = new PlanGraphView(pGraphScene, m_idLookup);
 
-	QLayout* frmLayout = new QGridLayout(ui.frmPlanView);
-	frmLayout->setMargin(0);
-	frmLayout->addWidget(m_graphView);
-	ui.frmPlanView->setLayout(frmLayout);
+    ui.planViewLayout->addWidget(m_graphView);
 }
 //----------------------------------------------------------------------------------------------
 void CaseView::View(CaseEx* p_case)

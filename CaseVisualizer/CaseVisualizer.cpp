@@ -59,9 +59,10 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 
     if (InitIdLookup())
     {
-        m_pCaseView = new CaseView(&m_idLookup, ui.caseViewFrame);
+        m_pCaseView = new CaseView(&m_idLookup, nullptr);
         m_goalDialog = new ChoosePlanStepDialog(&m_idLookup, true, false, this);
-        this->setCentralWidget(ui.caseViewFrame);
+
+        ui.caseViewLayout->addWidget(m_pCaseView);
 
         NewCaseBase();
         NewCase(GOALEX_WinGame);
@@ -149,7 +150,6 @@ void CaseVisualizer::on_actionNew_triggered()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionShow_triggered()
 {
-    ui.caseBaseViewDockWidget->show();
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_lstCases_itemDoubleClicked(QListWidgetItem*)

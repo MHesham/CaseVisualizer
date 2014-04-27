@@ -13,9 +13,10 @@
 #include <QtWidgets/QAction>
 #include <QtWidgets/QApplication>
 #include <QtWidgets/QButtonGroup>
+#include <QtWidgets/QFormLayout>
+#include <QtWidgets/QGridLayout>
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
-#include <QtWidgets/QLayout>
 #include <QtWidgets/QLineEdit>
 #include <QtWidgets/QTableWidget>
 #include <QtWidgets/QToolBox>
@@ -26,41 +27,97 @@ QT_BEGIN_NAMESPACE
 class Ui_PlanStepViewClass
 {
 public:
+    QGridLayout *gridLayout;
+    QGridLayout *gridLayout_7;
+    QLabel *lblPlanStep;
     QToolBox *toolBox;
     QWidget *Parameters;
+    QGridLayout *gridLayout_3;
+    QGridLayout *paramsGridLayout;
     QTableWidget *tblParameters;
     QWidget *Preformance;
-    QLabel *lblVulnerableCondition;
-    QLineEdit *txtFailureProbability;
+    QGridLayout *gridLayout_6;
+    QFormLayout *formLayout;
     QLabel *lblFailureProbability;
+    QLineEdit *txtFailureProbability;
+    QLabel *lblVulnerableCondition;
     QLineEdit *txtVulnerableCondition;
     QWidget *Conditions;
-    QLabel *lblPlanStep;
+    QGridLayout *gridLayout_5;
+    QGridLayout *gridLayout_4;
 
     void setupUi(QWidget *PlanStepViewClass)
     {
         if (PlanStepViewClass->objectName().isEmpty())
             PlanStepViewClass->setObjectName(QStringLiteral("PlanStepViewClass"));
-        PlanStepViewClass->resize(302, 450);
+        QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
+        sizePolicy.setHorizontalStretch(0);
+        sizePolicy.setVerticalStretch(0);
+        sizePolicy.setHeightForWidth(PlanStepViewClass->sizePolicy().hasHeightForWidth());
+        PlanStepViewClass->setSizePolicy(sizePolicy);
+        PlanStepViewClass->setMinimumSize(QSize(365, 0));
+        gridLayout = new QGridLayout(PlanStepViewClass);
+        gridLayout->setSpacing(6);
+        gridLayout->setContentsMargins(11, 11, 11, 11);
+        gridLayout->setObjectName(QStringLiteral("gridLayout"));
+        gridLayout->setSizeConstraint(QLayout::SetDefaultConstraint);
+        gridLayout_7 = new QGridLayout();
+        gridLayout_7->setSpacing(6);
+        gridLayout_7->setObjectName(QStringLiteral("gridLayout_7"));
+        gridLayout_7->setSizeConstraint(QLayout::SetDefaultConstraint);
+        lblPlanStep = new QLabel(PlanStepViewClass);
+        lblPlanStep->setObjectName(QStringLiteral("lblPlanStep"));
+        QFont font;
+        font.setFamily(QStringLiteral("Tahoma"));
+        font.setPointSize(10);
+        font.setBold(true);
+        font.setItalic(false);
+        font.setUnderline(false);
+        font.setWeight(75);
+        font.setStrikeOut(false);
+        lblPlanStep->setFont(font);
+        lblPlanStep->setMargin(4);
+        lblPlanStep->setIndent(0);
+
+        gridLayout_7->addWidget(lblPlanStep, 0, 0, 1, 1);
+
         toolBox = new QToolBox(PlanStepViewClass);
         toolBox->setObjectName(QStringLiteral("toolBox"));
-        toolBox->setGeometry(QRect(10, 30, 241, 411));
+        QSizePolicy sizePolicy1(QSizePolicy::Preferred, QSizePolicy::Preferred);
+        sizePolicy1.setHorizontalStretch(0);
+        sizePolicy1.setVerticalStretch(0);
+        sizePolicy1.setHeightForWidth(toolBox->sizePolicy().hasHeightForWidth());
+        toolBox->setSizePolicy(sizePolicy1);
         toolBox->setLayoutDirection(Qt::LeftToRight);
         Parameters = new QWidget();
         Parameters->setObjectName(QStringLiteral("Parameters"));
-        Parameters->setGeometry(QRect(0, 0, 241, 330));
+        Parameters->setGeometry(QRect(0, 0, 341, 548));
+        sizePolicy1.setHeightForWidth(Parameters->sizePolicy().hasHeightForWidth());
+        Parameters->setSizePolicy(sizePolicy1);
+        gridLayout_3 = new QGridLayout(Parameters);
+        gridLayout_3->setSpacing(6);
+        gridLayout_3->setContentsMargins(11, 11, 11, 11);
+        gridLayout_3->setObjectName(QStringLiteral("gridLayout_3"));
+        paramsGridLayout = new QGridLayout();
+        paramsGridLayout->setSpacing(0);
+        paramsGridLayout->setObjectName(QStringLiteral("paramsGridLayout"));
+        paramsGridLayout->setContentsMargins(0, 0, 0, 0);
         tblParameters = new QTableWidget(Parameters);
         tblParameters->setObjectName(QStringLiteral("tblParameters"));
-        tblParameters->setGeometry(QRect(10, 10, 221, 331));
-        QFont font;
-        font.setFamily(QStringLiteral("Tahoma"));
-        font.setPointSize(8);
-        font.setBold(false);
-        font.setItalic(false);
-        font.setUnderline(false);
-        font.setWeight(50);
-        font.setStrikeOut(false);
-        tblParameters->setFont(font);
+        QSizePolicy sizePolicy2(QSizePolicy::MinimumExpanding, QSizePolicy::Preferred);
+        sizePolicy2.setHorizontalStretch(0);
+        sizePolicy2.setVerticalStretch(0);
+        sizePolicy2.setHeightForWidth(tblParameters->sizePolicy().hasHeightForWidth());
+        tblParameters->setSizePolicy(sizePolicy2);
+        QFont font1;
+        font1.setFamily(QStringLiteral("Tahoma"));
+        font1.setPointSize(8);
+        font1.setBold(false);
+        font1.setItalic(false);
+        font1.setUnderline(false);
+        font1.setWeight(50);
+        font1.setStrikeOut(false);
+        tblParameters->setFont(font1);
         tblParameters->setLayoutDirection(Qt::LeftToRight);
         tblParameters->setFrameShape(QFrame::StyledPanel);
         tblParameters->setFrameShadow(QFrame::Plain);
@@ -70,51 +127,90 @@ public:
         tblParameters->setShowGrid(false);
         tblParameters->setGridStyle(Qt::NoPen);
         tblParameters->setCornerButtonEnabled(false);
+
+        paramsGridLayout->addWidget(tblParameters, 0, 0, 1, 1);
+
+
+        gridLayout_3->addLayout(paramsGridLayout, 0, 0, 1, 1);
+
         toolBox->addItem(Parameters, QStringLiteral("Parameters"));
         Preformance = new QWidget();
         Preformance->setObjectName(QStringLiteral("Preformance"));
-        Preformance->setGeometry(QRect(0, 0, 241, 330));
-        lblVulnerableCondition = new QLabel(Preformance);
-        lblVulnerableCondition->setObjectName(QStringLiteral("lblVulnerableCondition"));
-        lblVulnerableCondition->setGeometry(QRect(10, 60, 101, 18));
+        Preformance->setGeometry(QRect(0, 0, 341, 548));
+        sizePolicy1.setHeightForWidth(Preformance->sizePolicy().hasHeightForWidth());
+        Preformance->setSizePolicy(sizePolicy1);
+        gridLayout_6 = new QGridLayout(Preformance);
+        gridLayout_6->setSpacing(6);
+        gridLayout_6->setContentsMargins(11, 11, 11, 11);
+        gridLayout_6->setObjectName(QStringLiteral("gridLayout_6"));
+        formLayout = new QFormLayout();
+        formLayout->setSpacing(6);
+        formLayout->setObjectName(QStringLiteral("formLayout"));
+        lblFailureProbability = new QLabel(Preformance);
+        lblFailureProbability->setObjectName(QStringLiteral("lblFailureProbability"));
+        sizePolicy.setHeightForWidth(lblFailureProbability->sizePolicy().hasHeightForWidth());
+        lblFailureProbability->setSizePolicy(sizePolicy);
+
+        formLayout->setWidget(0, QFormLayout::LabelRole, lblFailureProbability);
+
         txtFailureProbability = new QLineEdit(Preformance);
         txtFailureProbability->setObjectName(QStringLiteral("txtFailureProbability"));
-        txtFailureProbability->setGeometry(QRect(120, 20, 111, 23));
+        sizePolicy.setHeightForWidth(txtFailureProbability->sizePolicy().hasHeightForWidth());
+        txtFailureProbability->setSizePolicy(sizePolicy);
         txtFailureProbability->setInputMask(QStringLiteral("9999999999"));
         txtFailureProbability->setText(QStringLiteral(""));
         txtFailureProbability->setReadOnly(true);
-        lblFailureProbability = new QLabel(Preformance);
-        lblFailureProbability->setObjectName(QStringLiteral("lblFailureProbability"));
-        lblFailureProbability->setGeometry(QRect(10, 20, 91, 18));
+
+        formLayout->setWidget(0, QFormLayout::FieldRole, txtFailureProbability);
+
+        lblVulnerableCondition = new QLabel(Preformance);
+        lblVulnerableCondition->setObjectName(QStringLiteral("lblVulnerableCondition"));
+        sizePolicy.setHeightForWidth(lblVulnerableCondition->sizePolicy().hasHeightForWidth());
+        lblVulnerableCondition->setSizePolicy(sizePolicy);
+
+        formLayout->setWidget(1, QFormLayout::LabelRole, lblVulnerableCondition);
+
         txtVulnerableCondition = new QLineEdit(Preformance);
         txtVulnerableCondition->setObjectName(QStringLiteral("txtVulnerableCondition"));
-        txtVulnerableCondition->setGeometry(QRect(120, 50, 111, 23));
+        sizePolicy.setHeightForWidth(txtVulnerableCondition->sizePolicy().hasHeightForWidth());
+        txtVulnerableCondition->setSizePolicy(sizePolicy);
         txtVulnerableCondition->setInputMask(QStringLiteral(""));
         txtVulnerableCondition->setText(QStringLiteral(""));
         txtVulnerableCondition->setReadOnly(false);
+
+        formLayout->setWidget(1, QFormLayout::FieldRole, txtVulnerableCondition);
+
+
+        gridLayout_6->addLayout(formLayout, 0, 0, 1, 1);
+
         toolBox->addItem(Preformance, QStringLiteral("Performance"));
         Conditions = new QWidget();
         Conditions->setObjectName(QStringLiteral("Conditions"));
-        Conditions->setGeometry(QRect(0, 0, 241, 330));
+        Conditions->setGeometry(QRect(0, 0, 341, 548));
+        sizePolicy1.setHeightForWidth(Conditions->sizePolicy().hasHeightForWidth());
+        Conditions->setSizePolicy(sizePolicy1);
+        gridLayout_5 = new QGridLayout(Conditions);
+        gridLayout_5->setSpacing(6);
+        gridLayout_5->setContentsMargins(11, 11, 11, 11);
+        gridLayout_5->setObjectName(QStringLiteral("gridLayout_5"));
+        gridLayout_4 = new QGridLayout();
+        gridLayout_4->setSpacing(6);
+        gridLayout_4->setObjectName(QStringLiteral("gridLayout_4"));
+
+        gridLayout_5->addLayout(gridLayout_4, 0, 0, 1, 1);
+
         toolBox->addItem(Conditions, QStringLiteral("Conditions"));
-        lblPlanStep = new QLabel(PlanStepViewClass);
-        lblPlanStep->setObjectName(QStringLiteral("lblPlanStep"));
-        lblPlanStep->setGeometry(QRect(10, 0, 241, 31));
-        QFont font1;
-        font1.setFamily(QStringLiteral("Tahoma"));
-        font1.setPointSize(10);
-        font1.setBold(true);
-        font1.setItalic(false);
-        font1.setUnderline(false);
-        font1.setWeight(75);
-        font1.setStrikeOut(false);
-        lblPlanStep->setFont(font1);
-        lblPlanStep->setMargin(4);
-        lblPlanStep->setIndent(0);
+
+        gridLayout_7->addWidget(toolBox, 1, 0, 1, 1);
+
+
+        gridLayout->addLayout(gridLayout_7, 0, 0, 1, 1);
+
 
         retranslateUi(PlanStepViewClass);
 
-        toolBox->setCurrentIndex(0);
+        toolBox->setCurrentIndex(1);
+        toolBox->layout()->setSpacing(0);
 
 
         QMetaObject::connectSlotsByName(PlanStepViewClass);
@@ -123,12 +219,12 @@ public:
     void retranslateUi(QWidget *PlanStepViewClass)
     {
         PlanStepViewClass->setWindowTitle(QApplication::translate("PlanStepViewClass", "PlanStepView", 0));
+        lblPlanStep->setText(QApplication::translate("PlanStepViewClass", "Plan Step Name", 0));
         toolBox->setItemText(toolBox->indexOf(Parameters), QApplication::translate("PlanStepViewClass", "Parameters", 0));
-        lblVulnerableCondition->setText(QApplication::translate("PlanStepViewClass", "Vulnerable Condition", 0));
         lblFailureProbability->setText(QApplication::translate("PlanStepViewClass", "Failure Probability", 0));
+        lblVulnerableCondition->setText(QApplication::translate("PlanStepViewClass", "Vulnerable Condition", 0));
         toolBox->setItemText(toolBox->indexOf(Preformance), QApplication::translate("PlanStepViewClass", "Performance", 0));
         toolBox->setItemText(toolBox->indexOf(Conditions), QApplication::translate("PlanStepViewClass", "Conditions", 0));
-        lblPlanStep->setText(QApplication::translate("PlanStepViewClass", "Plan Step Name", 0));
     } // retranslateUi
 
 };

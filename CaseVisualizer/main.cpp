@@ -11,6 +11,6 @@ int main(int argc, char *argv[])
     QApplication::setStyle(QStyleFactory::create("fusion"));
 
     IStrategizer::CaseVisualizer w;
-    w.show();
+    w.showMaximized();
     return a.exec();
 }
