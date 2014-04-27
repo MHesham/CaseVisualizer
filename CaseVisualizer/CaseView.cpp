@@ -10,9 +10,6 @@
 #include "Toolbox.h"
 #endif
 
-#endif
-
-#include "ParameterEdit.h"
 #pragma warning(push, 3)
 #include <QtWidgets>
 #include <QTableWidget>
@@ -32,6 +29,7 @@
 #include "PlanGraphView.h"
 #include "GraphScene.h"
 #include "GoalEx.h"
+#include "ParameterEdit.h"
 
 using namespace std;
 using namespace IStrategizer;
@@ -91,7 +89,8 @@ void CaseView::View(CaseEx* p_case)
 	else
 	{
 		ViewGoal(p_case->Goal());
-		ViewGameState(p_case->GameState());
+		//ViewGameState(p_case->GameState());
+		ViewGameState(nullptr);
 		ViewPlanGraph(p_case->Goal(), p_case->Plan());
 		ViewPerformance(p_case);
 	}
