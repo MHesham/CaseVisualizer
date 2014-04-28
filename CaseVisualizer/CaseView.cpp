@@ -213,16 +213,6 @@ void CaseView::ViewPlanGraph(GoalEx* p_caseGoal, IOlcbpPlan* p_planGraph)
 {
     m_graphView->View(p_planGraph);
     m_graphView->OnPlanStructureChange(p_planGraph);
-    //m_graphScene->Hello();
-
-	//if(p_caseGoal == NULL || p_planGraph == NULL)
-	//{
-	//	m_graphScene->View(NULL);
-	//}
-	//else
-	//{
-	//	m_graphScene->View(p_planGraph);
-	//}
 }
 //----------------------------------------------------------------------------------------------
 void CaseView::ViewPerformance(CaseEx *p_pCase)
