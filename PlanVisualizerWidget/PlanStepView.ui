@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>PlanStepViewClass</class>
  <widget class="QWidget" name="PlanStepViewClass">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>365</width>
+    <height>217</height>
+   </rect>
+  </property>
   <property name="sizePolicy">
    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
     <horstretch>0</horstretch>
@@ -62,7 +70,7 @@
         <enum>Qt::LeftToRight</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>0</number>
        </property>
        <property name="tabSpacing">
         <number>0</number>
@@ -72,8 +80,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>341</width>
-          <height>548</height>
+          <width>320</width>
+          <height>111</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -161,7 +169,7 @@
           <x>0</x>
           <y>0</y>
           <width>341</width>
-          <height>548</height>
+          <height>85</height>
          </rect>
         </property>
         <property name="sizePolicy">
@@ -249,8 +257,8 @@
          <rect>
           <x>0</x>
           <y>0</y>
-          <width>341</width>
-          <height>548</height>
+          <width>98</width>
+          <height>28</height>
          </rect>
         </property>
         <property name="sizePolicy">

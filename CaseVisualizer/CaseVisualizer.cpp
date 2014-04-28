@@ -180,7 +180,10 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
 
     if(caseIdx >= 0 &&
         caseIdx < numCases)
-        m_pCaseView->View(m_pCaseBase->CaseContainer[caseIdx]);
+    {
+        QVariant caseIdxData = ui.lstCases->item(caseIdx)->data(Qt::UserRole);
+        m_pCaseView->View(m_pCaseBase->CaseContainer[caseIdxData.toInt()]);
+    }
     else if (caseIdx == numCases  && numCases > 0)
     {
         m_pCaseView->View(m_pCaseBase->CaseContainer[caseIdx -1]);
@@ -261,7 +264,6 @@ void CaseVisualizer::Refresh()
         ++caseItr)
     {
         entryStream.str("");
-        entryStream << i << ' ';
 
         if((*caseItr)->Goal() == NULL)
             entryStream << "UnnamedCase-" << i;
@@ -274,10 +276,16 @@ void CaseVisualizer::Refresh()
             entryStream << caseGoalName;
         }
 
-        ui.lstCases->addItem(new QListWidgetItem(entryStream.str().c_str()));
+        QListWidgetItem* pItem = new QListWidgetItem(entryStream.str().c_str());
+        QVariant caseIdxData(i);
+        pItem->setData(Qt::UserRole, caseIdxData);
+
+        ui.lstCases->addItem(pItem);
 
         ++i;
     }
+
+    ui.lstCases->sortItems(Qt::AscendingOrder);
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::NewCase()
