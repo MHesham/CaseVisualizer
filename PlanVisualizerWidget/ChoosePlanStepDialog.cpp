@@ -102,7 +102,9 @@ void ChoosePlanStepDialog::on_comboBox_currentIndexChanged(QString p_item)
 void ChoosePlanStepDialog::on_btnOK_clicked()
 {
     string selectedItem = ui.comboBox->currentText().toLocal8Bit();
-    m_selectedPlanStepId = m_idLookup->GetBySecond(selectedItem);
+
+    if (m_idLookup->ContainsSecond(selectedItem))
+        m_selectedPlanStepId = m_idLookup->GetBySecond(selectedItem);
 
     this->accept();
 }

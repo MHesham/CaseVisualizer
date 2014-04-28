@@ -50,6 +50,7 @@ public:
     {
         if (PlanStepViewClass->objectName().isEmpty())
             PlanStepViewClass->setObjectName(QStringLiteral("PlanStepViewClass"));
+        PlanStepViewClass->resize(365, 217);
         QSizePolicy sizePolicy(QSizePolicy::Fixed, QSizePolicy::Preferred);
         sizePolicy.setHorizontalStretch(0);
         sizePolicy.setVerticalStretch(0);
@@ -91,7 +92,7 @@ public:
         toolBox->setLayoutDirection(Qt::LeftToRight);
         Parameters = new QWidget();
         Parameters->setObjectName(QStringLiteral("Parameters"));
-        Parameters->setGeometry(QRect(0, 0, 341, 548));
+        Parameters->setGeometry(QRect(0, 0, 320, 111));
         sizePolicy1.setHeightForWidth(Parameters->sizePolicy().hasHeightForWidth());
         Parameters->setSizePolicy(sizePolicy1);
         gridLayout_3 = new QGridLayout(Parameters);
@@ -136,7 +137,7 @@ public:
         toolBox->addItem(Parameters, QStringLiteral("Parameters"));
         Preformance = new QWidget();
         Preformance->setObjectName(QStringLiteral("Preformance"));
-        Preformance->setGeometry(QRect(0, 0, 341, 548));
+        Preformance->setGeometry(QRect(0, 0, 341, 85));
         sizePolicy1.setHeightForWidth(Preformance->sizePolicy().hasHeightForWidth());
         Preformance->setSizePolicy(sizePolicy1);
         gridLayout_6 = new QGridLayout(Preformance);
@@ -186,7 +187,7 @@ public:
         toolBox->addItem(Preformance, QStringLiteral("Performance"));
         Conditions = new QWidget();
         Conditions->setObjectName(QStringLiteral("Conditions"));
-        Conditions->setGeometry(QRect(0, 0, 341, 548));
+        Conditions->setGeometry(QRect(0, 0, 98, 28));
         sizePolicy1.setHeightForWidth(Conditions->sizePolicy().hasHeightForWidth());
         Conditions->setSizePolicy(sizePolicy1);
         gridLayout_5 = new QGridLayout(Conditions);
@@ -209,7 +210,7 @@ public:
 
         retranslateUi(PlanStepViewClass);
 
-        toolBox->setCurrentIndex(1);
+        toolBox->setCurrentIndex(0);
         toolBox->layout()->setSpacing(0);
 
 
