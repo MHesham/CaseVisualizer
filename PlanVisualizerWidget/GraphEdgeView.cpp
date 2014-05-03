@@ -24,6 +24,8 @@ GraphEdgeView::GraphEdgeView(GraphNodeView *p_startNode, GraphNodeView *p_endNod
 
     setPen(QPen(m_color, 2, Qt::SolidLine, Qt::SquareCap));
     setFlag(ItemIsSelectable, true);
+
+    setCacheMode(QGraphicsItem::ItemCoordinateCache);
 }
 //----------------------------------------------------------------------------------------------
 QRectF GraphEdgeView::boundingRect() const
@@ -77,6 +79,9 @@ void GraphEdgeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
     qreal arrowSize = m_arrowSize;
     p_painter->setPen(myPen);
     p_painter->setBrush(m_color);
+
+    if (!m_startNode->isVisible() || !m_endNode->isVisible())
+        return;
 
     QLineF centerLine(m_startNode->mapToScene(m_startNode->rect().center()), m_endNode->mapToScene(m_endNode->rect().center()));
     QPolygonF endPolygon;
