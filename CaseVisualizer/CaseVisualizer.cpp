@@ -200,9 +200,14 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::OpenCaseBase()
 {
+    QDir dir = "../../IStrategizer/Build/Debug";
+
+    if (!dir.exists())
+        dir = QDir::currentPath();
+
     QString fileName = QFileDialog::getOpenFileName(this,
         tr("Open CaseBase"),
-        QDir::currentPath(),
+        dir.path(),
         CaseBaseFilter);
 
     if(QFile::exists(fileName))
@@ -226,16 +231,21 @@ void CaseVisualizer::NewCaseBase()
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::SaveCaseBaseAs()
 {
-    QString path = QDir::currentPath();
+    QDir dir = "../../IStrategizer/Build/Debug";
+
+    if (!dir.exists())
+        dir = QDir::currentPath();
+
     QString fileName = QFileDialog::getSaveFileName(
         this, 
         tr("Open CaseBase"),
-        QDir::currentPath(),
+        dir.path(),
         CaseBaseFilter);
 
     if(!fileName.isEmpty())
     {
         g_ObjectSerializer.Serialize(m_pCaseBase, string(fileName.toLocal8Bit()));
+        m_caseBasePath = fileName;
     }
 }
 //----------------------------------------------------------------------------------------------
@@ -273,7 +283,7 @@ void CaseVisualizer::Refresh()
             assert(pCaseGoal);
 
             caseGoalName = m_idLookup.GetByFirst(pCaseGoal->StepTypeId());
-            entryStream << caseGoalName;
+            entryStream << caseGoalName << "[" << pCaseGoal->Id() << "]";
         }
 
         QListWidgetItem* pItem = new QListWidgetItem(entryStream.str().c_str());
