@@ -22,12 +22,15 @@ GraphNodeView::GraphNodeView(PlanStepEx* pPlanStep, NodeID modelId, QMenu *pCont
     m_pContextMenu = pContextMeun;
 
     string nodeName = m_pNodeModel->ToString();
-    size_t findLeftParanPos = nodeName.find("(");
+    size_t findLeftSqrParnPos = nodeName.find("[");
 
-    if (findLeftParanPos != string::npos)
+    if (findLeftSqrParnPos != string::npos)
     {
-        nodeName = nodeName.substr(0, findLeftParanPos);
+        nodeName = nodeName.substr(0, findLeftSqrParnPos);
     }
+    nodeName += '[';
+    nodeName += to_string(modelId);
+    nodeName += ']';
 
     m_nodeTxt = QString::fromStdString(nodeName);
 
@@ -39,12 +42,13 @@ GraphNodeView::GraphNodeView(PlanStepEx* pPlanStep, NodeID modelId, QMenu *pCont
     // Measure text width and set the node width accordingly with small padding
     QFontMetrics fontMetric(m_style.TxtFont);
 
-    m_nodeHeight    = fontMetric.height() + 20;
+    m_nodeHeight    = fontMetric.height() + 40;
     m_nodeWidth        = fontMetric.width(m_nodeTxt) + 20;
 
     setToolTip(QString::fromLocal8Bit(pPlanStep->TypeName().c_str()));
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemIsMovable, true);
+    setFlag(QGraphicsItem::ItemIsSelectable);
+    setFlag(QGraphicsItem::ItemIsMovable);
+    setFlag(QGraphicsItem::ItemSendsGeometryChanges);
 }
 //----------------------------------------------------------------------------------------------
 void GraphNodeView::AddEdge(GraphEdgeView* p_edge)
