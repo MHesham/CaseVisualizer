@@ -80,9 +80,6 @@ void GraphEdgeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
     p_painter->setPen(myPen);
     p_painter->setBrush(m_color);
 
-    if (!m_startNode->isVisible() || !m_endNode->isVisible())
-        return;
-
     QLineF centerLine(m_startNode->mapToScene(m_startNode->rect().center()), m_endNode->mapToScene(m_endNode->rect().center()));
     QPolygonF endPolygon;
     QPointF p1;
