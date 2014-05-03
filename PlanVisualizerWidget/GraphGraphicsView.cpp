@@ -1,7 +1,6 @@
 #include "stdafx.h"
 #include "IStrategizerEx.h"
 #include "GraphGraphicsView.h"
-#include <QGLWidget>
 
 using namespace IStrategizer;
 using namespace std;
@@ -13,7 +12,7 @@ GraphGraphicsView::GraphGraphicsView()
     this->setDragMode(QGraphicsView::DragMode::ScrollHandDrag);
     this->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
 
-    this->setRenderHints(QPainter::Antialiasing);
+    this->setRenderHints(QPainter::Antialiasing | QPainter::SmoothPixmapTransform);
     this->setOptimizationFlags(QGraphicsView::DontSavePainterState);
     this->setViewportUpdateMode(QGraphicsView::SmartViewportUpdate);
 }
