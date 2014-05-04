@@ -12,6 +12,7 @@
 #include <QMessageBox>
 #include <QApplication>
 #include <QStatusBar>
+#include <QTemporaryFile>
 #pragma warning(pop)
 
 #ifndef CASEBASEEX_H
@@ -68,6 +69,9 @@ CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
         NewCase(GOALEX_WinGame);
         SelectCase(0);
     }
+
+    connect(ui.bntDupCase, SIGNAL(clicked()), SLOT(on_btnDuplicateCase_clicked()));
+    connect(ui.btnReloadCB, SIGNAL(clicked()), SLOT(on_btnReloadCB_clicked()));
 }
 //----------------------------------------------------------------------------------------------
 bool CaseVisualizer::InitIdLookup()
@@ -130,7 +134,7 @@ void CaseVisualizer::PointerGroupClicked(int)
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionOpen_triggered()
 {
-    OpenCaseBase();
+    OpenCaseBase(QString());
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::on_actionSave_triggered()
@@ -166,9 +170,24 @@ void CaseVisualizer::on_btnDeleteCase_clicked()
 {
     if(ui.lstCases->currentItem() != NULL)
     {
-        if(ui.lstCases->currentIndex().row() >= 0)
+        int caseIdxInViewLst = ui.lstCases->currentIndex().row(); 
+        if(caseIdxInViewLst >= 0)
         {
-            DeleteCase(ui.lstCases->currentIndex().row());
+            CaseEx* pCase = (CaseEx*)ui.lstCases->item(caseIdxInViewLst)->data(Qt::UserRole).toULongLong();
+            DeleteCase(pCase);
+        }
+    }
+}
+//----------------------------------------------------------------------------------------------
+void CaseVisualizer::on_btnDuplicateCase_clicked()
+{
+    if(ui.lstCases->currentItem() != NULL)
+    {
+        int caseIdxInViewLst = ui.lstCases->currentIndex().row(); 
+        if(caseIdxInViewLst >= 0)
+        {
+            CaseEx* pCase = (CaseEx*)ui.lstCases->item(caseIdxInViewLst)->data(Qt::UserRole).toULongLong();
+            DuplicateCase(pCase);
         }
     }
 }
@@ -181,8 +200,9 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
     if(caseIdx >= 0 &&
         caseIdx < numCases)
     {
-        QVariant caseIdxData = ui.lstCases->item(caseIdx)->data(Qt::UserRole);
-        m_pCaseView->View(m_pCaseBase->CaseContainer[caseIdxData.toInt()]);
+        QVariant casePtrData = ui.lstCases->item(caseIdx)->data(Qt::UserRole);
+        CaseEx* pSelectedCase = (CaseEx*)casePtrData.toULongLong();
+        m_pCaseView->View(pSelectedCase);
     }
     else if (caseIdx == numCases  && numCases > 0)
     {
@@ -198,25 +218,36 @@ void CaseVisualizer::on_lstCases_itemSelectionChanged()
     }
 }
 //----------------------------------------------------------------------------------------------
-void CaseVisualizer::OpenCaseBase()
+void CaseVisualizer::on_btnReloadCB_clicked()
 {
-    QDir dir = "../../IStrategizer/Build/Debug";
+    if (!m_caseBasePath.isEmpty())
+    {
+        OpenCaseBase(m_caseBasePath);
+    }
+}
+//----------------------------------------------------------------------------------------------
+void CaseVisualizer::OpenCaseBase(QString cbFilename)
+{
+    if (cbFilename.isEmpty())
+    {
+        QDir dir = "../../IStrategizer/Build/Debug";
 
-    if (!dir.exists())
-        dir = QDir::currentPath();
+        if (!dir.exists())
+            dir = QDir::currentPath();
 
-    QString fileName = QFileDialog::getOpenFileName(this,
-        tr("Open CaseBase"),
-        dir.path(),
-        CaseBaseFilter);
+        cbFilename = QFileDialog::getOpenFileName(this,
+            tr("Open CaseBase"),
+            dir.path(),
+            CaseBaseFilter);
+    }
 
-    if(QFile::exists(fileName))
+    if(QFile::exists(cbFilename))
     {
         Toolbox::MemoryClean(m_pCaseBase);
 
-        m_caseBasePath = fileName;
+        m_caseBasePath = cbFilename;
         m_pCaseBase = new CaseBaseEx();
-        g_ObjectSerializer.Deserialize(m_pCaseBase, string(fileName.toLocal8Bit()));
+        g_ObjectSerializer.Deserialize(m_pCaseBase, string(cbFilename.toLocal8Bit()));
         Refresh();
         SelectCase(0);
     }
@@ -287,8 +318,9 @@ void CaseVisualizer::Refresh()
         }
 
         QListWidgetItem* pItem = new QListWidgetItem(entryStream.str().c_str());
-        QVariant caseIdxData(i);
-        pItem->setData(Qt::UserRole, caseIdxData);
+
+        QVariant casePtrData((qulonglong)*caseItr);
+        pItem->setData(Qt::UserRole, casePtrData);
 
         ui.lstCases->addItem(pItem);
 
@@ -317,12 +349,28 @@ void CaseVisualizer::NewCase(GoalType p_caseGoal)
     Refresh();
 }
 //----------------------------------------------------------------------------------------------
-void CaseVisualizer::DeleteCase(int p_caseIdx)
+void CaseVisualizer::DeleteCase(CaseEx* pCase)
 {
-    CaseEx* c = *(m_pCaseBase->CaseContainer.begin() + p_caseIdx);
-    Toolbox::MemoryClean(c);
-    m_pCaseBase->CaseContainer.erase(m_pCaseBase->CaseContainer.begin() + p_caseIdx);
+    auto itr = std::find(m_pCaseBase->CaseContainer.begin(), m_pCaseBase->CaseContainer.end(), pCase);
+    _ASSERTE(itr != m_pCaseBase->CaseContainer.end());
+    m_pCaseBase->CaseContainer.erase(itr);
+    Toolbox::MemoryClean(pCase);
+
     Refresh();
+}
+//----------------------------------------------------------------------------------------------
+void CaseVisualizer::DuplicateCase(CaseEx* pCase)
+{
+    QTemporaryFile temp;
+    if (temp.open())
+    {
+        g_ObjectSerializer.Serialize(pCase, temp.fileName().toStdString());
+        CaseEx* pClonedCase = new CaseEx;
+        g_ObjectSerializer.Deserialize(pClonedCase, temp.fileName().toStdString());
+
+        m_pCaseBase->CaseContainer.push_back(pClonedCase);
+        Refresh();
+    }
 }
 //----------------------------------------------------------------------------------------------
 void CaseVisualizer::EditCase()

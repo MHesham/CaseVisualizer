@@ -46,6 +46,7 @@ namespace IStrategizer
         QPolygonF m_arrowHead;
         double m_arrowSize;
         QColor m_color;
+        QColor m_selectedColor;
     };
 }
 

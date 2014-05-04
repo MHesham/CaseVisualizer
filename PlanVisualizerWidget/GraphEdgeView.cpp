@@ -19,6 +19,7 @@ GraphEdgeView::GraphEdgeView(GraphNodeView *p_startNode, GraphNodeView *p_endNod
     m_startNode = p_startNode;
     m_endNode = p_endNode;
     m_color = Qt::black;
+    m_selectedColor = Qt::red;
     m_arrowSize = DefaultArrowSize;
     m_contextMenu = p_contextMenu;
 
@@ -75,10 +76,10 @@ void GraphEdgeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
         return;
 
     QPen myPen = pen();
-    myPen.setColor(m_color);
+    myPen.setColor(isSelected() ? m_selectedColor : m_color);
     qreal arrowSize = m_arrowSize;
     p_painter->setPen(myPen);
-    p_painter->setBrush(m_color);
+    p_painter->setBrush(isSelected() ? m_selectedColor : m_color);
 
     QLineF centerLine(m_startNode->mapToScene(m_startNode->rect().center()), m_endNode->mapToScene(m_endNode->rect().center()));
     QPolygonF endPolygon;
@@ -130,24 +131,24 @@ void GraphEdgeView::paint(QPainter *p_painter, const QStyleOptionGraphicsItem *p
     p_painter->drawLine(this->line());
     p_painter->drawPolygon(m_arrowHead);
 
-    if (isSelected()) 
-    {
-        p_painter->setPen(QPen(m_color, 1, Qt::DotLine));
+    //if (isSelected()) 
+    //{
+    //    p_painter->setPen(QPen(m_selectedColor, 2, Qt::DotLine));
 
-        QLineF normal = this->line().unitVector().normalVector();
-        qreal dx = normal.dx();
-        qreal dy = normal.dy();
+    //    QLineF normal = this->line().unitVector().normalVector();
+    //    qreal dx = normal.dx();
+    //    qreal dy = normal.dy();
 
-        QLineF myLine;
-        
-        myLine = this->line();
-        myLine.translate(dx * 4, dy * 4);
-        p_painter->drawLine(myLine);
+    //    QLineF myLine;
+    //    
+    //    myLine = this->line();
+    //    myLine.translate(dx * 4, dy * 4);
+    //    p_painter->drawLine(myLine);
 
-        myLine = this->line();
-        myLine.translate(-dx * 4,-dy * 4);
-        p_painter->drawLine(myLine);
-    }
+    //    myLine = this->line();
+    //    myLine.translate(-dx * 4,-dy * 4);
+    //    p_painter->drawLine(myLine);
+    //}
 }
 //----------------------------------------------------------------------------------------------
 void GraphEdgeView::contextMenuEvent(QGraphicsSceneContextMenuEvent *event)
