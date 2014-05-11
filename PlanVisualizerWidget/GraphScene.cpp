@@ -198,6 +198,13 @@ void GraphScene::ConnectGraphNodes()
 
         for (NodeID destNodeId : adjNodes)
         {
+            if (m_nodeIdToNodeViewMap.count(srcNodeId) == 0 ||
+                m_nodeIdToNodeViewMap.count(destNodeId) == 0)
+            {
+                LogInfo("Invalid plan links:\n%s", m_pGraph->ToString().c_str());
+                _ASSERTE(!"Invalid plan links detected");
+            }
+
             GraphNodeView* pStart = m_nodeIdToNodeViewMap[srcNodeId];
             GraphNodeView* pEnd = m_nodeIdToNodeViewMap[destNodeId];
 
@@ -222,7 +229,7 @@ void GraphScene::LayoutGraph()
     {
         int runningHorizontalPosition = m_horizontalNodeSpacing + (maximumLevelWidth - ComputeLevelWidth(currentLevel)) / 2;
         
-        for each(NodeID nodeId in m_graphLevels[currentLevel])
+        for (NodeID nodeId : m_graphLevels[currentLevel])
         {
             m_nodeIdToNodeViewMap[nodeId]->setPos(QPointF(runningHorizontalPosition, runningVerticalPosition));
             runningHorizontalPosition += m_nodeIdToNodeViewMap[nodeId]->NodeWidth() + m_horizontalNodeSpacing;
