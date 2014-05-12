@@ -27,6 +27,7 @@
 #include "ActionFactory.h"
 #endif
 #include "IStrategizerException.h"
+#include "Logger.h"
 
 
 using namespace IStrategizer;
