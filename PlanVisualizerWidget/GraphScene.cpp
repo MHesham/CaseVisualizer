@@ -111,12 +111,15 @@ void GraphScene::ReconstructScene()
 {
     clear();
 
-    m_pGraph->Lock();
+    if (m_pGraph)
+    {
+        m_pGraph->Lock();
 
-    ConstructGraph();
-    LayoutGraph();
+        ConstructGraph();
+        LayoutGraph();
 
-    m_pGraph->Unlock();
+        m_pGraph->Unlock();
+    }
 }
 //----------------------------------------------------------------------------------------------
 void GraphScene::ConstructGraph()
