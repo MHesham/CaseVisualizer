@@ -21,18 +21,18 @@ GraphNodeView::GraphNodeView(PlanStepEx* pPlanStep, NodeID modelId, QMenu *pCont
     m_pNodeModel = pPlanStep;
     m_pContextMenu = pContextMeun;
 
-    string nodeName = m_pNodeModel->ToString();
-    size_t findLeftSqrParnPos = nodeName.find("[");
+    //string nodeName = m_pNodeModel->ToString();
+    //size_t findLeftSqrParnPos = nodeName.find("[");
 
-    if (findLeftSqrParnPos != string::npos)
-    {
-        nodeName = nodeName.substr(0, findLeftSqrParnPos);
-    }
-    nodeName += '[';
-    nodeName += to_string(modelId);
-    nodeName += ']';
+    //if (findLeftSqrParnPos != string::npos)
+    //{
+    //    nodeName = nodeName.substr(0, findLeftSqrParnPos);
+    //}
+    //nodeName += '[';
+    //nodeName += to_string(modelId);
+    //nodeName += ']';
 
-    m_nodeTxt = QString::fromStdString(nodeName);
+    m_nodeTxt = QString::fromStdString(pPlanStep->ToString(true));
 
     m_style = GetStyle();
 

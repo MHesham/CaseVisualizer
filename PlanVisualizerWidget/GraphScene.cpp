@@ -379,7 +379,7 @@ void GraphScene::NewNode()
 
         _ASSERTE(planStepId != NULL);
 
-        NodeID nodeId = m_pGraph->AddNode(pNodeModel);
+        NodeID nodeId = m_pGraph->AddNode(pNodeModel, pNodeModel->Id());
 
         GraphNodeView *pNodeView = new GraphNodeView(pNodeModel, nodeId, m_pNodeMenu, nullptr);
 
@@ -464,7 +464,7 @@ void GraphScene::DuplicateNode()
             continue;
 
         NodeValue sourceNode = (NodeValue)m_pGraph->GetNode(nodeItem->ModelId())->Clone();
-        m_pGraph->AddNode(sourceNode);
+        m_pGraph->AddNode(sourceNode, sourceNode->Id());
     }
 }
 //----------------------------------------------------------------------------------------------

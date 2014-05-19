@@ -48,6 +48,7 @@
 
 using namespace std;
 using namespace IStrategizer;
+using namespace Serialization;
 
 CaseVisualizer::CaseVisualizer(QWidget *parent, Qt::WindowFlags flags)
 : QMainWindow(parent, flags), m_pCaseBase(new CaseBaseEx)
@@ -314,7 +315,7 @@ void CaseVisualizer::Refresh()
             assert(pCaseGoal);
 
             caseGoalName = m_idLookup.GetByFirst(pCaseGoal->StepTypeId());
-            entryStream << caseGoalName << "[" << pCaseGoal->Id() << "]";
+            entryStream << pCaseGoal->ToString(true);
         }
 
         QListWidgetItem* pItem = new QListWidgetItem(entryStream.str().c_str());
